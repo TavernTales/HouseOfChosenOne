@@ -20,6 +20,8 @@ public class PlayerDieEvents implements Listener {
 
         Player player = event.getPlayer();
 
+        if(player.getBedSpawnLocation() != null)
+            return;
 
         ConfigurationSection configurationSection = new ConfigPlayers().getConfiguration(player);
         if(configurationSection != null && configurationSection.getString("house") != null){

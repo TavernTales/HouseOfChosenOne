@@ -13,8 +13,14 @@ commands:
     aliases: [city, capital]
     description: Use este comando para definir coordenadas para cada uma das capitais de cada casa
     permission: hco.admin
+  lobby:
+    aliases: [hub]
+    description: Use este comando para retornar a cordenadas da casa escolhida
+    permission: hco.lobby
 permissions:
   hco.use:
+    default: true
+  hco.lobby:
     default: true
   hco.admin:
     default: op

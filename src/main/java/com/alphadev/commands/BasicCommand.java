@@ -2,8 +2,11 @@ package com.alphadev.commands;
 
 import com.alphadev.HouseOfChosenOne;
 import com.alphadev.entity.House;
+import com.alphadev.services.PlayerMoveService;
+import com.alphadev.services.ScoreBoardService;
 import com.alphadev.utils.ChatColorUtil;
 import com.alphadev.utils.config.ConfigPlayers;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -13,7 +16,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
+import java.util.HashMap;
+import java.util.UUID;
+
 public class BasicCommand implements Listener, CommandExecutor {
+
+    private static HashMap<UUID, Integer> scheduleTaskPlayer = new HashMap<>();
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
@@ -35,7 +43,7 @@ public class BasicCommand implements Listener, CommandExecutor {
 
             if(configurationSection != null && configurationSection.getString("house") != null){
                 player.sendMessage(ChatColorUtil.boldText("Voc\u00EA j\u00E1 est\u00E1 em uma casa",ChatColor.RED));
-                player.sendMessage("Execute o comando '/hco leave' para sair da sua casa atual. mas voc\u00EA perder\u00E1 todo o seu progresso.");
+                player.sendMessage("Execute o comando '/hco leave' para sair da sua casa atual. mas voc\u00EA perder\u00E1 todo o seu progresso e sofrer\u00E1 uma penalidade de 48Horas para entrar na pr\u00F3xima casa.");
                 return false;
             }
 
@@ -54,12 +62,45 @@ public class BasicCommand implements Listener, CommandExecutor {
            player.sendMessage(ChatColorUtil.boldText("Parab\u00E9ns voc\u00EA entrou na casa "+ChatColor.RESET+ ChatColor.GREEN+house.getHouse()));
            player.teleport(house.getLocation(), PlayerTeleportEvent.TeleportCause.COMMAND);
            player.sendTitle(ChatColorUtil.boldText(house.getHouse()),"",10,20,10);
+            ScoreBoardService.setPlayerHouseScoreBoardTag(player);
            return true;
         }
 
         if(args.length > 0 && args[0].equalsIgnoreCase("leave")){
             HouseOfChosenOne.getPlayerConfig().createResetSection(player);
+            ScoreBoardService.removePlayerFromHouseTeam(player);
             return true;
+        }
+
+
+        if (command.getName().equalsIgnoreCase("lobby")){
+            PlayerMoveService.removePlayerTracker(player);
+
+            long startTime = System.currentTimeMillis();
+            scheduleTaskPlayer.put(player.getUniqueId(),  Bukkit.getScheduler().scheduleSyncRepeatingTask(HouseOfChosenOne.getPlugin(), ()->{
+
+                long endTime = System.currentTimeMillis();
+                long secondsRemaning = Math.round(((startTime+11000) - endTime)/1000);
+
+                player.sendTitle("Retornando ao Lobby","N\u00E3o se mova "+secondsRemaning+" Segundos",5 , 20, 5);
+
+                if(secondsRemaning <= 0 ){
+                    ConfigurationSection configurationSection = new ConfigPlayers().getConfiguration(player);
+                    if(configurationSection != null && configurationSection.getString("house") != null) {
+                        House house = new House(HouseOfChosenOne.getConfigFile(), configurationSection.getString("house"));
+                        player.teleport(house.getLocation());
+                        player.sendTitle(ChatColorUtil.boldText(house.getHouse()),"",10,20,10);
+
+                        Bukkit.getScheduler().cancelTask(scheduleTaskPlayer.get(player.getUniqueId()).intValue());
+                    }
+                }
+
+                if( PlayerMoveService.isPlayerInMovement(player)){
+                    player.sendTitle("Teleport Cancelado","",10 , 20, 10);
+                    Bukkit.getScheduler().cancelTask(scheduleTaskPlayer.get(player.getUniqueId()).intValue());
+                }
+
+            }, 0L,20L));
         }
 
         return false;

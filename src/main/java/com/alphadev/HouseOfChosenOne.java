@@ -2,9 +2,7 @@ package com.alphadev;
 
 import com.alphadev.commands.AdminCommand;
 import com.alphadev.commands.BasicCommand;
-import com.alphadev.events.BlockInteractionEvents;
-import com.alphadev.events.BlockPlaceEvents;
-import com.alphadev.events.PlayerDieEvents;
+import com.alphadev.events.*;
 import com.alphadev.inventory.HouseMenu;
 import com.alphadev.utils.ChatColorUtil;
 import com.alphadev.utils.config.ConfigFile;
@@ -46,8 +44,11 @@ public class HouseOfChosenOne extends JavaPlugin {
         pluginManager.registerEvents(new BlockPlaceEvents(),this);
         pluginManager.registerEvents(new BlockInteractionEvents(), this);
         pluginManager.registerEvents(new PlayerDieEvents(), this);
+        pluginManager.registerEvents(new PlayerJoinEvents(), this);
+        pluginManager.registerEvents(new PlayerMoveEvents(), this);
 
         Objects.requireNonNull(getCommand("houseofchosenone")).setExecutor(new BasicCommand());
+        Objects.requireNonNull(getCommand("lobby")).setExecutor(new BasicCommand());
         Objects.requireNonNull(getCommand("citadel")).setExecutor(new AdminCommand());
     }
 
