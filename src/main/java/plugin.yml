@@ -6,7 +6,15 @@ version: 1.0
 api-version: 1.19
 commands:
   houseofchosenone:
-    aliases:
-      - join
-      - leave
+    aliases: [chosen, choose, hco]
     description: Use este comando para selecionar uma casa
+    permission: hco.use
+  citadel:
+    aliases: [city, capital]
+    description: Use este comando para definir coordenadas para cada uma das capitais de cada casa
+    permission: hco.admin
+permissions:
+  hco.use:
+    default: true
+  hco.admin:
+    default: op

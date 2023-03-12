@@ -111,7 +111,7 @@ public class SignHouseService {
 
         player.spigot().sendMessage(message);
         player.sendMessage("");
-        player.sendMessage(ChatColor.RED+" Aviso: ao selecionar a casa voc\u00EA ser\u00E1 teleportado para a capital, caso queira trocar de casa sofrer\u00E1 uma penalidade de 48Horas para selecionar uma nova casa e perder\u00E1 o seu progresso. '/houseofchosenone leave'");
+        player.sendMessage(ChatColor.RED+" Aviso: ao selecionar a casa voc\u00EA ser\u00E1 teleportado para a capital, caso queira trocar de casa sofrer\u00E1 uma penalidade de 48Horas para selecionar uma nova casa e perder\u00E1 o seu progresso. '/hco leave'");
         player.sendMessage("");
         player.sendMessage(ChatColorUtil.boldText(DIVISOR_STRING,ChatColor.GREEN));
     }

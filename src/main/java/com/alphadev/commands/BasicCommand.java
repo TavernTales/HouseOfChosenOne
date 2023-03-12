@@ -35,7 +35,7 @@ public class BasicCommand implements Listener, CommandExecutor {
 
             if(configurationSection != null && configurationSection.getString("house") != null){
                 player.sendMessage(ChatColorUtil.boldText("Voc\u00EA j\u00E1 est\u00E1 em uma casa",ChatColor.RED));
-                player.sendMessage("Execute o comando '/houseofchosenone leave' para sair da sua casa atual. mas voc\u00EA perder\u00E1 todo o seu progresso.");
+                player.sendMessage("Execute o comando '/hco leave' para sair da sua casa atual. mas voc\u00EA perder\u00E1 todo o seu progresso.");
                 return false;
             }
 
