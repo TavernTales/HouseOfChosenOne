@@ -1,0 +1,32 @@
+plugins {
+    id 'java'
+}
+
+group 'com.alphadev'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven { url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    compileOnly 'org.spigotmc:spigot-api:1.19-R0.1-SNAPSHOT'
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+
+    testCompileOnly 'org.projectlombok:lombok:1.18.24'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
+    implementation("jakarta.persistence:jakarta.persistence-api:3.1.0")
+}
+
+processResources {
+    doFirst {
+        file("$buildDir/resource/main").listFiles().each {it.delete()}
+    }
+}
+
+test {
+    useJUnitPlatform()
+}

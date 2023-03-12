@@ -1,0 +1,12 @@
+name: HouseOfChosenOne
+main: com.alphadev.HouseOfChosenOne
+author: AlphaDev_
+description: Este plugin faz parte de um server de RP e serve como base para o seu funcionamento
+version: 1.0
+api-version: 1.19
+commands:
+  houseofchosenone:
+    aliases:
+      - join
+      - leave
+    description: Use este comando para selecionar uma casa
