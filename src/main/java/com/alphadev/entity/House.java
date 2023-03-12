@@ -50,7 +50,9 @@ public class House {
                 getWorldFromConfigFile(configFileSections, houseName),
                 getCoordsLocationFromConfigFile(configFileSections, houseName, "x"),
                 getCoordsLocationFromConfigFile(configFileSections, houseName, "y"),
-                getCoordsLocationFromConfigFile(configFileSections, houseName, "z")
+                getCoordsLocationFromConfigFile(configFileSections, houseName, "z"),
+                getRotationLocationFromConfigFile(configFileSections, houseName, "yaw"),
+                getRotationLocationFromConfigFile(configFileSections, houseName, "pitch")
         );
     }
     private World getWorldFromConfigFile(ConfigurationSection configFileSections, String houseName){
@@ -59,6 +61,9 @@ public class House {
 
     private double getCoordsLocationFromConfigFile(ConfigurationSection configFileSections, String houseName, String coord){
         return Double.parseDouble((Objects.requireNonNull(configFileSections.getString("houses." + houseName + ".location."+coord))));
+    }
+    private float getRotationLocationFromConfigFile(ConfigurationSection configFileSections, String houseName, String coord){
+        return Float.parseFloat((Objects.requireNonNull(configFileSections.getString("houses." + houseName + ".location."+coord))));
     }
 
     public String getHouse() {

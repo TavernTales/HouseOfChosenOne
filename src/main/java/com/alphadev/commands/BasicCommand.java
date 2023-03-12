@@ -3,7 +3,6 @@ package com.alphadev.commands;
 import com.alphadev.HouseOfChosenOne;
 import com.alphadev.entity.House;
 import com.alphadev.utils.ChatColorUtil;
-import com.alphadev.utils.config.ConfigFile;
 import com.alphadev.utils.config.ConfigPlayers;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -12,6 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerTeleportEvent;
 
 public class BasicCommand implements Listener, CommandExecutor {
 
@@ -52,6 +52,7 @@ public class BasicCommand implements Listener, CommandExecutor {
 
            HouseOfChosenOne.getPlayerConfig().createPlayersSection(player,args[1],house.getPermissions());
            player.sendMessage(ChatColorUtil.boldText("Parab\u00E9ns voc\u00EA entrou na casa "+ChatColor.RESET+ ChatColor.GREEN+house.getHouse()));
+           player.teleport(house.getLocation(), PlayerTeleportEvent.TeleportCause.COMMAND);
            return true;
         }
 

@@ -1,6 +1,7 @@
 package com.alphadev.utils.config;
 
 import com.alphadev.HouseOfChosenOne;
+import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -10,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class ConfigFile {
     private final Plugin plugin = HouseOfChosenOne.getPlugin();
@@ -49,11 +51,16 @@ public class ConfigFile {
             configSection = configFileConfiguration.createSection("houses");
         }
 
-        configSection.createSection("zeronia");
-        configSection.createSection("vlarola");
-        configSection.createSection("frandhra");
-        configSection.createSection("nashor");
-        configSection.createSection("midnight-hunters");
+       if( configSection.getConfigurationSection("zeronia") == null)
+            configSection.createSection("zeronia");
+       if( configSection.getConfigurationSection("vlarola") == null)
+            configSection.createSection("vlarola");
+        if( configSection.getConfigurationSection("frandhra") == null)
+            configSection.createSection("frandhra");
+        if( configSection.getConfigurationSection("nashor") == null)
+            configSection.createSection("nashor");
+        if( configSection.getConfigurationSection("midnight-hunters") == null)
+            configSection.createSection("midnight-hunters");
 
         ConfigurationSection zenoniaKingdom = configSection.getConfigurationSection("zeronia");
 
@@ -217,6 +224,27 @@ public class ConfigFile {
 
         configFileConfiguration.save(configFile);
     }
+
+    public void createLocationSection(String houseName, Location location ){
+
+        ConfigurationSection configSection = configFileConfiguration.getConfigurationSection("houses");
+        ConfigurationSection houseSection =  configSection.getConfigurationSection(houseName);
+
+        houseSection.set("location.world-name", location.getWorld().getName());
+        houseSection.set("location.x", location.getX());
+        houseSection.set("location.y", location.getY());
+        houseSection.set("location.z", location.getZ());
+        houseSection.set("location.yaw",location.getYaw());
+        houseSection.set("location.pitch",location.getPitch());
+
+        try {
+            configFileConfiguration.save(configFile);
+        } catch (IOException e) {
+            HouseOfChosenOne.logInfo("[HouseOfChosenOne] Config file configuration error location:\n" + e.getMessage(),e);
+        }
+    }
+
+
 
     public  File getFile() {
         return configFile;

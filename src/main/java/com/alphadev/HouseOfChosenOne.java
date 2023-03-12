@@ -1,5 +1,6 @@
 package com.alphadev;
 
+import com.alphadev.commands.AdminCommand;
 import com.alphadev.commands.BasicCommand;
 import com.alphadev.events.BlockInteractionEvents;
 import com.alphadev.events.BlockPlaceEvents;
@@ -8,6 +9,7 @@ import com.alphadev.utils.ChatColorUtil;
 import com.alphadev.utils.config.ConfigFile;
 import com.alphadev.utils.config.ConfigPlayers;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.HandlerList;
@@ -45,6 +47,7 @@ public class HouseOfChosenOne extends JavaPlugin {
         pluginManager.registerEvents(new BlockInteractionEvents(), this);
 
         Objects.requireNonNull(getCommand("houseofchosenone")).setExecutor(new BasicCommand());
+        Objects.requireNonNull(getCommand("citadel")).setExecutor(new AdminCommand());
     }
 
     @Override
@@ -76,6 +79,10 @@ public class HouseOfChosenOne extends JavaPlugin {
 
     public static ConfigurationSection getConfigFile() {
         return configFile.getConfig();
+    }
+
+    public  static void  createHouseLocation(String houseName, Location location){
+        configFile.createLocationSection(houseName, location);
     }
 
     public static ConfigPlayers getPlayerConfig(){return  configPlayers;}
