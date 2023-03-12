@@ -12,9 +12,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class SignHouseService {

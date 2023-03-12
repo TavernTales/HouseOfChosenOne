@@ -25,7 +25,6 @@ public class House {
     private List<String> enemy;
     private String objective;
     private Location location;
-
     private List<String> permissions;
 
     public House() {
