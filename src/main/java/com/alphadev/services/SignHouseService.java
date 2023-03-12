@@ -3,9 +3,7 @@ package com.alphadev.services;
 import com.alphadev.HouseOfChosenOne;
 import com.alphadev.entity.House;
 import com.alphadev.utils.ChatColorUtil;
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.*;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Sign;
@@ -13,6 +11,10 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class SignHouseService {
@@ -79,6 +81,11 @@ public class SignHouseService {
     }
 
     private static void sendMessageHouseDetails(Player player, House house, ChatColor houseColor, String houseName){
+
+        for (int i = 0; i < 20; i++) {
+            player.sendMessage("");
+        }
+
         player.sendMessage(ChatColorUtil.boldText(DIVISOR_STRING,ChatColor.GREEN));
         player.sendMessage(ChatColorUtil.boldText(house.getHouse(),houseColor));
         player.sendMessage("");
@@ -98,11 +105,13 @@ public class SignHouseService {
 
         TextComponent message = new TextComponent("CLIQUE PARA ENTRAR NA CASA");
         message.setBold(true);
-        message.setColor(net.md_5.bungee.api.ChatColor.GRAY);
+        message.setColor(net.md_5.bungee.api.ChatColor.AQUA);
         message.setUnderlined(true);
         message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/houseofchosenone join "+houseName));
 
         player.spigot().sendMessage(message);
+        player.sendMessage("");
+        player.sendMessage(ChatColor.RED+" Aviso: ao selecionar a casa voc\u00EA ser\u00E1 teleportado para a capital, caso queira trocar de casa sofrer\u00E1 uma penalidade de 48Horas para selecionar uma nova casa e perder\u00E1 o seu progresso. '/houseofchosenone leave'");
         player.sendMessage("");
         player.sendMessage(ChatColorUtil.boldText(DIVISOR_STRING,ChatColor.GREEN));
     }

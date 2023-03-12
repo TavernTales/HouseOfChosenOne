@@ -3,6 +3,7 @@ package com.alphadev.commands;
 import com.alphadev.HouseOfChosenOne;
 import com.alphadev.entity.House;
 import com.alphadev.utils.ChatColorUtil;
+import com.alphadev.utils.config.ConfigFile;
 import com.alphadev.utils.config.ConfigPlayers;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -11,12 +12,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
-
-import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
-import java.util.Date;
-import java.util.concurrent.CompletableFuture;
-
 
 public class BasicCommand implements Listener, CommandExecutor {
 
@@ -29,14 +24,16 @@ public class BasicCommand implements Listener, CommandExecutor {
         Player player = ((Player) sender).getPlayer();
 
         if(args.length > 1 && args[0].equalsIgnoreCase("join")){
-           House house = new House( HouseOfChosenOne.getConfigFile(), args[1]);
 
-           if(house.equals(new House()))
-               return false;
+            House house = new House( HouseOfChosenOne.getConfigFile(), args[1]);
+
+            if(house.getHouse() == null)
+                return  false;
 
             ConfigurationSection configurationSection = new ConfigPlayers().getConfiguration(player);
 
-            if(configurationSection.getString("house") != null){
+
+            if(configurationSection != null && configurationSection.getString("house") != null){
                 player.sendMessage(ChatColorUtil.boldText("Voc\u00EA j\u00E1 est\u00E1 em uma casa",ChatColor.RED));
                 player.sendMessage("Execute o comando '/houseofchosenone leave' para sair da sua casa atual. mas voc\u00EA perder\u00E1 todo o seu progresso.");
                 return false;
