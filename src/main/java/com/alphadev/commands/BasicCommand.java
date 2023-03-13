@@ -6,6 +6,10 @@ import com.alphadev.services.PlayerMoveService;
 import com.alphadev.services.ScoreBoardService;
 import com.alphadev.utils.ChatColorUtil;
 import com.alphadev.utils.config.ConfigPlayers;
+import me.ryanhamshire.GriefPrevention.DataStore;
+import me.ryanhamshire.GriefPrevention.FlatFileDataStore;
+import me.ryanhamshire.GriefPrevention.GriefPrevention;
+import me.ryanhamshire.GriefPrevention.PlayerData;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -62,13 +66,32 @@ public class BasicCommand implements Listener, CommandExecutor {
            player.sendMessage(ChatColorUtil.boldText("Parab\u00E9ns voc\u00EA entrou na casa "+ChatColor.RESET+ ChatColor.GREEN+house.getHouse()));
            player.teleport(house.getLocation(), PlayerTeleportEvent.TeleportCause.COMMAND);
            player.sendTitle(ChatColorUtil.boldText(house.getHouse()),"",10,20,10);
-            ScoreBoardService.setPlayerHouseScoreBoardTag(player);
+
+
+             GriefPrevention griefPrevention =  GriefPrevention.instance;
+             if(griefPrevention != null ) {
+                 DataStore dataStore = griefPrevention.dataStore;
+                 PlayerData playerData = dataStore.getPlayerData(player.getUniqueId());
+                 playerData.setBonusClaimBlocks(playerData.getBonusClaimBlocks() + 5000);
+                 dataStore.savePlayerData(player.getUniqueId(), playerData);
+             }
+
+             ScoreBoardService.setPlayerHouseScoreBoardTag(player);
            return true;
         }
 
         if(args.length > 0 && args[0].equalsIgnoreCase("leave")){
             HouseOfChosenOne.getPlayerConfig().createResetSection(player);
             ScoreBoardService.removePlayerFromHouseTeam(player);
+
+            GriefPrevention griefPrevention =  GriefPrevention.instance;
+            if(griefPrevention != null ) {
+                DataStore dataStore = griefPrevention.dataStore;
+                PlayerData playerData = dataStore.getPlayerData(player.getUniqueId());
+                playerData.setBonusClaimBlocks(playerData.getBonusClaimBlocks() - 5000);
+                dataStore.savePlayerData(player.getUniqueId(), playerData);
+            }
+
             return true;
         }
 
@@ -90,12 +113,11 @@ public class BasicCommand implements Listener, CommandExecutor {
                         House house = new House(HouseOfChosenOne.getConfigFile(), configurationSection.getString("house"));
                         player.teleport(house.getLocation());
                         player.sendTitle(ChatColorUtil.boldText(house.getHouse()),"",10,20,10);
-
-                        Bukkit.getScheduler().cancelTask(scheduleTaskPlayer.get(player.getUniqueId()).intValue());
                     }
+                    Bukkit.getScheduler().cancelTask(scheduleTaskPlayer.get(player.getUniqueId()).intValue());
                 }
 
-                if( PlayerMoveService.isPlayerInMovement(player)){
+                if( secondsRemaning <= 0  || PlayerMoveService.isPlayerInMovement(player)){
                     player.sendTitle("Teleport Cancelado","",10 , 20, 10);
                     Bukkit.getScheduler().cancelTask(scheduleTaskPlayer.get(player.getUniqueId()).intValue());
                 }
