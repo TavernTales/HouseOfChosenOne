@@ -12,7 +12,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
 
-public class PlayerDieEvents implements Listener {
+public class PlayerRespawnEventListener implements Listener {
 
 
     @EventHandler(priority = EventPriority.HIGHEST)

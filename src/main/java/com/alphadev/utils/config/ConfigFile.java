@@ -11,7 +11,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 public class ConfigFile {
     private final Plugin plugin = HouseOfChosenOne.getPlugin();
@@ -44,12 +43,23 @@ public class ConfigFile {
 
     private void createConfigSection() throws IOException {
 
+        ConfigurationSection settingsSection = configFileConfiguration.getConfigurationSection("settings");
+
         ConfigurationSection configSection = configFileConfiguration.getConfigurationSection("houses");
+
+
+        if(settingsSection == null){
+            HouseOfChosenOne.logInfo("[HouseOfChosenOne] Creating Settings File Configuration . . .");
+            settingsSection = configFileConfiguration.createSection("settings");
+        }
 
         if (configSection == null){
             HouseOfChosenOne.logInfo("[HouseOfChosenOne] Creating Config File Configuration . . .");
             configSection = configFileConfiguration.createSection("houses");
         }
+
+        settingsSection.set("api-grief-prevention-block-bonus", 3000);
+
 
        if( configSection.getConfigurationSection("zeronia") == null)
             configSection.createSection("zeronia");

@@ -5,7 +5,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-public class BlockInteractionEvents implements Listener {
+public class PlayerInteractEventListener implements Listener {
 
     @EventHandler
     public void signHouseInteration(PlayerInteractEvent event){

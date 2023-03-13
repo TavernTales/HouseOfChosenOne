@@ -5,6 +5,7 @@ import com.alphadev.entity.House;
 import com.alphadev.services.PlayerMoveService;
 import com.alphadev.services.ScoreBoardService;
 import com.alphadev.utils.ChatColorUtil;
+import com.alphadev.utils.config.ConfigFile;
 import com.alphadev.utils.config.ConfigPlayers;
 import me.ryanhamshire.GriefPrevention.DataStore;
 import me.ryanhamshire.GriefPrevention.FlatFileDataStore;
@@ -70,10 +71,15 @@ public class BasicCommand implements Listener, CommandExecutor {
 
              GriefPrevention griefPrevention =  GriefPrevention.instance;
              if(griefPrevention != null ) {
-                 DataStore dataStore = griefPrevention.dataStore;
-                 PlayerData playerData = dataStore.getPlayerData(player.getUniqueId());
-                 playerData.setBonusClaimBlocks(playerData.getBonusClaimBlocks() + 5000);
-                 dataStore.savePlayerData(player.getUniqueId(), playerData);
+                 ConfigurationSection settingsFile = new ConfigFile().getConfig().getConfigurationSection("settings");
+
+                 if(settingsFile != null && settingsFile.getInt("api-grief-prevention-block-bonus") > 0){
+                     DataStore dataStore = griefPrevention.dataStore;
+                     PlayerData playerData = dataStore.getPlayerData(player.getUniqueId());
+                     playerData.setBonusClaimBlocks(playerData.getBonusClaimBlocks() + settingsFile.getInt("api-grief-prevention-block-bonus"));
+                     dataStore.savePlayerData(player.getUniqueId(), playerData);
+                 }
+
              }
 
              ScoreBoardService.setPlayerHouseScoreBoardTag(player);
@@ -86,10 +92,15 @@ public class BasicCommand implements Listener, CommandExecutor {
 
             GriefPrevention griefPrevention =  GriefPrevention.instance;
             if(griefPrevention != null ) {
-                DataStore dataStore = griefPrevention.dataStore;
-                PlayerData playerData = dataStore.getPlayerData(player.getUniqueId());
-                playerData.setBonusClaimBlocks(playerData.getBonusClaimBlocks() - 5000);
-                dataStore.savePlayerData(player.getUniqueId(), playerData);
+                ConfigurationSection settingsFile = new ConfigFile().getConfig().getConfigurationSection("settings");
+
+                if(settingsFile != null && settingsFile.getInt("api-grief-prevention-block-bonus") > 0){
+                    DataStore dataStore = griefPrevention.dataStore;
+                    PlayerData playerData = dataStore.getPlayerData(player.getUniqueId());
+                    playerData.setBonusClaimBlocks(playerData.getBonusClaimBlocks() - settingsFile.getInt("api-grief-prevention-block-bonus"));
+                    dataStore.savePlayerData(player.getUniqueId(), playerData);
+                }
+
             }
 
             return true;
@@ -117,7 +128,7 @@ public class BasicCommand implements Listener, CommandExecutor {
                     Bukkit.getScheduler().cancelTask(scheduleTaskPlayer.get(player.getUniqueId()).intValue());
                 }
 
-                if( secondsRemaning <= 0  || PlayerMoveService.isPlayerInMovement(player)){
+                if(  PlayerMoveService.isPlayerInMovement(player)){
                     player.sendTitle("Teleport Cancelado","",10 , 20, 10);
                     Bukkit.getScheduler().cancelTask(scheduleTaskPlayer.get(player.getUniqueId()).intValue());
                 }
