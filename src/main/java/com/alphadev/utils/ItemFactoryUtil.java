@@ -6,6 +6,8 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -16,6 +18,17 @@ public class ItemFactoryUtil {
         ItemMeta itemMeta = itemStack.getItemMeta();
         Objects.requireNonNull(itemMeta).setDisplayName(ChatColorUtil.textColor("X", ChatColor.GRAY));
         itemStack.setItemMeta(itemMeta);
+        return itemStack;
+    }
+
+    public static ItemStack questCreate(){
+        ItemStack itemStack = new ItemStack(Material.PAPER, 1);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.setDisplayName(ChatColorUtil.textColor("Nova Miss\u00E3o", ChatColor.GREEN));
+        itemMeta.setLore(List.of(ChatColorUtil.textColor("MENU",ChatColor.GREEN)));
+
+        itemStack.setItemMeta(itemMeta);
+
         return itemStack;
     }
 

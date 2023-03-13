@@ -87,6 +87,12 @@ public class BasicCommand implements Listener, CommandExecutor {
         }
 
         if(args.length > 0 && args[0].equalsIgnoreCase("leave")){
+
+            ConfigurationSection configurationSection = new ConfigPlayers().getConfiguration(player);
+            if(configurationSection == null || configurationSection.getString("house") == null) {
+                return  false;
+            }
+
             HouseOfChosenOne.getPlayerConfig().createResetSection(player);
             ScoreBoardService.removePlayerFromHouseTeam(player);
 
@@ -111,6 +117,10 @@ public class BasicCommand implements Listener, CommandExecutor {
             PlayerMoveService.removePlayerTracker(player);
 
             long startTime = System.currentTimeMillis();
+
+          if(scheduleTaskPlayer.get(player.getUniqueId()) != null)
+              Bukkit.getScheduler().cancelTask(scheduleTaskPlayer.get(player.getUniqueId()).intValue());
+
             scheduleTaskPlayer.put(player.getUniqueId(),  Bukkit.getScheduler().scheduleSyncRepeatingTask(HouseOfChosenOne.getPlugin(), ()->{
 
                 long endTime = System.currentTimeMillis();

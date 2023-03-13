@@ -44,8 +44,8 @@ public class SignHouseService {
                 event.setLine(1, ChatColorUtil.boldText("Informa\u00E7\u00E3o", ChatColor.WHITE));
                 event.setLine(2, ChatColorUtil.boldText("[Clique]", ChatColor.WHITE));
             }
-            case "meia noite" -> {
-                event.setLine(0, ChatColorUtil.boldText("Meia Noite", ChatColor.BLACK));
+            case "drakkaris" -> {
+                event.setLine(0, ChatColorUtil.boldText("Drakkaris", ChatColor.BLACK));
                 event.setLine(1, ChatColorUtil.boldText("Informa\u00E7\u00E3o", ChatColor.WHITE));
                 event.setLine(2, ChatColorUtil.boldText("[Clique]", ChatColor.WHITE));
             }
@@ -72,7 +72,7 @@ public class SignHouseService {
           case "vlarola" -> sendMessageHouseDetails(player,new House(configFile , "vlarola"), ChatColor.BLUE, "vlarola");
           case "frandhra" -> sendMessageHouseDetails(player,new House(configFile , "frandhra"), ChatColor.DARK_GREEN, "frandhra");
           case "nashor" -> sendMessageHouseDetails(player,new House(configFile , "nashor"), ChatColor.DARK_RED, "nashor");
-          case "meia noite" -> sendMessageHouseDetails(player,new House(configFile , "midnight-hunters"), ChatColor.DARK_GRAY, "midnight-hunters");
+          case "drakkaris" -> sendMessageHouseDetails(player,new House(configFile , "drakkaris"), ChatColor.DARK_GRAY, "drakkaris");
           default -> {}
       }
     }

@@ -44,10 +44,12 @@ public class HouseOfChosenOne extends JavaPlugin {
         pluginManager.registerEvents(new PlayerRespawnEventListener(), this);
         pluginManager.registerEvents(new PlayerJoinEventListener(), this);
         pluginManager.registerEvents(new PlayerMoveEventListener(), this);
+        pluginManager.registerEvents(new InventoryInteractEventListener(), this);
 
         Objects.requireNonNull(getCommand("houseofchosenone")).setExecutor(new BasicCommand());
         Objects.requireNonNull(getCommand("lobby")).setExecutor(new BasicCommand());
         Objects.requireNonNull(getCommand("citadel")).setExecutor(new AdminCommand());
+        Objects.requireNonNull(getCommand("quest")).setExecutor(new AdminCommand());
     }
 
     @Override
@@ -78,7 +80,7 @@ public class HouseOfChosenOne extends JavaPlugin {
     }
 
     public static ConfigurationSection getConfigFile() {
-        return  new ConfigFile().getConfig();
+        return configFile.getConfig();
     }
 
     public  static void  createHouseLocation(String houseName, Location location){

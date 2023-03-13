@@ -20,7 +20,7 @@ public class ScoreBoardService {
     private static  Team vlarolaTeam = SCOREBOARD.getTeam("vlarola");
     private static  Team frandhraTeam = SCOREBOARD.getTeam("frandhra");
     private static  Team nashorTeam  = SCOREBOARD.getTeam("nashor");
-    private static  Team  midnightHuntersTeam  = SCOREBOARD.getTeam("midnight-hunters");
+    private static  Team drakkarisTeam = SCOREBOARD.getTeam("drakkaris");
 
 
     public static void setPlayerHouseScoreBoardTag(Player player){
@@ -37,8 +37,8 @@ public class ScoreBoardService {
         if(nashorTeam == null)
             nashorTeam = SCOREBOARD.registerNewTeam("nashor");
 
-        if( midnightHuntersTeam == null)
-            midnightHuntersTeam = SCOREBOARD.registerNewTeam("midnight-hunters");
+        if( drakkarisTeam == null)
+            drakkarisTeam = SCOREBOARD.registerNewTeam("drakkaris");
 
 
         ConfigurationSection configurationSection = new ConfigPlayers().getConfiguration(player);
@@ -50,7 +50,7 @@ public class ScoreBoardService {
                 case "vlarola" -> setTeamSettings(vlarolaTeam,player, ChatColor.BLUE, house);
                 case "frandhra" -> setTeamSettings(frandhraTeam, player, ChatColor.GREEN, house);
                 case "nashor" -> setTeamSettings(nashorTeam, player, ChatColor.DARK_RED, house);
-                case "midnight-hunters" -> setTeamSettings(midnightHuntersTeam, player, ChatColor.DARK_GRAY, house);
+                case "drakkaris" -> setTeamSettings(drakkarisTeam, player, ChatColor.DARK_GRAY, house);
                 default -> {}
             }
         }
@@ -69,14 +69,14 @@ public class ScoreBoardService {
         if(nashorTeam == null)
             nashorTeam = SCOREBOARD.registerNewTeam("nashor");
 
-        if( midnightHuntersTeam == null)
-            midnightHuntersTeam = SCOREBOARD.registerNewTeam("midnight-hunters");
+        if( drakkarisTeam == null)
+            drakkarisTeam = SCOREBOARD.registerNewTeam("drakkaris");
 
         zeroniaTeam.removeEntry(player.getName());
         vlarolaTeam.removeEntry(player.getName());
         frandhraTeam.removeEntry(player.getName());
         nashorTeam.removeEntry(player.getName());
-        midnightHuntersTeam.removeEntry(player.getName());
+        drakkarisTeam.removeEntry(player.getName());
     }
 
     private static void setTeamSettings(Team team, Player player, ChatColor houseColor, House house){

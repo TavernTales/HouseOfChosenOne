@@ -15,12 +15,17 @@ commands:
     permission: hco.admin
   lobby:
     aliases: [hub]
-    description: Use este comando para retornar a cordenadas da casa escolhida
+    description: Use este comando server para retornar a cordenadas da casa escolhida
     permission: hco.lobby
+  quest:
+    description: Comando usado para abertura de quests atraves dos npcs
+    permission: npc.quests
 permissions:
   hco.use:
     default: true
   hco.lobby:
     default: true
   hco.admin:
+    default: op
+  npc.quests:
     default: op

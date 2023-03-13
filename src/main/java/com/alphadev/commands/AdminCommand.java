@@ -2,7 +2,7 @@ package com.alphadev.commands;
 
 import com.alphadev.HouseOfChosenOne;
 import com.alphadev.entity.House;
-import com.alphadev.utils.config.ConfigFile;
+import com.alphadev.services.QuestService;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -22,13 +22,26 @@ public class AdminCommand implements Listener, CommandExecutor {
 
         Player player = ((Player) sender).getPlayer();
 
+
+
+        if(command.getName().equalsIgnoreCase("quest") && args.length > 0){
+            QuestService questService = new QuestService();
+
+            switch (args[0].toLowerCase()){
+                case "create" -> questService.buildDailyQuest(player);
+                default -> questService.openQuestMenu(player);
+            }
+
+        }
+
+
         if(args.length > 0 && args[0].equalsIgnoreCase("set")){
 
             House house = new House( HouseOfChosenOne.getConfigFile(), args[1]);
 
             if(house.getHouse() == null){
                 player.sendMessage(ChatColor.RED+" Nome da casa inv\u00E1lido tente /city set <nome da casa>");
-                player.sendMessage(ChatColor.RED+" casas dispon\u00EDveis: zeronia, vlarola, frandhra, nashor, midnight-hunters");
+                player.sendMessage(ChatColor.RED+" casas dispon\u00EDveis: zeronia, vlarola, frandhra, nashor, drakkaris");
                 return  false;
             }
 

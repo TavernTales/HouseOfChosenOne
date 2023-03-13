@@ -27,15 +27,18 @@ public class ConfigFile {
         try {
             if (!configFile.exists()) {
                 HouseOfChosenOne.logInfo("[HouseOfChosenOne] Creating config file . . .");
+
                 configFileConfiguration.save(configFile);
+
+                HouseOfChosenOne.logInfo("[HouseOfChosenOne] Config file configuration: 100%");
+                HouseOfChosenOne.logInfo("[HouseOfChosenOne] Config File: 100%");
             }
             configFileConfiguration = YamlConfiguration.loadConfiguration(configFile);
 
             createConfigSection();
 
             configFileConfiguration.save(configFile);
-            HouseOfChosenOne.logInfo("[HouseOfChosenOne] Config file configuration: 100%");
-            HouseOfChosenOne.logInfo("[HouseOfChosenOne] Config File: 100%");
+
         } catch (Exception e) {
             HouseOfChosenOne.logInfo("[HouseOfChosenOne] Config file configuration error:\n" + e.getMessage(),e);
         }
@@ -69,8 +72,8 @@ public class ConfigFile {
             configSection.createSection("frandhra");
         if( configSection.getConfigurationSection("nashor") == null)
             configSection.createSection("nashor");
-        if( configSection.getConfigurationSection("midnight-hunters") == null)
-            configSection.createSection("midnight-hunters");
+        if( configSection.getConfigurationSection("drakkaris") == null)
+            configSection.createSection("drakkaris");
 
         ConfigurationSection zenoniaKingdom = configSection.getConfigurationSection("zeronia");
 
@@ -93,7 +96,7 @@ public class ConfigFile {
             zenoniaKingdom.set("neutral", Arrays.asList("Frandha"));
 
         if (!zenoniaKingdom.contains("enemy"))
-            zenoniaKingdom.set("enemy", Arrays.asList("Nashor","Ca\u00E7adores da Meia Noite"));
+            zenoniaKingdom.set("enemy", Arrays.asList("Nashor","Drakkaris"));
 
         if (!zenoniaKingdom.contains("objective"))
             zenoniaKingdom.set("objective", "Com\u00E9rcio local e internacional, crescimento da civiliza\u00E7\u00E3o e batalhas PVP");
@@ -125,7 +128,7 @@ public class ConfigFile {
             vlarolaCitadel.set("neutral", Arrays.asList("Frandha","Nashor"));
 
         if (!vlarolaCitadel.contains("enemy"))
-            vlarolaCitadel.set("enemy", Arrays.asList("Ca\u00E7adores da Meia Noite"));
+            vlarolaCitadel.set("enemy", Arrays.asList("Drakkaris"));
 
         if (!vlarolaCitadel.contains("objective"))
             vlarolaCitadel.set("objective", "Com\u00E9rcio local e internacional, crescimento da civiliza\u00E7\u00E3o e batalhas PVP");
@@ -154,7 +157,7 @@ public class ConfigFile {
             frandhraMonastery.set("ally", List.of());
 
         if (!frandhraMonastery.contains("neutral"))
-            frandhraMonastery.set("neutral", Arrays.asList("Vlarol\u00E1","Zeronia","Nashor","Ca\u00E7adores da Meia Noite"));
+            frandhraMonastery.set("neutral", Arrays.asList("Vlarol\u00E1","Zeronia","Nashor","Drakkaris"));
 
         if (!frandhraMonastery.contains("enemy"))
             frandhraMonastery.set("enemy", List.of());
@@ -183,7 +186,7 @@ public class ConfigFile {
             nashorImperio.set("align", "Mal e Leal");
 
         if (!nashorImperio.contains("ally"))
-            nashorImperio.set("ally",Arrays.asList("Ca\u00E7adores da Meia Noite"));
+            nashorImperio.set("ally",Arrays.asList("Drakkaris"));
 
         if (!nashorImperio.contains("neutral"))
             nashorImperio.set("neutral", Arrays.asList("Vlarol\u00E1","Frandha"));
@@ -200,37 +203,37 @@ public class ConfigFile {
         if (!nashorImperio.contains("permissions"))
             nashorImperio.set("permissions", List.of());
 
-        ConfigurationSection midNightHunters = configSection.getConfigurationSection("midnight-hunters");
+        ConfigurationSection drakkaris = configSection.getConfigurationSection("drakkaris");
 
-        if (!midNightHunters.contains("house"))
-            midNightHunters.set("house", "Ca\u00E7adores da Meia Noite");
+        if (!drakkaris.contains("house"))
+            drakkaris.set("house", "Guarni\u00E7\u00E3o Drakkaris");
 
-        if (!midNightHunters.contains("details"))
-            midNightHunters.set("details", "Os ca\u00E7adores se encontram nos Pantanos, seu simbolo j\u00E1 diz por si s\u00F3 o que eles gostam de fazer. Os ca\u00E7adores s\u00E3o extremamente individualistas, n\u00E3o se importanto com quem esta ao seu lado ou quem est\u00E1 do outro lado, nem se v\u00E3o parar na pris\u00F5es ou executados, um bando de piratas aonde o saque e a ca\u00E7a s\u00E3o sua principal fonte de renda, apesar de n\u00E3o possuirem comercio e nem uma larga constru\u00E7\u00E3o como as casas rivais, eles s\u00E3o especialistas na espionagem, na ca\u00E7a, e no saque, sendo contratados para fazer suas fun\u00E7\u00F5es, mesmo que seu alvo seja membro da propria Guilda");
+        if (!drakkaris.contains("details"))
+            drakkaris.set("details", "Os Drakkaris se encontram nos Pantanos, seu simbolo j\u00E1 diz por si s\u00F3 o que eles gostam de fazer. Os Drakkaris s\u00E3o extremamente individualistas, n\u00E3o se importanto com quem esta ao seu lado ou quem est\u00E1 do outro lado, nem se v\u00E3o parar na pris\u00F5es ou executados, um bando de piratas aonde o saque e a ca\u00E7a s\u00E3o sua principal fonte de renda, apesar de n\u00E3o possuirem comercio e nem uma larga constru\u00E7\u00E3o como as casas rivais, eles s\u00E3o especialistas na espionagem, na ca\u00E7a, e no saque, sendo contratados para fazer suas fun\u00E7\u00F5es, mesmo que seu alvo seja membro da propria Guilda");
 
-        if (!midNightHunters.contains("policy"))
-            midNightHunters.set("policy", "Anarquia");
+        if (!drakkaris.contains("policy"))
+            drakkaris.set("policy", "Anarquia");
 
-        if (!midNightHunters.contains("align"))
-            midNightHunters.set("align", "Caotico Mal");
+        if (!drakkaris.contains("align"))
+            drakkaris.set("align", "Caotico Mal");
 
-        if (!midNightHunters.contains("ally"))
-            midNightHunters.set("ally",Arrays.asList("Nashor"));
+        if (!drakkaris.contains("ally"))
+            drakkaris.set("ally",Arrays.asList("Nashor"));
 
-        if (!midNightHunters.contains("neutral"))
-            midNightHunters.set("neutral",Arrays.asList("Frandha"));
+        if (!drakkaris.contains("neutral"))
+            drakkaris.set("neutral",Arrays.asList("Frandha"));
 
-        if (!midNightHunters.contains("enemy"))
-            midNightHunters.set("enemy", Arrays.asList("Vlarol\u00E1","Zeronia"));
+        if (!drakkaris.contains("enemy"))
+            drakkaris.set("enemy", Arrays.asList("Vlarol\u00E1","Zeronia"));
 
-        if (!midNightHunters.contains("objective"))
-            midNightHunters.set("objective", "Saques de pessoas desprevinidas, Assasinados por contrato e Batalhas PVP");
+        if (!drakkaris.contains("objective"))
+            drakkaris.set("objective", "Saques de pessoas desprevinidas, Assasinatos por contrato e Batalhas PVP");
 
-        if (!midNightHunters.contains("contribuition"))
-            midNightHunters.set("contribuition", 0);
+        if (!drakkaris.contains("contribuition"))
+            drakkaris.set("contribuition", 0);
 
-        if (!midNightHunters.contains("permissions"))
-            midNightHunters.set("permissions", List.of());
+        if (!drakkaris.contains("permissions"))
+            drakkaris.set("permissions", List.of());
 
         configFileConfiguration.save(configFile);
     }
