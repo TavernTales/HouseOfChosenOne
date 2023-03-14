@@ -54,7 +54,11 @@ public class ConfigPlayers {
 
     public void createPlayersSection(Player player, String house, List<String> permissions) {
         playersConfiguration = YamlConfiguration.loadConfiguration(playersFile);
-        ConfigurationSection configSection = playersConfiguration.createSection("players");
+
+        ConfigurationSection configSection = playersConfiguration.getConfigurationSection("players");
+
+        if(configSection == null)
+            configSection = playersConfiguration.createSection("players");
 
         if(configSection.getConfigurationSection(player.getUniqueId().toString()) == null)
             configSection.createSection(player.getUniqueId().toString());

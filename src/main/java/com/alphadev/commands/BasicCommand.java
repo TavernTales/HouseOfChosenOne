@@ -65,24 +65,26 @@ public class BasicCommand implements Listener, CommandExecutor {
 
            HouseOfChosenOne.getPlayerConfig().createPlayersSection(player,args[1],house.getPermissions());
            player.sendMessage(ChatColorUtil.boldText("Parab\u00E9ns voc\u00EA entrou na casa "+ChatColor.RESET+ ChatColor.GREEN+house.getHouse()));
-           player.teleport(house.getLocation(), PlayerTeleportEvent.TeleportCause.COMMAND);
+
+            if(house.getLocation() != null)
+                player.teleport(house.getLocation());
+
            player.sendTitle(ChatColorUtil.boldText(house.getHouse()),"",10,20,10);
+           ScoreBoardService.setPlayerHouseScoreBoardTag(player);
+           GriefPrevention griefPrevention =  GriefPrevention.instance;
+           if(griefPrevention != null ) {
+               ConfigurationSection settingsFile = new ConfigFile().getConfig().getConfigurationSection("settings");
+
+               if(settingsFile != null && settingsFile.getInt("api-grief-prevention-block-bonus") > 0){
+                   DataStore dataStore = griefPrevention.dataStore;
+                   PlayerData playerData = dataStore.getPlayerData(player.getUniqueId());
+                   playerData.setBonusClaimBlocks(playerData.getBonusClaimBlocks() + settingsFile.getInt("api-grief-prevention-block-bonus"));
+                   dataStore.savePlayerData(player.getUniqueId(), playerData);
+               }
+
+           }
 
 
-             GriefPrevention griefPrevention =  GriefPrevention.instance;
-             if(griefPrevention != null ) {
-                 ConfigurationSection settingsFile = new ConfigFile().getConfig().getConfigurationSection("settings");
-
-                 if(settingsFile != null && settingsFile.getInt("api-grief-prevention-block-bonus") > 0){
-                     DataStore dataStore = griefPrevention.dataStore;
-                     PlayerData playerData = dataStore.getPlayerData(player.getUniqueId());
-                     playerData.setBonusClaimBlocks(playerData.getBonusClaimBlocks() + settingsFile.getInt("api-grief-prevention-block-bonus"));
-                     dataStore.savePlayerData(player.getUniqueId(), playerData);
-                 }
-
-             }
-
-             ScoreBoardService.setPlayerHouseScoreBoardTag(player);
            return true;
         }
 

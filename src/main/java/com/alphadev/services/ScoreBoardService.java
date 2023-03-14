@@ -77,11 +77,17 @@ public class ScoreBoardService {
         frandhraTeam.removeEntry(player.getName());
         nashorTeam.removeEntry(player.getName());
         drakkarisTeam.removeEntry(player.getName());
+
+        player.setPlayerListName(player.getName());
+        player.setCustomName(player.getName());
+        player.setCustomNameVisible(true);
     }
 
     private static void setTeamSettings(Team team, Player player, ChatColor houseColor, House house){
         team.addEntry(player.getName());
-        team.setSuffix(ChatColorUtil.boldText(" \u25A0 ",houseColor));
+        player.setPlayerListName(player.getName() + ChatColorUtil.boldText(ChatColorUtil.boldText(" \u25A0 ",houseColor),houseColor));
+        player.setCustomName( player.getPlayerListName() + ChatColorUtil.boldText(ChatColorUtil.boldText(" \u25A0 ",houseColor),houseColor));
+        player.setCustomNameVisible(true);
     }
 
 }
