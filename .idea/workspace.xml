@@ -10,15 +10,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="35f25348-fbe5-4e9b-8bd9-5225e7985891" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/7/2/720ee492717899c6395ba480146480aef0dc4400" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/b/2/b292b22643b437b5738f46c3b86fbc13614e34c9" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/e/d/ed8ded638baf011f6abba03d8d107aadef3b6044" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/alphadev/commands/BasicCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alphadev/commands/BasicCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/alphadev/services/ScoreBoardService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alphadev/services/ScoreBoardService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/alphadev/utils/config/ConfigPlayers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alphadev/utils/config/ConfigPlayers.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alphadev/services/SignHouseService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alphadev/services/SignHouseService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

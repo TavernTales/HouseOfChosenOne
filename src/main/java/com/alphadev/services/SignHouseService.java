@@ -24,35 +24,22 @@ public class SignHouseService {
             return;
 
        switch (event.getLine(0).toLowerCase()){
-            case "zeronia" -> {
-                event.setLine(0, ChatColorUtil.boldText("Zeronia", ChatColor.RED));
-                event.setLine(1, ChatColorUtil.boldText("Informa\u00E7\u00E3o", ChatColor.WHITE));
-                event.setLine(2, ChatColorUtil.boldText("[Clique]", ChatColor.WHITE));
-            }
-            case "vlarola" -> {
-                event.setLine(0, ChatColorUtil.boldText("Vlarola", ChatColor.BLUE));
-                event.setLine(1, ChatColorUtil.boldText("Informa\u00E7\u00E3o", ChatColor.WHITE));
-                event.setLine(2, ChatColorUtil.boldText("[Clique]", ChatColor.WHITE));
-            }
-            case "frandhra" -> {
-                event.setLine(0, ChatColorUtil.boldText("Frandhra", ChatColor.GREEN));
-                event.setLine(1, ChatColorUtil.boldText("Informa\u00E7\u00E3o", ChatColor.WHITE));
-                event.setLine(2, ChatColorUtil.boldText("[Clique]", ChatColor.WHITE));
-            }
-            case "nashor" -> {
-                event.setLine(0, ChatColorUtil.boldText("Nashor", ChatColor.DARK_RED));
-                event.setLine(1, ChatColorUtil.boldText("Informa\u00E7\u00E3o", ChatColor.WHITE));
-                event.setLine(2, ChatColorUtil.boldText("[Clique]", ChatColor.WHITE));
-            }
-            case "drakkaris" -> {
-                event.setLine(0, ChatColorUtil.boldText("Drakkaris", ChatColor.BLACK));
-                event.setLine(1, ChatColorUtil.boldText("Informa\u00E7\u00E3o", ChatColor.WHITE));
-                event.setLine(2, ChatColorUtil.boldText("[Clique]", ChatColor.WHITE));
-            }
+            case "zeronia" -> configureSign(event,"Zeronia", ChatColor.RED);
+            case "vlarola" -> configureSign(event,"Vlarola", ChatColor.BLUE);
+            case "frandhra" -> configureSign(event,"Frandhra", ChatColor.GREEN);
+            case "nashor" ->  configureSign(event,"Nashor", ChatColor.DARK_RED);
+            case "drakkaris" -> configureSign(event,"Drakkaris", ChatColor.DARK_GRAY);
             default -> {
 
             }
         }
+    }
+
+    private static void configureSign(SignChangeEvent event, String houseName, ChatColor houseColor){
+        event.setLine(0, ChatColorUtil.boldText(houseName, houseColor));
+        event.setLine(1, ChatColorUtil.textColor("Informa\u00E7\u00E3o", ChatColor.WHITE));
+        event.setLine(2, "");
+        event.setLine(3, ChatColorUtil.boldText("[Clique]", ChatColor.WHITE));
     }
 
     public static void signHouseInteract(PlayerInteractEvent event){
