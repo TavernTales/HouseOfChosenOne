@@ -71,6 +71,10 @@ public class BasicCommand implements Listener, CommandExecutor {
 
            player.sendTitle(ChatColorUtil.boldText(house.getHouse()),"",10,20,10);
            ScoreBoardService.setPlayerHouseScoreBoardTag(player);
+
+           if(HouseOfChosenOne.getPlugin().getServer().getPluginManager().getPlugin("GriefPrevention") == null)
+               return  true;
+
            GriefPrevention griefPrevention =  GriefPrevention.instance;
            if(griefPrevention != null ) {
                ConfigurationSection settingsFile = new ConfigFile().getConfig().getConfigurationSection("settings");
@@ -81,7 +85,6 @@ public class BasicCommand implements Listener, CommandExecutor {
                    playerData.setBonusClaimBlocks(playerData.getBonusClaimBlocks() + settingsFile.getInt("api-grief-prevention-block-bonus"));
                    dataStore.savePlayerData(player.getUniqueId(), playerData);
                }
-
            }
 
 
@@ -96,7 +99,12 @@ public class BasicCommand implements Listener, CommandExecutor {
             }
 
             HouseOfChosenOne.getPlayerConfig().createResetSection(player);
-            ScoreBoardService.removePlayerFromHouseTeam(player);
+            House house = new House( HouseOfChosenOne.getConfigFile(),configurationSection.getString("house"));
+
+            ScoreBoardService.removePlayerFromHouseTeam(player,house);
+
+            if(HouseOfChosenOne.getPlugin().getServer().getPluginManager().getPlugin("GriefPrevention") == null)
+                return  true;
 
             GriefPrevention griefPrevention =  GriefPrevention.instance;
             if(griefPrevention != null ) {

@@ -26,6 +26,10 @@ public class PlayerRespawnEventListener implements Listener {
         ConfigurationSection configurationSection = new ConfigPlayers().getConfiguration(player);
         if(configurationSection != null && configurationSection.getString("house") != null){
             House house = new House( HouseOfChosenOne.getConfigFile(),configurationSection.getString("house"));
+
+            if (house.getLocation() == null)
+                return;
+
             event.setRespawnLocation(house.getLocation());
             player.sendTitle(ChatColorUtil.boldText(house.getHouse()),"",10,20,10);
         }

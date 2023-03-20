@@ -2,12 +2,11 @@ package com.alphadev.utils;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -25,13 +24,20 @@ public class ItemFactoryUtil {
         ItemStack itemStack = new ItemStack(Material.PAPER, 1);
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.setDisplayName(ChatColorUtil.textColor("Nova Miss\u00E3o", ChatColor.GREEN));
-        itemMeta.setLore(List.of(ChatColorUtil.textColor("MENU",ChatColor.GREEN)));
 
         itemStack.setItemMeta(itemMeta);
 
         return itemStack;
     }
+    public static ItemStack questNameItem(){
+        ItemStack itemStack = new ItemStack(Material.PAPER, 1);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.setDisplayName(ChatColorUtil.textColor("Digite o nome", ChatColor.GREEN));
+        itemMeta.setLore(List.of("QUEST_NAME"));
+        itemStack.setItemMeta(itemMeta);
 
+        return itemStack;
+    }
 
     public static ItemStack aprove(){
         ItemStack itemStack = new ItemStack(Material.LIME_DYE, 1);

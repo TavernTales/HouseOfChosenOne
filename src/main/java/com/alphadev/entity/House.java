@@ -17,6 +17,8 @@ import java.util.Objects;
 
 public class House {
     private String house;
+
+    private String tag;
     private String details;
     private String policy;
     private String align;
@@ -35,6 +37,7 @@ public class House {
             return;
 
         house = Objects.requireNonNull(configFileSections.getString("houses." + houseName + ".house"));
+        tag = Objects.requireNonNull(configFileSections.getString("houses." + houseName + ".tag"));
         details = Objects.requireNonNull(configFileSections.getString("houses." + houseName + ".details"));
         policy = Objects.requireNonNull(configFileSections.getString("houses." + houseName + ".policy"));
         align = Objects.requireNonNull(configFileSections.getString("houses." + houseName + ".align"));
@@ -71,6 +74,14 @@ public class House {
 
     public void setHouse(String house) {
         this.house = house;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 
     public String getDetails() {

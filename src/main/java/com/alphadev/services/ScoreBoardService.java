@@ -25,38 +25,25 @@ public class ScoreBoardService {
 
     public static void setPlayerHouseScoreBoardTag(Player player){
 
-        if(zeroniaTeam == null)
-            zeroniaTeam = SCOREBOARD.registerNewTeam("zeronia");
-
-        if(vlarolaTeam == null)
-            vlarolaTeam = SCOREBOARD.registerNewTeam("vlarola");
-
-        if( frandhraTeam == null)
-            frandhraTeam = SCOREBOARD.registerNewTeam("frandhra");
-
-        if(nashorTeam == null)
-            nashorTeam = SCOREBOARD.registerNewTeam("nashor");
-
-        if( drakkarisTeam == null)
-            drakkarisTeam = SCOREBOARD.registerNewTeam("drakkaris");
-
 
         ConfigurationSection configurationSection = new ConfigPlayers().getConfiguration(player);
         if(configurationSection != null && configurationSection.getString("house") != null) {
             House house = new House( HouseOfChosenOne.getConfigFile(),configurationSection.getString("house"));
 
+            removePlayerFromHouseTeam(player,house);
+
             switch (Objects.requireNonNull(configurationSection.getString("house"))){
-                case "zeronia" -> setTeamSettings(zeroniaTeam,player, ChatColor.RED, house);
-                case "vlarola" -> setTeamSettings(vlarolaTeam,player, ChatColor.BLUE, house);
-                case "frandhra" -> setTeamSettings(frandhraTeam, player, ChatColor.GREEN, house);
-                case "nashor" -> setTeamSettings(nashorTeam, player, ChatColor.DARK_RED, house);
-                case "drakkaris" -> setTeamSettings(drakkarisTeam, player, ChatColor.DARK_GRAY, house);
+                case "zeronia" -> setTeamSettings(zeroniaTeam,player, house);
+                case "vlarola" -> setTeamSettings(vlarolaTeam,player, house);
+                case "frandhra" -> setTeamSettings(frandhraTeam, player,  house);
+                case "nashor" -> setTeamSettings(nashorTeam, player, house);
+                case "drakkaris" -> setTeamSettings(drakkarisTeam, player, house);
                 default -> {}
             }
         }
     }
 
-    public static void  removePlayerFromHouseTeam(Player player){
+    public static void  removePlayerFromHouseTeam(Player player, House house){
         if(zeroniaTeam == null)
             zeroniaTeam = SCOREBOARD.registerNewTeam("zeronia");
 
@@ -78,16 +65,15 @@ public class ScoreBoardService {
         nashorTeam.removeEntry(player.getName());
         drakkarisTeam.removeEntry(player.getName());
 
-        player.setPlayerListName(player.getName());
-        player.setCustomName(player.getName());
-        player.setCustomNameVisible(true);
+        if(player.getPlayerListName().contains(ChatColor.translateAlternateColorCodes('&',house.getTag()))){
+            player.setPlayerListName(player.getPlayerListName().replace(ChatColor.translateAlternateColorCodes('&',house.getTag()),""));
+        }
+
     }
 
-    private static void setTeamSettings(Team team, Player player, ChatColor houseColor, House house){
+    private static void setTeamSettings(Team team, Player player, House house){
         team.addEntry(player.getName());
-        player.setPlayerListName(player.getName() + ChatColorUtil.boldText(ChatColorUtil.boldText(" \u25A0 ",houseColor),houseColor));
-        player.setCustomName( player.getPlayerListName() + ChatColorUtil.boldText(ChatColorUtil.boldText(" \u25A0 ",houseColor),houseColor));
-        player.setCustomNameVisible(true);
+        player.setPlayerListName(player.getPlayerListName() +" "+ ChatColor.translateAlternateColorCodes('&',house.getTag()));
     }
 
 }
