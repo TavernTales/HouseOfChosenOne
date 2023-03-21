@@ -1,0 +1,9 @@
+
+^
+java:S1192"HDefine a constant instead of duplicating this literal "citadel" 3 times.(’·¾²
+f
+java:S13010"KReplace this "switch" statement by "if" statements to increase readability.(İóŸ¿øÿÿÿÿ
+A
+java:S1168"+Return an empty collection instead of null.(¥¹ï
+A
+java:S1168!"+Return an empty collection instead of null.(¥¹ï

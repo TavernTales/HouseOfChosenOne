@@ -10,18 +10,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="35f25348-fbe5-4e9b-8bd9-5225e7985891" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/HouseOfChosenOne.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/HouseOfChosenOne.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/1/a/1aef68aa99087678c101a67c18e71da9e362c11f" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/f/0/f07866736216be0ee2aba49e392191aeae700a35" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alphadev/HouseOfChosenOne.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alphadev/HouseOfChosenOne.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/alphadev/commands/AdminCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alphadev/commands/AdminCommand.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/alphadev/commands/BasicCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alphadev/commands/BasicCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/alphadev/entity/House.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alphadev/entity/House.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/alphadev/events/InventoryInteractEventListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alphadev/events/InventoryInteractEventListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/alphadev/events/PlayerRespawnEventListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alphadev/events/PlayerRespawnEventListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alphadev/events/PlayerJoinEventListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alphadev/events/PlayerJoinEventListener.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/alphadev/services/QuestService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alphadev/services/QuestService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/alphadev/services/ScoreBoardService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alphadev/services/ScoreBoardService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/alphadev/utils/ItemFactoryUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alphadev/utils/ItemFactoryUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alphadev/services/SignHouseService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alphadev/services/SignHouseService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/alphadev/utils/config/ConfigFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alphadev/utils/config/ConfigFile.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -85,18 +83,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "last_opened_file_path": "C:/Users/leofr/Documents/Servidores/DEV_1_19_3_oficial/plugins",
-    "project.structure.last.edited": "Artifacts",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.34637326",
-    "settings.editor.selected.configurable": "reference.projectsettings.compiler.javacompiler"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/leofr/Documents/Servidores/DEV_1_19_3_oficial/plugins&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.34637326&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\leofr\OneDrive\Documentos\Projetos\HouseOfChosenOne\src\main\java\com\alphadev\commands" />

@@ -7,12 +7,31 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 
+import java.util.List;
 import java.util.Objects;
 
-public class AdminCommand implements Listener, CommandExecutor {
+public class AdminCommand implements Listener, CommandExecutor, TabCompleter {
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
+        if(!(sender instanceof Player))
+            return null;
+
+
+        if(command.getName().equalsIgnoreCase("citadel") && args.length == 1){
+            return  List.of("set");
+        }
+
+        if(command.getName().equalsIgnoreCase("citadel") && args[0].equalsIgnoreCase("set")){
+            return  List.of("zeronia", "vlarola", "frandhra", "nashor", "drakkaris");
+        }
+
+        return null;
+    }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
@@ -23,7 +42,6 @@ public class AdminCommand implements Listener, CommandExecutor {
         Player player = ((Player) sender).getPlayer();
 
 
-
         if(command.getName().equalsIgnoreCase("quest") && args.length > 0){
             QuestService questService = new QuestService();
 
@@ -31,11 +49,11 @@ public class AdminCommand implements Listener, CommandExecutor {
                 case "create" -> questService.questManagerPainel(player);
                 default -> questService.openQuestMenu(player);
             }
-
+            return true;
         }
 
 
-        if(args.length > 0 && args[0].equalsIgnoreCase("set")){
+        if(command.getName().equalsIgnoreCase("citadel") && args.length > 0 && args[0].equalsIgnoreCase("set")){
 
             if(args[1] == null){
                 player.sendMessage(ChatColor.RED+" Nome da casa inv\u00E1lido tente /city set <nome da casa>");

@@ -8,7 +8,6 @@ import com.alphadev.utils.ChatColorUtil;
 import com.alphadev.utils.config.ConfigFile;
 import com.alphadev.utils.config.ConfigPlayers;
 import me.ryanhamshire.GriefPrevention.DataStore;
-import me.ryanhamshire.GriefPrevention.FlatFileDataStore;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
 import me.ryanhamshire.GriefPrevention.PlayerData;
 import org.bukkit.Bukkit;
@@ -16,18 +15,19 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerTeleportEvent;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
-public class BasicCommand implements Listener, CommandExecutor {
+public class BasicCommand implements Listener, CommandExecutor, TabCompleter {
 
     private static HashMap<UUID, Integer> scheduleTaskPlayer = new HashMap<>();
-
+    private final List<String> HOUSES = List.of("zeronia", "vlarola", "frandhra", "nashor", "drakkaris");
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
 
@@ -36,7 +36,7 @@ public class BasicCommand implements Listener, CommandExecutor {
 
         Player player = ((Player) sender).getPlayer();
 
-        if(args.length > 1 && args[0].equalsIgnoreCase("join")){
+        if(command.getName().equalsIgnoreCase("houseofchosenone") && args.length > 1 && args[0].equalsIgnoreCase("join")){
 
             House house = new House( HouseOfChosenOne.getConfigFile(), args[1]);
 
@@ -44,8 +44,6 @@ public class BasicCommand implements Listener, CommandExecutor {
                 return  false;
 
             ConfigurationSection configurationSection = new ConfigPlayers().getConfiguration(player);
-
-
             if(configurationSection != null && configurationSection.getString("house") != null){
                 player.sendMessage(ChatColorUtil.boldText("Voc\u00EA j\u00E1 est\u00E1 em uma casa",ChatColor.RED));
                 player.sendMessage("Execute o comando '/hco leave' para sair da sua casa atual. mas voc\u00EA perder\u00E1 todo o seu progresso e sofrer\u00E1 uma penalidade de 48Horas para entrar na pr\u00F3xima casa.");
@@ -89,6 +87,42 @@ public class BasicCommand implements Listener, CommandExecutor {
 
 
            return true;
+        }
+
+        if( command.getName().equalsIgnoreCase("houseofchosenone") && args.length > 0 && (args[0].equalsIgnoreCase("load") || args[0].equalsIgnoreCase("reload"))){
+
+            if(!player.hasPermission("hco.admin")){
+                player.sendMessage("Voc\u00EA n\u00E3o tem permiss\u00E3o para usar este comando.");
+                return  false;
+            }
+
+            HouseOfChosenOne.loadConfigurations();
+            player.sendMessage("[HCO] Configura\u00E7\u00F5es recarregadas ...");
+            return true;
+        }
+
+        if( command.getName().equalsIgnoreCase("houseofchosenone") && args.length > 1 && args[0].equalsIgnoreCase("tag")){
+
+            if(!player.hasPermission("hco.admin")){
+                player.sendMessage("Voc\u00EA n\u00E3o tem permiss\u00E3o para usar este comando.");
+                return  false;
+            }
+
+            if(args[1] == null || args[1].isEmpty() || !HOUSES.contains(args[1])){
+                player.sendMessage("Nome da casa inv\u00E1lido");
+                return  false;
+            }
+
+            if( args.length < 3 || args[2] == null || args[2].isEmpty() || Bukkit.getServer().getOnlinePlayers().stream().filter(pl -> pl.getName().equalsIgnoreCase(args[2])).count() > 0){
+                player.sendMessage("Tag inv\u00E1lida");
+                return  false;
+            }
+
+            new ConfigFile().changeTag(args[2], args[1]);
+            HouseOfChosenOne.loadConfigurations();
+
+            player.sendMessage("Tag de "+ args[1] + " alterada para "+ ChatColor.translateAlternateColorCodes('&', args[2]));
+            return true;
         }
 
         if(args.length > 0 && args[0].equalsIgnoreCase("leave")){
@@ -160,6 +194,18 @@ public class BasicCommand implements Listener, CommandExecutor {
     }
 
 
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
+        if(!(sender instanceof Player))
+            return List.of();
+
+        if(command.getName().equalsIgnoreCase("houseofchosenone") && args.length == 1)
+            return List.of("join","leave","load","reload","tag");
+
+        if(command.getName().equalsIgnoreCase("houseofchosenone") && args.length == 2 && (args[0].equalsIgnoreCase("join") || args[0].equalsIgnoreCase("tag")) )
+            return HOUSES;
 
 
+        return List.of();
+    }
 }

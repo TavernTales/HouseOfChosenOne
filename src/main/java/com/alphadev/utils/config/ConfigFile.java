@@ -273,6 +273,20 @@ public class ConfigFile {
     }
 
 
+    public  void changeTag(String tag, String houseName){
+        if(tag == null || houseName == null)
+            return;
+
+        ConfigurationSection configSection = configFileConfiguration.getConfigurationSection("houses");
+        ConfigurationSection houseSection =  configSection.getConfigurationSection(houseName);
+        houseSection.set("tag",tag);
+
+        try {
+            configFileConfiguration.save(configFile);
+        } catch (IOException e) {
+            HouseOfChosenOne.logInfo("[HouseOfChosenOne] N\u00E3o foi possivel alterar a Tag da casa:\n" + e.getMessage(),e);
+        }
+    }
 
     public  File getFile() {
         return configFile;

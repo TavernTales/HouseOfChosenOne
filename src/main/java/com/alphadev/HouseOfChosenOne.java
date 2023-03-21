@@ -3,9 +3,11 @@ package com.alphadev;
 import com.alphadev.commands.AdminCommand;
 import com.alphadev.commands.BasicCommand;
 import com.alphadev.events.*;
+import com.alphadev.services.ScoreBoardService;
 import com.alphadev.utils.ChatColorUtil;
 import com.alphadev.utils.config.ConfigFile;
 import com.alphadev.utils.config.ConfigPlayers;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
@@ -25,7 +27,9 @@ public class HouseOfChosenOne extends JavaPlugin {
     @Override
     public void onLoad() {
         super.onLoad();
-        loadConfigurations();
+
+        configFile = new ConfigFile();
+        configPlayers = new ConfigPlayers();
 
         broadcast(ChatColorUtil.boldText("======================", ChatColor.GOLD));
         broadcast(ChatColorUtil.boldText("[HouseOfChosenOne] ", ChatColor.GREEN));
@@ -33,11 +37,14 @@ public class HouseOfChosenOne extends JavaPlugin {
         broadcast(ChatColorUtil.textColor(" Author: "+getPlugin().getDescription().getAuthors(), ChatColor.GREEN));
         broadcast(ChatColorUtil.textColor(" Description: \n "+ChatColor.GRAY+getPlugin().getDescription().getDescription(), ChatColor.GREEN));
         broadcast(ChatColorUtil.boldText("======================", ChatColor.GOLD));
+
     }
 
     @Override
     public void onEnable() {
         super.onEnable();
+
+
 
         pluginManager.registerEvents(new SignChangeEventListener(),this);
         pluginManager.registerEvents(new PlayerInteractEventListener(), this);
@@ -50,18 +57,26 @@ public class HouseOfChosenOne extends JavaPlugin {
         Objects.requireNonNull(getCommand("lobby")).setExecutor(new BasicCommand());
         Objects.requireNonNull(getCommand("citadel")).setExecutor(new AdminCommand());
         Objects.requireNonNull(getCommand("quest")).setExecutor(new AdminCommand());
+
+        reloadPlayerStats();
     }
 
     @Override
     public void onDisable() {
         super.onDisable();
-
+        Bukkit.getServer().getScheduler().cancelTasks(this);
         HandlerList.unregisterAll();
     }
 
-    private void loadConfigurations(){
+    public static void loadConfigurations(){
+        Bukkit.getServer().getOnlinePlayers().forEach(player -> ScoreBoardService.removePlayerFromHouseTeam(player,null));
         configFile = new ConfigFile();
         configPlayers = new ConfigPlayers();
+        reloadPlayerStats();
+    }
+
+    public static void reloadPlayerStats(){
+        Bukkit.getScheduler().scheduleSyncDelayedTask(HouseOfChosenOne.getPlugin(), () -> Bukkit.getServer().getOnlinePlayers().forEach(ScoreBoardService::setPlayerHouseScoreBoardTag), 1);
     }
 
     public static Plugin getPlugin(){

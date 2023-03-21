@@ -20,7 +20,7 @@ public class SignHouseService {
 
     public static void signPlaceHouseSetup(SignChangeEvent event){
 
-        if(!event.getPlayer().hasPermission("op"))
+        if(!event.getPlayer().hasPermission("hco.admin"))
             return;
 
        switch (event.getLine(0).toLowerCase()){

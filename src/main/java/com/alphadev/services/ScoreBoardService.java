@@ -2,7 +2,6 @@ package com.alphadev.services;
 
 import com.alphadev.HouseOfChosenOne;
 import com.alphadev.entity.House;
-import com.alphadev.utils.ChatColorUtil;
 import com.alphadev.utils.config.ConfigPlayers;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -44,6 +43,15 @@ public class ScoreBoardService {
     }
 
     public static void  removePlayerFromHouseTeam(Player player, House house){
+
+        if(house == null){
+            ConfigurationSection configurationSection = new ConfigPlayers().getConfiguration(player);
+            if(configurationSection != null && configurationSection.getString("house") != null)
+                house = new House( HouseOfChosenOne.getConfigFile(),configurationSection.getString("house"));
+            else return;
+        }
+
+
         if(zeroniaTeam == null)
             zeroniaTeam = SCOREBOARD.registerNewTeam("zeronia");
 
@@ -66,14 +74,21 @@ public class ScoreBoardService {
         drakkarisTeam.removeEntry(player.getName());
 
         if(player.getPlayerListName().contains(ChatColor.translateAlternateColorCodes('&',house.getTag()))){
-            player.setPlayerListName(player.getPlayerListName().replace(ChatColor.translateAlternateColorCodes('&',house.getTag()),""));
+            player.setPlayerListName(player.getPlayerListName().replace(ChatColor.translateAlternateColorCodes('&',house.getTag()), ""));
         }
 
+        if(player.getDisplayName() != null && player.getDisplayName().contains(ChatColor.translateAlternateColorCodes('&',house.getTag()))){
+            player.setDisplayName(player.getDisplayName().replace(ChatColor.translateAlternateColorCodes('&',house.getTag()), ""));
+        }
     }
 
     private static void setTeamSettings(Team team, Player player, House house){
         team.addEntry(player.getName());
-        player.setPlayerListName(player.getPlayerListName() +" "+ ChatColor.translateAlternateColorCodes('&',house.getTag()));
+
+        player.setPlayerListName(player.getPlayerListName().trim() +" "+ ChatColor.translateAlternateColorCodes('&',house.getTag()));
+        player.setDisplayName(player.getDisplayName().trim() +" "+ ChatColor.translateAlternateColorCodes('&',house.getTag()));
+        player.setCustomName(player.getName().trim() +" "+ ChatColor.translateAlternateColorCodes('&',house.getTag()));
+        player.setCustomNameVisible(true);
     }
 
 }

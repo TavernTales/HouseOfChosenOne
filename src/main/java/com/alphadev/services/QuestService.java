@@ -10,10 +10,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.*;
-import org.bukkit.inventory.AnvilInventory;
 import org.bukkit.inventory.Inventory;
 
-import java.util.List;
 
 public class QuestService {
 
