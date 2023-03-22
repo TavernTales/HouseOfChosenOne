@@ -1,23 +1,19 @@
 package com.alphadev.utils.config;
 
 import com.alphadev.HouseOfChosenOne;
-import com.alphadev.utils.ChatColorUtil;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.List;
 
 public class ConfigQuests {
     private final Plugin plugin = HouseOfChosenOne.getPlugin();
     private final File questsSettingsFile = new File(plugin.getDataFolder(), "quests/settings.yml");
     private final File questsFile = new File(plugin.getDataFolder(), "quests/quests.yml");
+    private FileConfiguration questsConfigurationSettings = new YamlConfiguration();
     private FileConfiguration questsConfiguration = new YamlConfiguration();
-
     public ConfigQuests() {
         createConnectionConfig();
     }
@@ -26,87 +22,84 @@ public class ConfigQuests {
         try {
             if (!questsSettingsFile.exists()) {
                 HouseOfChosenOne.logInfo("[HouseOfChosenOne] Quests config file . . .");
-                questsConfiguration.save(questsSettingsFile);
+                questsConfigurationSettings.save(questsSettingsFile);
                 HouseOfChosenOne.logInfo("[HouseOfChosenOne] Quests config file: 100%");
             }
-            questsConfiguration = YamlConfiguration.loadConfiguration(questsSettingsFile);
+            questsConfigurationSettings = YamlConfiguration.loadConfiguration(questsSettingsFile);
+
+            if (!questsFile.exists()) {
+                HouseOfChosenOne.logInfo("[HouseOfChosenOne] Quests config file . . .");
+                questsConfiguration.save(questsFile);
+                HouseOfChosenOne.logInfo("[HouseOfChosenOne] Quests config file: 100%");
+            }
+            questsConfiguration = YamlConfiguration.loadConfiguration(questsFile);
+
+            createConfigurationSettings();
+            createConfigurationSettingsQuestTiers();
+
         } catch (Exception e) {
             HouseOfChosenOne.logInfo("[HouseOfChosenOne] Quests file configuration error:\n" + e.getMessage(), e);
         }
     }
 
-    public File getFile() {
-        return questsSettingsFile;
+    private  void  createConfigurationSettings(){
+        questsConfigurationSettings = YamlConfiguration.loadConfiguration(questsSettingsFile);
+        ConfigurationSection configurationSection = questsConfigurationSettings.getConfigurationSection("settings");
+
+
+        if(configurationSection == null){
+            HouseOfChosenOne.logInfo("[HouseOfChosenOne] Creating Quests Settings File Configuration . . .");
+            configurationSection = questsConfigurationSettings.createSection("settings");
+        }
+
+        if(!configurationSection.contains("queue-time-in-minutes"))
+            configurationSection.set("queue-time-in-minutes", 10);
+
+
+        saveChanges();
     }
 
-    public FileConfiguration getConfig() {
-        return questsConfiguration;
+    private  void  createConfigurationSettingsQuestTiers(){
+        questsConfigurationSettings = YamlConfiguration.loadConfiguration(questsSettingsFile);
+        ConfigurationSection configurationSection = questsConfigurationSettings.getConfigurationSection("quest-tiers");
+
+
+        if(configurationSection == null){
+            HouseOfChosenOne.logInfo("[HouseOfChosenOne] Creating Quests Settings Quest Tiers File Configuration . . .");
+            configurationSection = questsConfigurationSettings.createSection("quest-tiers");
+        }
+
+        if(!configurationSection.contains("common-percent"))
+            configurationSection.set("common-percent", -1);
+
+        if(!configurationSection.contains("uncommon-percent"))
+            configurationSection.set("uncommon-percent", 50);
+
+        if(!configurationSection.contains("rare-percent"))
+            configurationSection.set("rare-percent", 20);
+
+        if(!configurationSection.contains("legendary-percent"))
+            configurationSection.set("legendary-percent", 5);
+
+        if(!configurationSection.contains("cursed-percent"))
+            configurationSection.set("cursed-percent", 15);
+
+        saveChanges();
+    }
+
+    public File getQuestsSettingsFile() {
+        return questsSettingsFile;
+    }
+    public FileConfiguration getQuestsConfigurationSettings() {
+        return questsConfigurationSettings;
     }
 
     public void saveChanges(){
         try {
-            questsConfiguration.save(questsSettingsFile);
+            questsConfigurationSettings.save(questsSettingsFile);
+            questsConfiguration.save(questsFile);
         } catch (Exception e) {
             HouseOfChosenOne.logInfo("[HouseOfChosenOne] Error to save File Quests settings:\n" + e.getMessage(),e);
         }
-    }
-
-
-    public void createPlayersSection(Player player, String house, List<String> permissions) {
-        questsConfiguration = YamlConfiguration.loadConfiguration(questsSettingsFile);
-        ConfigurationSection configSection = questsConfiguration.createSection("players");
-
-        if(configSection.getConfigurationSection(player.getUniqueId().toString()) == null)
-            configSection.createSection(player.getUniqueId().toString());
-
-        ConfigurationSection playerSection = configSection.getConfigurationSection(player.getUniqueId().toString());
-
-       if(playerSection == null){
-           HouseOfChosenOne.logInfo("[HouseOfChosenOne] Error to save File Players: 'Section Not Found'");
-           return;
-       }
-
-        if(!playerSection.contains("playerName"))
-            playerSection.set("playerName",player.getName());
-
-        if (!playerSection.contains("house"))
-            playerSection.set("house", house);
-
-        if (!playerSection.contains("permissions"))
-            playerSection.set("permissions", permissions);
-
-        if (!playerSection.contains("contribuitions"))
-            playerSection.set("contribuitions", 0);
-
-        try {
-            questsConfiguration.save(questsSettingsFile);
-        } catch (IOException e) {
-            HouseOfChosenOne.logInfo("[HouseOfChosenOne] Error to save File Players: \n"+ e.getMessage(), e);
-        }
-    }
-    public void createResetSection(Player player){
-        questsConfiguration = YamlConfiguration.loadConfiguration(questsSettingsFile);
-        ConfigurationSection configurationSection = questsConfiguration.getConfigurationSection("players");
-
-        if(configurationSection == null)
-            return;
-
-        configurationSection.createSection(player.getUniqueId().toString());
-        ConfigurationSection configurationPlayer = getConfiguration(player);
-        configurationPlayer.set("playerName", player.getName());
-        configurationPlayer.set("reset", System.currentTimeMillis()+ 2L * 24 * 60 * 60 * 1000);
-
-        player.sendMessage(ChatColorUtil.boldText("Voc\u00EA deixou sua casa "));
-
-        try {
-            questsConfiguration.save(questsSettingsFile);
-        } catch (IOException e) {
-            HouseOfChosenOne.logInfo("[HouseOfChosenOne] Error to save File Players: \n"+ e.getMessage(), e);
-        }
-    }
-
-
-    public ConfigurationSection getConfiguration(Player player){
-        return (ConfigurationSection) questsConfiguration.get("players."+player.getUniqueId());
     }
 }

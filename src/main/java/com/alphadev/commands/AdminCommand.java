@@ -21,7 +21,6 @@ public class AdminCommand implements Listener, CommandExecutor, TabCompleter {
         if(!(sender instanceof Player))
             return null;
 
-
         if(command.getName().equalsIgnoreCase("citadel") && args.length == 1){
             return  List.of("set");
         }
@@ -29,6 +28,9 @@ public class AdminCommand implements Listener, CommandExecutor, TabCompleter {
         if(command.getName().equalsIgnoreCase("citadel") && args[0].equalsIgnoreCase("set")){
             return  List.of("zeronia", "vlarola", "frandhra", "nashor", "drakkaris");
         }
+
+        if(command.getName().equalsIgnoreCase("quest") && args.length == 1)
+            return  List.of("create","open");
 
         return null;
     }
@@ -41,12 +43,17 @@ public class AdminCommand implements Listener, CommandExecutor, TabCompleter {
 
         Player player = ((Player) sender).getPlayer();
 
+        if(!player.hasPermission("hco.admin")){
+            player.sendMessage("Voc\u00EA n\u00E3o tem permiss\u00E3o para executar esse comando.");
+            return false;
+        }
 
         if(command.getName().equalsIgnoreCase("quest") && args.length > 0){
             QuestService questService = new QuestService();
 
             switch (args[0].toLowerCase()){
                 case "create" -> questService.questManagerPainel(player);
+                case "open" -> questService.openQuestMenu(player);
                 default -> questService.openQuestMenu(player);
             }
             return true;
@@ -72,8 +79,6 @@ public class AdminCommand implements Listener, CommandExecutor, TabCompleter {
             player.sendMessage(ChatColor.AQUA+" Coordenadas adicionadas a casa "+args[1]);
             return true;
         }
-
-
 
         return false;
     }

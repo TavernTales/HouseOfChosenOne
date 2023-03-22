@@ -4,7 +4,6 @@ import com.alphadev.services.QuestService;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryInteractEvent;
 
 public class InventoryInteractEventListener implements Listener {
 
@@ -14,9 +13,6 @@ public class InventoryInteractEventListener implements Listener {
         new QuestService().onInventoryClickEvent(event);
     }
 
-    @EventHandler
-    public void onPlayerInteractInventory(InventoryInteractEvent event){
-        event.getWhoClicked().sendMessage("Teste2");
-    }
+
 
 }

@@ -3,10 +3,12 @@ package com.alphadev;
 import com.alphadev.commands.AdminCommand;
 import com.alphadev.commands.BasicCommand;
 import com.alphadev.events.*;
+import com.alphadev.schedules.QuestSchedulesService;
 import com.alphadev.services.ScoreBoardService;
 import com.alphadev.utils.ChatColorUtil;
 import com.alphadev.utils.config.ConfigFile;
 import com.alphadev.utils.config.ConfigPlayers;
+import com.alphadev.utils.config.ConfigQuests;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -23,6 +25,7 @@ public class HouseOfChosenOne extends JavaPlugin {
     private final PluginManager pluginManager = this.getServer().getPluginManager();
     private static ConfigFile configFile;
     private static ConfigPlayers configPlayers;
+    private static ConfigQuests configQuests;
 
     @Override
     public void onLoad() {
@@ -30,6 +33,7 @@ public class HouseOfChosenOne extends JavaPlugin {
 
         configFile = new ConfigFile();
         configPlayers = new ConfigPlayers();
+        configQuests = new ConfigQuests();
 
         broadcast(ChatColorUtil.boldText("======================", ChatColor.GOLD));
         broadcast(ChatColorUtil.boldText("[HouseOfChosenOne] ", ChatColor.GREEN));
@@ -59,6 +63,7 @@ public class HouseOfChosenOne extends JavaPlugin {
         Objects.requireNonNull(getCommand("quest")).setExecutor(new AdminCommand());
 
         reloadPlayerStats();
+        new QuestSchedulesService().questScheduleDaily();
     }
 
     @Override
@@ -72,6 +77,7 @@ public class HouseOfChosenOne extends JavaPlugin {
         Bukkit.getServer().getOnlinePlayers().forEach(player -> ScoreBoardService.removePlayerFromHouseTeam(player,null));
         configFile = new ConfigFile();
         configPlayers = new ConfigPlayers();
+        configQuests = new ConfigQuests();
         reloadPlayerStats();
     }
 
