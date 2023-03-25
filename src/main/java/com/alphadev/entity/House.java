@@ -1,12 +1,5 @@
 package com.alphadev.entity;
 
-import com.alphadev.HouseOfChosenOne;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -16,8 +9,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class House {
-    private String house;
-
+    private String name;
     private String tag;
     private String details;
     private String policy;
@@ -36,7 +28,7 @@ public class House {
         if(configFileSections.get("houses." + houseName) == null)
             return;
 
-        house = Objects.requireNonNull(configFileSections.getString("houses." + houseName + ".house"));
+        name = Objects.requireNonNull(configFileSections.getString("houses." + houseName + ".house"));
         tag = Objects.requireNonNull(configFileSections.getString("houses." + houseName + ".tag"));
         details = Objects.requireNonNull(configFileSections.getString("houses." + houseName + ".details"));
         policy = Objects.requireNonNull(configFileSections.getString("houses." + houseName + ".policy"));
@@ -68,12 +60,12 @@ public class House {
         return Float.parseFloat((Objects.requireNonNull(configFileSections.getString("houses." + houseName + ".location."+coord))));
     }
 
-    public String getHouse() {
-        return house;
+    public String getName() {
+        return name;
     }
 
-    public void setHouse(String house) {
-        this.house = house;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getTag() {

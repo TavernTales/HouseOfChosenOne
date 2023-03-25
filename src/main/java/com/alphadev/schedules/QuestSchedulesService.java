@@ -1,6 +1,7 @@
 package com.alphadev.schedules;
 
 import com.alphadev.HouseOfChosenOne;
+import com.alphadev.services.QuestService;
 import com.alphadev.utils.config.ConfigQuests;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
@@ -13,7 +14,7 @@ public class QuestSchedulesService {
 
     public void questScheduleDaily(){
         Bukkit.getScheduler().scheduleSyncRepeatingTask(HouseOfChosenOne.getPlugin(), () -> {
-            Bukkit.getServer().getOnlinePlayers().forEach(player -> player.sendMessage(LocalDateTime.now().toString()));
+           QuestService.getIstance().generateDayliQuests();
         },0,queueTimeInMinutes);
     }
 

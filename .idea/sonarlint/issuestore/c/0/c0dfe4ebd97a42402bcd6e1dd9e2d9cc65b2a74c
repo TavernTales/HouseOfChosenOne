@@ -1,0 +1,16 @@
+
+œ
+java:S1186'"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ýÒéäùÿÿÿÿ
+S
+java:S1128"7Remove this unused import 'jakarta.persistence.Column'.(Ó‰ÙE8­Øžýð0
+T
+java:S1128"7Remove this unused import 'jakarta.persistence.Entity'.(…ÅÊÆ8­Øžýð0
+P
+java:S1128"3Remove this unused import 'jakarta.persistence.Id'.(š¨ô 8­Øžýð0
+H
+java:S1128"+Remove this unused import 'lombok.Builder'.(§’Ðß8­Øžýð0
+G
+java:S1128	"*Remove this unused import 'lombok.Getter'.(ùÒµÙ8­Øžýð0
+G
+java:S1128
+"*Remove this unused import 'lombok.Setter'.(ó¸çµ8®Øžýð0

@@ -40,7 +40,7 @@ public class BasicCommand implements Listener, CommandExecutor, TabCompleter {
 
             House house = new House( HouseOfChosenOne.getConfigFile(), args[1]);
 
-            if(house.getHouse() == null)
+            if(house.getName() == null)
                 return  false;
 
             ConfigurationSection configurationSection = new ConfigPlayers().getConfiguration(player);
@@ -62,12 +62,12 @@ public class BasicCommand implements Listener, CommandExecutor, TabCompleter {
             }
 
            HouseOfChosenOne.getPlayerConfig().createPlayersSection(player,args[1],house.getPermissions());
-           player.sendMessage(ChatColorUtil.boldText("Parab\u00E9ns voc\u00EA entrou na casa "+ChatColor.RESET+ ChatColor.GREEN+house.getHouse()));
+           player.sendMessage(ChatColorUtil.boldText("Parab\u00E9ns voc\u00EA entrou na casa "+ChatColor.RESET+ ChatColor.GREEN+house.getName()));
 
             if(house.getLocation() != null)
                 player.teleport(house.getLocation());
 
-           player.sendTitle(ChatColorUtil.boldText(house.getHouse()),"",10,20,10);
+           player.sendTitle(ChatColorUtil.boldText(house.getName()),"",10,20,10);
            ScoreBoardService.setPlayerHouseScoreBoardTag(player);
 
            if(HouseOfChosenOne.getPlugin().getServer().getPluginManager().getPlugin("GriefPrevention") == null)
@@ -177,7 +177,7 @@ public class BasicCommand implements Listener, CommandExecutor, TabCompleter {
                     if(configurationSection != null && configurationSection.getString("house") != null) {
                         House house = new House(HouseOfChosenOne.getConfigFile(), configurationSection.getString("house"));
                         player.teleport(house.getLocation());
-                        player.sendTitle(ChatColorUtil.boldText(house.getHouse()),"",10,20,10);
+                        player.sendTitle(ChatColorUtil.boldText(house.getName()),"",10,20,10);
                     }
                     Bukkit.getScheduler().cancelTask(scheduleTaskPlayer.get(player.getUniqueId()).intValue());
                 }

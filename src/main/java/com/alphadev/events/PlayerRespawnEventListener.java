@@ -31,7 +31,7 @@ public class PlayerRespawnEventListener implements Listener {
                 return;
 
             event.setRespawnLocation(house.getLocation());
-            player.sendTitle(ChatColorUtil.boldText(house.getHouse()),"",10,20,10);
+            player.sendTitle(ChatColorUtil.boldText(house.getName()),"",10,20,10);
         }
     }
 

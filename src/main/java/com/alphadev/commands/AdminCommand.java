@@ -49,7 +49,7 @@ public class AdminCommand implements Listener, CommandExecutor, TabCompleter {
         }
 
         if(command.getName().equalsIgnoreCase("quest") && args.length > 0){
-            QuestService questService = new QuestService();
+            QuestService questService = QuestService.getIstance();
 
             switch (args[0].toLowerCase()){
                 case "create" -> questService.questManagerPainel(player);
@@ -69,7 +69,7 @@ public class AdminCommand implements Listener, CommandExecutor, TabCompleter {
             }
             House house = new House( HouseOfChosenOne.getConfigFile(), args[1]);
 
-            if(house.getHouse() == null){
+            if(house.getName() == null){
                 player.sendMessage(ChatColor.RED+" Nome da casa inv\u00E1lido tente /city set <nome da casa>");
                 player.sendMessage(ChatColor.RED+" casas dispon\u00EDveis: zeronia, vlarola, frandhra, nashor, drakkaris");
                 return  false;

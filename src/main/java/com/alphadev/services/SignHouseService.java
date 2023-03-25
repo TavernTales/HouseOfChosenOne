@@ -71,7 +71,7 @@ public class SignHouseService {
         }
 
         player.sendMessage(ChatColorUtil.boldText(DIVISOR_STRING,ChatColor.GREEN));
-        player.sendMessage(ChatColorUtil.boldText(house.getHouse(),houseColor));
+        player.sendMessage(ChatColorUtil.boldText(house.getName(),houseColor));
         player.sendMessage("");
         player.sendMessage( ChatColorUtil.boldText("Detalhes: ")+ChatColor.RESET+ house.getDetails());
         player.sendMessage("");

@@ -36,6 +36,7 @@ public class ConfigQuests {
 
             createConfigurationSettings();
             createConfigurationSettingsQuestTiers();
+            createConfigurationSettingsQuestType();
 
         } catch (Exception e) {
             HouseOfChosenOne.logInfo("[HouseOfChosenOne] Quests file configuration error:\n" + e.getMessage(), e);
@@ -83,6 +84,34 @@ public class ConfigQuests {
 
         if(!configurationSection.contains("cursed-percent"))
             configurationSection.set("cursed-percent", 15);
+
+        saveChanges();
+    }
+
+    private  void  createConfigurationSettingsQuestType(){
+        questsConfigurationSettings = YamlConfiguration.loadConfiguration(questsSettingsFile);
+        ConfigurationSection configurationSection = questsConfigurationSettings.getConfigurationSection("quest-type");
+
+
+        if(configurationSection == null){
+            HouseOfChosenOne.logInfo("[HouseOfChosenOne] Creating Quests Settings Quest Type File Configuration . . .");
+            configurationSection = questsConfigurationSettings.createSection("quest-type");
+        }
+
+        if(!configurationSection.contains("delivery-percent"))
+            configurationSection.set("delivery-percent", 40);
+
+        if(!configurationSection.contains("defeat-percent"))
+            configurationSection.set("defeat-percent", 50);
+
+        if(!configurationSection.contains("hunter-percent"))
+            configurationSection.set("hunter-percent", 20);
+
+        if(!configurationSection.contains("harvest-percent"))
+            configurationSection.set("harvest-percent", 30);
+
+        if(!configurationSection.contains("pvp-percent"))
+            configurationSection.set("pvp-percent", 5);
 
         saveChanges();
     }
