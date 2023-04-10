@@ -20,12 +20,12 @@ public class Quest {
     private String name;
     private Integer contibuitionPoints;
     private List<ItemStack> itensRequired;
-    private ItemStack itemRequired;
+    private String itemRequired;
     private List<EntityType> mobsRequired;
-    private EntityType mobRequired;
+    private String mobRequired;
 
     private List<Material> haverstItensRequired;
-    private Material haverstItemRequired;
+    private String haverstItemRequired;
 
     private QuestTypeEnum questTypeEnum;
     private QuestTierEnum questTierEnum;
@@ -63,11 +63,11 @@ public class Quest {
         this.itensRequired = itensRequired;
     }
 
-    public ItemStack getItemRequired() {
+    public String getItemRequired() {
         return itemRequired;
     }
 
-    public void setItemRequired(ItemStack itemRequired) {
+    public void setItemRequired(String itemRequired) {
         this.itemRequired = itemRequired;
     }
 
@@ -79,11 +79,11 @@ public class Quest {
         this.mobsRequired = mobsRequired;
     }
 
-    public EntityType getMobRequired() {
+    public String getMobRequired() {
         return mobRequired;
     }
 
-    public void setMobRequired(EntityType mobRequired) {
+    public void setMobRequired(String mobRequired) {
         this.mobRequired = mobRequired;
     }
 
@@ -95,11 +95,11 @@ public class Quest {
         this.haverstItensRequired = haverstItensRequired;
     }
 
-    public Material getHaverstItemRequired() {
+    public String getHaverstItemRequired() {
         return haverstItemRequired;
     }
 
-    public void setHaverstItemRequired(Material haverstItemRequired) {
+    public void setHaverstItemRequired(String haverstItemRequired) {
         this.haverstItemRequired = haverstItemRequired;
     }
 

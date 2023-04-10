@@ -1,10 +1,10 @@
 package com.alphadev.enums;
 
 public enum QuestTypeEnum {
-    DELIVERY(1L, "Entrega de Itens"),
-    DEFEAT(2L, "Elimine Criaturas"),
-    HUNTER(3L, "Ca\u00E7a de Animais"),
-    HARVEST(4L, "Colheita"),
+    DELIVERY(1L, "Entrega"),
+    DEFEAT(2L, "Elimine"),
+    HUNTER(3L, "Ca\u00E7a"),
+    HARVEST(4L, "Coleta"),
     PVP(5L, "Combate");
     private Long id;
     private String name;

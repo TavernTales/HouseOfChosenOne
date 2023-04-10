@@ -1,0 +1,45 @@
+
+]
+java:S1192\"GDefine a constant instead of duplicating this literal "align" 10 times.(íì‘ğ
+f
+java:S1192h"KDefine a constant instead of duplicating this literal "objective" 10 times.(ºãÔ…ÿÿÿÿÿ
+h
+java:S1192n"MDefine a constant instead of duplicating this literal "permissions" 10 times.(ü“£Çüÿÿÿÿ
+b
+java:S11923"GDefine a constant instead of duplicating this literal "houses" 4 times.(€É¬‡ùÿÿÿÿ
+_
+java:S1192V"IDefine a constant instead of duplicating this literal "details" 10 times.(¸ÕÂÈ
+c
+java:S1192c"HDefine a constant instead of duplicating this literal "Frandha" 4 times.(ºñ…úÿÿÿÿ
+d
+java:S1192b"IDefine a constant instead of duplicating this literal "neutral" 10 times.(À¥¹ñÿÿÿÿÿ
+c
+java:S1192E"HDefine a constant instead of duplicating this literal "vlarola" 3 times.(è´ïòúÿÿÿÿ
+`
+java:S1192K"JDefine a constant instead of duplicating this literal "drakkaris" 3 times.(•Ë’Ì
+_
+java:S1192G"IDefine a constant instead of duplicating this literal "frandhra" 3 times.(áã«²
+]
+java:S1192e"GDefine a constant instead of duplicating this literal "enemy" 10 times.(½ÓÎÒ
+b
+java:S1192P"GDefine a constant instead of duplicating this literal "house" 10 times.(±û¶ÿÿÿÿÿ
+^
+java:S1192C"HDefine a constant instead of duplicating this literal "zeronia" 3 times.(›Áİò
+e
+java:S1192k"ODefine a constant instead of duplicating this literal "contribuition" 10 times.(”‹Å™
+^
+java:S1192Y"HDefine a constant instead of duplicating this literal "policy" 10 times.(ÿ”¢é
+]
+java:S1192I"GDefine a constant instead of duplicating this literal "nashor" 3 times.(»¼Şû
+b
+java:S1192f"GDefine a constant instead of duplicating this literal "Nashor" 4 times.(íìÓïùÿÿÿÿ
+e
+java:S1192f"JDefine a constant instead of duplicating this literal "Drakkaris" 4 times.(íìÓïùÿÿÿÿ
+h
+java:S1192`"MDefine a constant instead of duplicating this literal "Vlarol\u00E1" 4 times.(˜Ëæ§úÿÿÿÿ
+_
+java:S1192ƒ"HDefine a constant instead of duplicating this literal "Zeronia" 4 times.(àç»Ú
+4
+java:S1700"Rename field "configFile"(ªû¶–ÿÿÿÿÿ
+m
+java:S3776/"RRefactor this method to reduce its Cognitive Complexity from 62 to the 15 allowed.(Á°éüÿÿÿÿ

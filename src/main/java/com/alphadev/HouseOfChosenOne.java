@@ -48,14 +48,15 @@ public class HouseOfChosenOne extends JavaPlugin {
     public void onEnable() {
         super.onEnable();
 
-
-
         pluginManager.registerEvents(new SignChangeEventListener(),this);
         pluginManager.registerEvents(new PlayerInteractEventListener(), this);
         pluginManager.registerEvents(new PlayerRespawnEventListener(), this);
         pluginManager.registerEvents(new PlayerJoinEventListener(), this);
         pluginManager.registerEvents(new PlayerMoveEventListener(), this);
         pluginManager.registerEvents(new InventoryInteractEventListener(), this);
+        pluginManager.registerEvents(new PlayerKillEntityEventListener(), this);
+        pluginManager.registerEvents(new PlayerBreakEventListener(), this);
+
 
         Objects.requireNonNull(getCommand("houseofchosenone")).setExecutor(new BasicCommand());
         Objects.requireNonNull(getCommand("lobby")).setExecutor(new BasicCommand());

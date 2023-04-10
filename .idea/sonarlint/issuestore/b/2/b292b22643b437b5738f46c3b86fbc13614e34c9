@@ -1,0 +1,9 @@
+
+a
+java:S1192H"KDefine a constant instead of duplicating this literal "playerName" 3 times.(ÿ÷™’
+c
+java:S11929"HDefine a constant instead of duplicating this literal "players" 3 times.(Úàÿÿÿÿÿ
+i
+java:S1104"TMake instance a static final constant or non-public and provide accessors if needed.(ñş¢a
+C
+java:S1444".Make this "public static instance" field final(ñş¢a

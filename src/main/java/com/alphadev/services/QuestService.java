@@ -16,24 +16,27 @@ import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.*;
 import org.bukkit.event.inventory.*;
+import org.bukkit.inventory.CraftingInventory;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class QuestService {
 
     private static QuestService istance;
 
+    private ConfigQuests configQuests = new ConfigQuests();
+    private  ConfigurationSection questSettings = configQuests.getQuestSettings();
+
+
     public static QuestTierEnum sortQuestTier(){
         double percentChange = HelpUtils.sortPercent();
 
-        ConfigurationSection questTiersSettings = new ConfigQuests().getQuestsConfigurationSettings();
+        ConfigurationSection questTiersSettings = new ConfigQuests().getConfigurationSettings();
         int legendaryPercent = questTiersSettings.contains("quest-tiers.legendary-percent") ? questTiersSettings.getInt("quest-tiers.legendary-percent") : 5;
         int rarePercent = questTiersSettings.contains("quest-tiers.rare-percent") ? questTiersSettings.getInt("quest-tiers.rare-percent") : 20;
         int uncommonPercent = questTiersSettings.contains("quest-tiers.uncommon-percent") ? questTiersSettings.getInt("quest-tiers.uncommon-percent") : 50;
@@ -55,7 +58,7 @@ public class QuestService {
     public static QuestTypeEnum sortQuestType(){
         double percentChange = HelpUtils.sortPercent();
 
-        ConfigurationSection questTiersSettings = new ConfigQuests().getQuestsConfigurationSettings();
+        ConfigurationSection questTiersSettings = new ConfigQuests().getConfigurationSettings();
         int deliveryPercent = questTiersSettings.contains("quest-type.delivery-percent") ? questTiersSettings.getInt("quest-type.delivery-percent") : 40;
         int hunterPercent = questTiersSettings.contains("quest-type.hunter-percent") ? questTiersSettings.getInt("quest-type.hunter-percent") : 20;
         int harvestPercent = questTiersSettings.contains("quest-type.harvest-percent") ? questTiersSettings.getInt("quest-type.harvest-percent") : 30;
@@ -77,47 +80,112 @@ public class QuestService {
     }
 
 
-    HashMap<String, List<ItemStack>> questBooks = new HashMap<>();
+    HashMap<String, Set<ItemStack>> questBooks = new HashMap<>();
     public void generateDayliQuests(){
-        List.of("zeronia", "vlarola", "frandhra", "nashor", "drakkaris").stream().forEach(houseName -> {
+        List.of("zeronia", "vlarola", "frandhra", "nashor", "drakkaris").forEach(houseName -> {
 
             House house = new House(HouseOfChosenOne.getConfigFile(),houseName);
-            List<Quest> questList = new ArrayList<>();
-            for (int i = 0; i < 20; i++) {
+            Set<Quest> questList = new HashSet<>();
+            for (int i = 0; i < 10; i++) {
                 Quest quest = new Quest();
                 quest.setQuestTierEnum(sortQuestTier());
                 quest.setQuestTypeEnum(sortQuestType());
                 quest.setName(quest.getQuestTierEnum().getColor() + quest.getQuestTypeEnum().getName());
                 quest.setHouse(house);
                 setQuestData(quest);
+
+                if((quest.getItemRequired() == null || quest.getItemRequired().isEmpty()) && (quest.getMobRequired() == null || quest.getMobRequired().isEmpty()) &&  (quest.getHaverstItemRequired() == null || quest.getHaverstItemRequired().isEmpty()))
+                    continue;
+
                 questList.add(quest);
             }
             questBooks.put(houseName, createMissionsBook(questList));
         });
     }
+    public static boolean questBookIsConcluded(ItemStack book){
+        if(book == null || book.getItemMeta() == null || book.getItemMeta().getLore() == null)
+            return false;
 
-    private List<ItemStack> createMissionsBook(List<Quest> questList){
+        if(!ChatColor.stripColor(book.getItemMeta().getLore().get(0)).contains("Miss\u00E3o"))
+            return false;
+
+        BookMeta bookMeta = (BookMeta) book.getItemMeta();
+        String bookPage = bookMeta.getPage(2);
+
+        return ChatColor.stripColor(bookPage).contains("Concluido");
+
+    }
+    public static void updateQuestionAmount(ItemStack book, Player player, int ammount){
+
+        if(book == null || book.getItemMeta() == null || book.getItemMeta().getLore() == null)
+            return;
+
+        if(!ChatColor.stripColor(book.getItemMeta().getLore().get(0)).contains("Miss\u00E3o"))
+            return;
+
+        BookMeta bookMeta = (BookMeta) book.getItemMeta();
+        String bookPage = bookMeta.getPage(2);
+
+        String baseProgress = bookPage.split("Progresso:")[0];
+        String[] progress =  bookPage.split("Progresso:")[1].split("/");
+
+        int currentAmmount =Integer.parseInt(progress[0].trim());
+        final int maxAmmount = Integer.parseInt(progress[1].trim());
+
+        if( currentAmmount >= maxAmmount){
+            bookMeta.getLore().add(ChatColorUtil.boldText("Concluido", ChatColor.GREEN));
+            book.setItemMeta(bookMeta);
+            return;
+        }
+
+        currentAmmount = currentAmmount + ammount;
+
+        bookMeta.setPage(2,baseProgress+"Progresso: "+String.format(" %s/%s", currentAmmount, maxAmmount));
+
+        final int finalCurrentAmmount = currentAmmount;
+        Arrays.stream(player.getInventory().getContents()).filter(itemStack -> !questBookIsConcluded(itemStack) ).forEach(itemStack -> {
+            if(itemStack != null && itemStack.getItemMeta() != null  && itemStack.getType().equals(Material.WRITTEN_BOOK) &&
+                    ((BookMeta) itemStack.getItemMeta()).getTitle().equalsIgnoreCase(bookMeta.getTitle())){
+
+                if(finalCurrentAmmount >= maxAmmount){
+                    player.sendMessage(ChatColorUtil.textColor("Voc\u00EA concluiu o objetivo da miss\u00E3o",ChatColor.GREEN));
+                    player.getWorld().spawnEntity(player.getLocation(),EntityType.FIREWORK);
+                    bookMeta.setPage(2, baseProgress + ChatColorUtil.boldText("Concluido", ChatColor.DARK_GREEN));
+
+                }else{
+                    player.sendMessage(ChatColorUtil.textColor("Voc\u00EA contribuiu com o objetivo da miss\u00E3o",ChatColor.GREEN));
+                }
+                itemStack.setItemMeta(bookMeta);
+            }
+        });
+
+    }
+    private Set<ItemStack> createMissionsBook(Set<Quest> questList){
         return questList.stream().map( quest -> {
             ItemStack writtenBook = new ItemStack(Material.WRITTEN_BOOK);
             BookMeta bookMeta = (BookMeta) writtenBook.getItemMeta();
             bookMeta.setTitle(quest.getName()+" - " +getTitleByType(quest));
             bookMeta.setAuthor(quest.getHouse().getName());
-            bookMeta.setLore(List.of(ChatColorUtil.boldText(quest.getQuestTierEnum().getName(),quest.getQuestTierEnum().getColor())));
+            bookMeta.setLore(
+                List.of(
+                        ChatColorUtil.boldText("Miss\u00E3o", ChatColor.GOLD),
+                        ChatColorUtil.textColor("  Rank: ", ChatColor.WHITE)+ChatColorUtil.textColor(quest.getQuestTierEnum().getName(),quest.getQuestTierEnum().getColor()),
+                        ChatColorUtil.textColor("  Objetivo: ", ChatColor.WHITE)+ChatColorUtil.textColor(getTitleByType(quest), ChatColor.GREEN)
+                )
+            );
             List<String> pages = new ArrayList<>();
-            pages.add(
-                    ChatColorUtil.boldText(ChatColor.stripColor(quest.getName() + " - " +getTitleByType(quest)), quest.getQuestTierEnum().getColor())+"\n"+
-                    ChatColorUtil.boldText(quest.getQuestTierEnum().getName(),quest.getQuestTierEnum().getColor())+"\n\n"+
-                    getLoreByQuestType(quest.getQuestTypeEnum())+
-                    ChatColorUtil.boldText("\nMiss\u00E3o:\n",ChatColor.DARK_GREEN)+
-                    getMissionByType(quest));
+            pages.add(ChatColorUtil.boldText(getTitleByType(quest), quest.getQuestTierEnum().getColor())+"\n\n"+
+                    ChatColorUtil.boldText(quest.getQuestTierEnum().getName(),quest.getQuestTierEnum().getColor()).toUpperCase()+"\n\n"+
+                    getLoreByQuestType(quest.getQuestTypeEnum()));
+
+            pages.add( ChatColorUtil.boldText("Miss\u00E3o:\n\n",ChatColor.DARK_GREEN) + ChatColorUtil.boldText(getMissionByType(quest,0)));
             pages.add(ChatColorUtil.boldText("Recompensas",ChatColor.DARK_GREEN)+
                     ChatColorUtil.boldText("\nPontos:",ChatColor.GOLD)+"  "+ChatColorUtil.textColor(quest.getContibuitionPoints().toString(),ChatColor.GOLD));
-
             bookMeta.setPages(pages);
             writtenBook.setItemMeta(bookMeta);
 
             return  writtenBook;
-        }).collect(Collectors.toList());
+        }).collect(Collectors.toSet());
     }
 
     private String getLoreByQuestType(QuestTypeEnum questTypeEnum ){
@@ -133,86 +201,54 @@ public class QuestService {
         if(questTypeEnum.equals(QuestTypeEnum.PVP))
             return "Preciso que derrote alguns alvos, \u00E9 um servi\u00E7o f\u00E1cil e eu acredito que voc\u00EA conseguir\u00E1 fazer.\n";
 
-        return "";
+        return "Lore Inv\u00E1lida";
     }
 
     private String getTitleByType(Quest quest){
+
         if(quest.getItemRequired() != null)
-            return quest.getItemRequired().getType().name();
+            return quest.getItemRequired();
 
         if(quest.getMobRequired() != null)
-            return quest.getMobRequired().name();
+            return quest.getMobRequired();
 
         if(quest.getHaverstItemRequired() != null)
-            return   quest.getHaverstItemRequired().name();
+            return  quest.getHaverstItemRequired();
 
-        return  "";
+        return  "T\u00EDtulo Inv\u00E1lido";
     }
-    private  String getMissionByType(Quest quest){
-     
-        if(quest.getItemRequired() != null)
-            return quest.getItemRequired().getType().name()+ ChatColor.DARK_GREEN +"        0/"+quest.getCountRequired();
-        
-        if(quest.getMobRequired() != null)
-           return quest.getMobRequired().name()+ChatColor.DARK_GREEN +"        0/"+quest.getCountRequired();
+    private  String getMissionByType(Quest quest, int ammout){
 
-        if(quest.getHaverstItemRequired() != null)
-          return   quest.getHaverstItemRequired().name()+ChatColor.DARK_GREEN +"        0/"+quest.getCountRequired();
-
-        return  "";
+        return ChatColor.DARK_GREEN +"\nProgresso: "+ammout+"/"+quest.getCountRequired();
     }
 
+    private Object getRandomIndex(List<?> list){
+        if( list.isEmpty() )
+            return "";
+
+        return list.get(new Random().nextInt(0, list.size()));
+    }
 
     private void setQuestData(Quest quest){
-        if(quest.getQuestTypeEnum().equals(QuestTypeEnum.DELIVERY)){
-            quest.setItemRequired(new ItemStack(Material.POTATO));
-        }
+        if(quest.getQuestTypeEnum().equals(QuestTypeEnum.DELIVERY))
+            quest.setItemRequired(getRandomIndex(getQuestTierList(quest.getQuestTierEnum(),"delivery")).toString());
 
-        if(quest.getQuestTypeEnum().equals(QuestTypeEnum.DEFEAT)){
-            List<EntityType> entityTypes = getAllowedEntityTypetoDefeat(quest.getQuestTierEnum());
-            quest.setMobRequired(entityTypes.get(0));
-        }
-        if(quest.getQuestTypeEnum().equals(QuestTypeEnum.HARVEST)){
-            List<Material> materials = getAllowedHarvestItems(quest.getQuestTierEnum());
-            quest.setHaverstItemRequired(materials.get(0));
-        }
-        if(quest.getQuestTypeEnum().equals(QuestTypeEnum.HUNTER)){
-            List<EntityType> entityTypes = getAllowedAnimalsToHunt(quest.getQuestTierEnum());
-            quest.setMobRequired(entityTypes.get(0));
-        }
+        if(quest.getQuestTypeEnum().equals(QuestTypeEnum.DEFEAT))
+            quest.setMobRequired(getRandomIndex(getQuestTierList(quest.getQuestTierEnum(),"defeat")).toString());
 
-        if(quest.getQuestTypeEnum().equals(QuestTypeEnum.PVP)){
-            List<EntityType> entityTypes = getAllowedEntityTypetoDefeat(QuestTierEnum.CURSED);
-            quest.setMobRequired(entityTypes.get(0));
-        }
+        if(quest.getQuestTypeEnum().equals(QuestTypeEnum.HARVEST))
+            quest.setHaverstItemRequired(getRandomIndex(getQuestTierList(quest.getQuestTierEnum(),"haverst")).toString());
 
-        if(quest.getQuestTierEnum().equals(QuestTierEnum.COMMON))
-            quest.setCountRequired(Math.round(Math.random() * 10 + 20));
-        if(quest.getQuestTierEnum().equals(QuestTierEnum.UNCOMMON))
-            quest.setCountRequired(Math.round(Math.random() * 10 + 20));
-        if(quest.getQuestTierEnum().equals(QuestTierEnum.RARE))
-            quest.setCountRequired(Math.round(Math.random() * 10 + 10));
-        if(quest.getQuestTierEnum().equals(QuestTierEnum.LEGENDARY))
-            quest.setCountRequired(Math.round(Math.random() * 10 + 5));
-        if(quest.getQuestTierEnum().equals(QuestTierEnum.CURSED))
-            quest.setCountRequired(Math.round(Math.random() * 10 + 20));
+        if(quest.getQuestTypeEnum().equals(QuestTypeEnum.HUNTER))
+            quest.setMobRequired(getRandomIndex(getQuestTierList(quest.getQuestTierEnum(),"hunter")).toString());
 
+        if(quest.getQuestTypeEnum().equals(QuestTypeEnum.PVP))
+            quest.setMobRequired(getRandomIndex(getQuestTierList(quest.getQuestTierEnum(),"pvp")).toString());
 
-        Long contributorPoints = 0L;
-       if(quest.getQuestTierEnum().equals(QuestTierEnum.COMMON))
-           contributorPoints =  Math.round(Math.random() * 10 + 20);
-       if(quest.getQuestTierEnum().equals(QuestTierEnum.UNCOMMON))
-           contributorPoints =  Math.round(Math.random() * 20 + 25);
-       if(quest.getQuestTierEnum().equals(QuestTierEnum.RARE))
-           contributorPoints =  Math.round(Math.random() * 30 + 30);
-       if(quest.getQuestTierEnum().equals(QuestTierEnum.LEGENDARY))
-           contributorPoints =  Math.round(Math.random() * 60 + 40);
-       if(quest.getQuestTierEnum().equals(QuestTierEnum.CURSED))
-           contributorPoints =  Math.round(Math.random() * 30 + 30);
+        quest.setCountRequired( Math.round(Math.random() * questSettings.getInt("settings-tier."+quest.getQuestTierEnum().toString().toLowerCase()+".aditional-rate-chance-reward") + questSettings.getInt("settings-tier."+quest.getQuestTierEnum().toString().toLowerCase().toLowerCase()+".min-points-reward")));
+        quest.setContibuitionPoints((int) Math.round(Math.random() * questSettings.getInt("settings-tier."+quest.getQuestTierEnum().toString().toLowerCase()+".aditional-rate-chance-reward") + questSettings.getInt("settings-tier."+quest.getQuestTierEnum().toString().toLowerCase().toLowerCase()+".min-points-reward")));
 
-        quest.setContibuitionPoints(contributorPoints.intValue());
         quest.setCurrentTime(System.currentTimeMillis());
-
     }
 
     public void questManagerPainel(Player player){
@@ -235,199 +271,64 @@ public class QuestService {
 
         House house = new House(HouseOfChosenOne.getConfigFile() ,configurationSection.getString("house"));
 
-        Inventory inventory = Bukkit.createInventory( player, InventoryType.CHEST, ChatColorUtil.boldText("Miss\u00F5es: ", ChatColor.DARK_AQUA)+house.getName() );
-        for (int i = 0; i <  questBooks.get(configurationSection.getString("house")).size(); i++) {
-            inventory.setItem(i, questBooks.get(configurationSection.getString("house")).get(i));
-        }
+        Inventory inventory = Bukkit.createInventory( player,54, ChatColorUtil.boldText("Miss\u00F5es: ", ChatColor.GOLD)+house.getName() );
+
+        AtomicInteger index = new AtomicInteger();
+        questBooks.get(configurationSection.getString("house")).forEach(itemStack -> {
+            inventory.setItem(index.getAndIncrement(), ItemFactoryUtil.menuDivisor());
+            inventory.setItem(index.getAndIncrement(), itemStack);
+            inventory.setItem(index.getAndIncrement(), ItemFactoryUtil.menuDivisorGreen());
+        } );
 
         player.openInventory(inventory);
     }
-    public void createQuest(Player player){
-        Inventory inventory = Bukkit.createInventory( player, InventoryType.ANVIL, ChatColorUtil.boldText("Nome da Miss\u00E3o", ChatColor.RED));
-        inventory.addItem(ItemFactoryUtil.questNameItem());
 
-        player.openInventory(inventory);
+    private boolean getAvailableMenus(String guiName){
+        if(guiName == null || guiName.isEmpty())
+            return true;
+
+        return !ChatColor.stripColor(guiName).contains("Miss\u00F5es");
     }
+
     public void onInventoryClickEvent(InventoryClickEvent event){
-        if(event.getCurrentItem() == null || event.getCurrentItem().getItemMeta() == null)
+        if(event.getCurrentItem() == null || event.getCurrentItem().getItemMeta() == null || getAvailableMenus(event.getView().getTitle()))
          return;
 
-        if(event.getCurrentItem().equals(ItemFactoryUtil.questCreate())){
+
+        if(event.getCurrentItem().getItemMeta().equals(ItemFactoryUtil.menuDivisor().getItemMeta()))
             event.setCancelled(true);
-            createQuest((Player) event.getWhoClicked());
+
+
+        if (event.getCurrentItem().getItemMeta().equals(ItemFactoryUtil.menuDivisorGreen().getItemMeta())){
+            event.getWhoClicked().sendMessage("Teste");
+            event.setCancelled(true);
+        }
+
+
+        if (event.getCurrentItem().isSimilar(new ItemStack(Material.WRITTEN_BOOK))){
+            event.getWhoClicked().sendMessage("Teste 2");
+            event.setCancelled(true);
         }
     }
 
-    private  List<EntityType> getAllowedAnimalsToHunt(QuestTierEnum tierEnum){
+    private List<?> getQuestTierList(QuestTierEnum tierEnum, String section){
 
         if(tierEnum.equals(QuestTierEnum.COMMON))
-            return List.of(
-                EntityType.COW,
-                EntityType.PIG,
-                EntityType.SHEEP,
-                EntityType.CHICKEN,
-                EntityType.COD
-            );
+            return questSettings.getList("settings-tier.common."+section);
 
         if(tierEnum.equals(QuestTierEnum.UNCOMMON))
-            return List.of(
-                EntityType.GOAT,
-                EntityType.RABBIT,
-                EntityType.SQUID,
-                EntityType.SALMON,
-                EntityType.WOLF
-            );
-
+            return questSettings.getList("settings-tier.uncommon."+section);
         if(tierEnum.equals(QuestTierEnum.RARE))
-            return List.of(
-                EntityType.GLOW_SQUID,
-                EntityType.AXOLOTL,
-                EntityType.PANDA,
-                EntityType.PARROT,
-                EntityType.FOX,
-                EntityType.OCELOT
-            );
+            return questSettings.getList("settings-tier.rare."+section);
 
         if(tierEnum.equals(QuestTierEnum.LEGENDARY))
-            return List.of(
-               EntityType.MUSHROOM_COW,
-               EntityType.FROG,
-               EntityType.TURTLE,
-               EntityType.POLAR_BEAR,
-               EntityType.DOLPHIN,
-               EntityType.TROPICAL_FISH,
-               EntityType.PUFFERFISH
-            );
+            return questSettings.getList("settings-tier.legendary."+section);
 
         if(tierEnum.equals(QuestTierEnum.CURSED))
-            return List.of(
-                EntityType.HORSE,
-                EntityType.CAT,
-                EntityType.DONKEY,
-                EntityType.MULE,
-                EntityType.LLAMA
-            );
+            return questSettings.getList("settings-tier.cursed."+section);
 
         return new ArrayList();
     }
-
-    private  List<Material> getAllowedHarvestItems(QuestTierEnum tierEnum){
-
-        if(tierEnum.equals(QuestTierEnum.COMMON))
-            return List.of(
-                Material.WHEAT,
-                Material.CARROT,
-                Material.SUGAR_CANE,
-                Material.POTATO,
-                Material.BEETROOTS
-            );
-
-        if(tierEnum.equals(QuestTierEnum.UNCOMMON))
-            return List.of(
-                Material.SWEET_BERRY_BUSH,
-                Material.MELON,
-                Material.PUMPKIN,
-                Material.CACTUS,
-                Material.KELP_PLANT,
-                Material.BROWN_MUSHROOM,
-                Material.RED_MUSHROOM
-            );
-
-        if(tierEnum.equals(QuestTierEnum.RARE))
-            return List.of(
-                Material.SEA_PICKLE,
-                Material.NETHER_WART,
-                Material.WARPED_FUNGUS,
-                Material.CRIMSON_FUNGUS,
-                Material.BAMBOO
-            );
-
-        if(tierEnum.equals(QuestTierEnum.LEGENDARY))
-            return List.of(
-                Material.CHORUS_PLANT,
-                Material.SPORE_BLOSSOM
-            );
-
-        if(tierEnum.equals(QuestTierEnum.CURSED))
-            return List.of(
-                Material.BLUE_ORCHID,
-                Material.SUNFLOWER,
-                Material.ROSE_BUSH,
-                Material.LILAC,
-                Material.PEONY,
-                Material.CORNFLOWER,
-                Material.LILY_OF_THE_VALLEY
-            );
-
-
-        return new ArrayList();
-    }
-
-    private List<EntityType> getAllowedEntityTypetoDefeat(QuestTierEnum tierEnum){
-
-        if(tierEnum.equals(QuestTierEnum.COMMON))
-            return List.of(
-                    EntityType.ZOMBIE,
-                    EntityType.SKELETON,
-                    EntityType.CREEPER,
-                    EntityType.SLIME,
-                    EntityType.ENDERMAN,
-                    EntityType.DROWNED,
-                    EntityType.HUSK,
-                    EntityType.PHANTOM,
-                    EntityType.PILLAGER,
-                    EntityType.SPIDER,
-                    EntityType.STRAY,
-                    EntityType.ZOMBIE_VILLAGER,
-                    EntityType.GUARDIAN
-            );
-
-        if(tierEnum.equals(QuestTierEnum.UNCOMMON))
-            return List.of(
-                    EntityType.BLAZE,
-                    EntityType.MAGMA_CUBE,
-                    EntityType.PIGLIN_BRUTE,
-                    EntityType.PIGLIN,
-                    EntityType.ENDERMITE,
-                    EntityType.GHAST,
-                    EntityType.HOGLIN,
-                    EntityType.ZOMBIFIED_PIGLIN,
-                    EntityType.ZOGLIN,
-                    EntityType.WITHER_SKELETON,
-                    EntityType.WITCH,
-                    EntityType.CAVE_SPIDER
-            );
-        if(tierEnum.equals(QuestTierEnum.RARE))
-            return List.of(
-                    EntityType.RAVAGER,
-                    EntityType.ENDERMITE,
-                    EntityType.EVOKER,
-                    EntityType.GUARDIAN,
-                    EntityType.ILLUSIONER,
-                    EntityType.PILLAGER,
-                    EntityType.SHULKER,
-                    EntityType.VEX,
-                    EntityType.VINDICATOR
-            );
-
-        if(tierEnum.equals(QuestTierEnum.LEGENDARY))
-            return List.of(
-                    EntityType.ELDER_GUARDIAN,
-                    EntityType.ENDER_DRAGON,
-                    EntityType.WITHER,
-                    EntityType.WARDEN,
-                    EntityType.GIANT
-            );
-
-        if(tierEnum.equals(QuestTierEnum.CURSED))
-            return List.of(
-                    EntityType.PLAYER,
-                    EntityType.VILLAGER
-            );
-
-        return new ArrayList<>();
-    }
-
 
     public static QuestService getIstance(){
         if(istance == null)

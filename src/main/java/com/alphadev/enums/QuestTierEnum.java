@@ -7,8 +7,8 @@ public enum QuestTierEnum {
     COMMON(1L,"Comum", ChatColor.DARK_GREEN),
     UNCOMMON(2L, "Incomum", ChatColor.BLUE),
     RARE(3L, "Raro", ChatColor.LIGHT_PURPLE ),
-    LEGENDARY(4L, "Legend\u00E1rio", ChatColor.GOLD),
-    CURSED(5L, "Amaldi\u00E7oado",ChatColor.DARK_RED );
+    LEGENDARY(4L, "Lend\u00E1rio", ChatColor.GOLD),
+    CURSED(5L, "Amaldi\u00E7oado",ChatColor.DARK_RED);
     private Long id;
     private String name;
     private ChatColor color;

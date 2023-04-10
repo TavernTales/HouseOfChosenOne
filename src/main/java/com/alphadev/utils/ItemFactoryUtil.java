@@ -2,7 +2,6 @@ package com.alphadev.utils;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -20,22 +19,19 @@ public class ItemFactoryUtil {
         return itemStack;
     }
 
+    public static ItemStack menuDivisorGreen(){
+        ItemStack itemStack = new ItemStack(Material.GREEN_STAINED_GLASS_PANE, 1);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        Objects.requireNonNull(itemMeta).setDisplayName(ChatColorUtil.textColor("=", ChatColor.GREEN));
+        itemStack.setItemMeta(itemMeta);
+        return itemStack;
+    }
+
     public static ItemStack questCreate(){
         ItemStack itemStack = new ItemStack(Material.PAPER, 1);
         ItemMeta itemMeta = itemStack.getItemMeta();
-        itemMeta.setDisplayName(ChatColorUtil.textColor("Nova Miss\u00E3o", ChatColor.GREEN));
-
+        itemMeta.setDisplayName(ChatColorUtil.textColor("Novas Miss\u00F5es Di\u00E1rias", ChatColor.GREEN));
         itemStack.setItemMeta(itemMeta);
-
-        return itemStack;
-    }
-    public static ItemStack questNameItem(){
-        ItemStack itemStack = new ItemStack(Material.PAPER, 1);
-        ItemMeta itemMeta = itemStack.getItemMeta();
-        itemMeta.setDisplayName(ChatColorUtil.textColor("Digite o nome", ChatColor.GREEN));
-        itemMeta.setLore(List.of("QUEST_NAME"));
-        itemStack.setItemMeta(itemMeta);
-
         return itemStack;
     }
 

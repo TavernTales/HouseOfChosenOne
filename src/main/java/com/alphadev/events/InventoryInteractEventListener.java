@@ -13,6 +13,4 @@ public class InventoryInteractEventListener implements Listener {
         new QuestService().onInventoryClickEvent(event);
     }
 
-
-
 }

@@ -16,6 +16,5 @@ public class PlayerInteractEventListener implements Listener {
 
     @EventHandler
     public void  blockBrea(BlockBreakEvent event){
-        event.getPlayer().sendMessage(event.getBlock().getType().toString());
     }
 }
