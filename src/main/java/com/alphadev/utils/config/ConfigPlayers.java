@@ -107,7 +107,17 @@ public class ConfigPlayers {
             HouseOfChosenOne.logInfo("[HouseOfChosenOne] Error to save File Players: \n"+ e.getMessage(), e);
         }
     }
+    public void addContribuition(Player player, int amount){
 
+        ConfigurationSection configurationPlayer = getConfiguration(player);
+        configurationPlayer.set("contribuitions",configurationPlayer.getInt("contribuitions") + amount);
+
+        try {
+            playersConfiguration.save(playersFile);
+        } catch (IOException e) {
+            HouseOfChosenOne.logInfo("[HouseOfChosenOne] Error to save File Players: \n"+ e.getMessage(), e);
+        }
+    }
 
     public static ConfigPlayers getInstance() {
         if(instance == null)

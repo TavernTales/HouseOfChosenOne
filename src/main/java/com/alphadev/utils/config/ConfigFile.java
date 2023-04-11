@@ -22,8 +22,6 @@ public class ConfigFile {
     }
 
     private void createConnectionConfig() {
-        HouseOfChosenOne.logInfo("[HouseOfChosenOne] Config file . . .");
-
         try {
             if (!configFile.exists()) {
                 HouseOfChosenOne.logInfo("[HouseOfChosenOne] Creating config file . . .");
@@ -272,6 +270,18 @@ public class ConfigFile {
         }
     }
 
+    public void addContribuition(int amount, String houseName){
+
+        ConfigurationSection configSection = configFileConfiguration.getConfigurationSection("houses");
+        configSection.set(houseName+".contribuition", configSection.getInt(houseName+".contribuition")+ amount);
+
+        try {
+            configFileConfiguration.save(configFile);
+        } catch (IOException e) {
+            HouseOfChosenOne.logInfo("[HouseOfChosenOne] N\u00E3o foi possivel alterar a contribui\u00E7\u00E3o da casa:\n" + e.getMessage(),e);
+        }
+
+    }
 
     public  void changeTag(String tag, String houseName){
         if(tag == null || houseName == null)

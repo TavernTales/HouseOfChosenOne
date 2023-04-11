@@ -27,10 +27,31 @@ public class ItemFactoryUtil {
         return itemStack;
     }
 
+    public static ItemStack menuDivisorRed(){
+        ItemStack itemStack = new ItemStack(Material.RED_STAINED_GLASS_PANE, 1);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        Objects.requireNonNull(itemMeta).setDisplayName(ChatColorUtil.textColor("N\u00E3o Dispon\u00EDvel", ChatColor.RED));
+        itemStack.setItemMeta(itemMeta);
+        return itemStack;
+    }
     public static ItemStack questCreate(){
         ItemStack itemStack = new ItemStack(Material.PAPER, 1);
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.setDisplayName(ChatColorUtil.textColor("Novas Miss\u00F5es Di\u00E1rias", ChatColor.GREEN));
+        itemStack.setItemMeta(itemMeta);
+        return itemStack;
+    }
+
+    public static ItemStack conclueMissions(){
+        ItemStack itemStack = new ItemStack(Material.GREEN_TERRACOTTA, 1);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.setDisplayName(ChatColorUtil.textColor("Concluir Miss\u00F5es", ChatColor.GREEN));
+
+        itemMeta.setLore(List.of(
+                ChatColorUtil.textColor("Clique para entregar itens em miss\u00F5es de entregas",ChatColor.BLUE),
+                ChatColorUtil.textColor("Finalize miss\u00F5es j\u00E1 concluidas",ChatColor.BLUE))
+        );
+
         itemStack.setItemMeta(itemMeta);
         return itemStack;
     }

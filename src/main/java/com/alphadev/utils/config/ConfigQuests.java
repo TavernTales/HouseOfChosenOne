@@ -5,17 +5,23 @@ import com.alphadev.utils.HelpUtils;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 public class ConfigQuests {
     private final Plugin plugin = HouseOfChosenOne.getPlugin();
     private final File settingsFile = new File(plugin.getDataFolder(), "quests/settings.yml");
-    private final File questSettingFile = new File(plugin.getDataFolder(), "quests/quests-settings.yml");
     private FileConfiguration configurationSettings = new YamlConfiguration();
+    private final File questSettingFile = new File(plugin.getDataFolder(), "quests/quests-settings.yml");
     private FileConfiguration questsConfiguration = new YamlConfiguration();
+
+    private final File playerQuestFile = new File(plugin.getDataFolder(), "quests/players/tracker.yml");
+    private FileConfiguration configurationPlayerQuestFile = new YamlConfiguration();
+
     public ConfigQuests() {
         createConnectionConfig();
     }
@@ -35,6 +41,13 @@ public class ConfigQuests {
                 HouseOfChosenOne.logInfo("[HouseOfChosenOne] Quests config file: 100%");
             }
             questsConfiguration = YamlConfiguration.loadConfiguration(questSettingFile);
+
+            if(!playerQuestFile.exists()){
+                HouseOfChosenOne.logInfo("[HouseOfChosenOne] Player Quests Tracker config file . . .");
+                configurationPlayerQuestFile.save(playerQuestFile);
+                HouseOfChosenOne.logInfo("[HouseOfChosenOne] Player Quests Tracker config file: 100%");
+            }
+            configurationPlayerQuestFile = YamlConfiguration.loadConfiguration(playerQuestFile);
 
             createConfigurationSettings();
             createConfigurationSettingsQuestTiers();
@@ -91,6 +104,12 @@ public class ConfigQuests {
 
     private void setupCommonTier(ConfigurationSection commonSectionTier){
 
+        if(!commonSectionTier.contains("min-progress"))
+            commonSectionTier.set("min-progress", 30);
+
+        if(!commonSectionTier.contains("aditional-rate-progress"))
+            commonSectionTier.set("aditional-rate-progress", 20);
+
         if(!commonSectionTier.contains("min-points-reward"))
             commonSectionTier.set("min-points-reward", 50);
 
@@ -116,6 +135,12 @@ public class ConfigQuests {
     
     private void setupUncommonTier(ConfigurationSection uncommonSectionTier){
 
+        if(!uncommonSectionTier.contains("min-progress"))
+            uncommonSectionTier.set("min-progress", 20);
+
+        if(!uncommonSectionTier.contains("aditional-rate-progress"))
+            uncommonSectionTier.set("aditional-rate-progress", 20);
+
         if(!uncommonSectionTier.contains("min-points-reward"))
             uncommonSectionTier.set("min-points-reward", 80);
 
@@ -139,7 +164,36 @@ public class ConfigQuests {
 
     }
 
+    public void createQuestTrackerPlayer(Player player){
+        ConfigurationSection configurationSection = configurationPlayerQuestFile.getConfigurationSection(String.valueOf(player.getUniqueId()));
+
+        if(configurationSection==null)
+            configurationSection = configurationPlayerQuestFile.createSection(String.valueOf(player.getUniqueId()));
+
+        if(!configurationSection.contains("name"))
+            configurationSection.set("name", player.getName());
+
+        configurationSection.set("quest-timeout", System.currentTimeMillis());
+
+
+        try {
+            configurationPlayerQuestFile.save(playerQuestFile);
+        } catch (IOException e) {
+            HouseOfChosenOne.logInfo("[HouseOfChosenOne] Error to create Player Tracker:\n" + e.getMessage(),e);
+        }
+    }
+
+    public ConfigurationSection getConfigurationPlayerQuestFile(Player player){
+        return configurationPlayerQuestFile.getConfigurationSection(String.valueOf(player.getUniqueId()));
+    }
+
     private void setupRareTier(ConfigurationSection rareSectionTier){
+
+        if(!rareSectionTier.contains("min-progress"))
+            rareSectionTier.set("min-progress", 15);
+
+        if(!rareSectionTier.contains("aditional-rate-progress"))
+            rareSectionTier.set("aditional-rate-progress", 10);
 
         if(!rareSectionTier.contains("min-points-reward"))
             rareSectionTier.set("min-points-reward", 150);
@@ -165,6 +219,12 @@ public class ConfigQuests {
     }
 
     private void setupLegendaryTier(ConfigurationSection legendarySectionTier){
+
+        if(!legendarySectionTier.contains("min-progress"))
+            legendarySectionTier.set("min-progress", 10);
+
+        if(!legendarySectionTier.contains("aditional-rate-progress"))
+            legendarySectionTier.set("aditional-rate-progress", 10);
 
         if(!legendarySectionTier.contains("min-points-reward"))
             legendarySectionTier.set("min-points-reward", 250);
@@ -202,6 +262,8 @@ public class ConfigQuests {
         if(!configurationSection.contains("queue-time-in-minutes"))
             configurationSection.set("queue-time-in-minutes", 10);
 
+        if(!configurationSection.contains("quest-timeout-minutes"))
+            configurationSection.set("quest-timeout-minutes", 30);
 
         saveChanges();
     }

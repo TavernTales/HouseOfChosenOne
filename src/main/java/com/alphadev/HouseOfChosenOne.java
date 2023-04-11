@@ -105,6 +105,14 @@ public class HouseOfChosenOne extends JavaPlugin {
         return configFile.getConfig();
     }
 
+    public static ConfigFile configFile(){
+        return  configFile;
+    }
+
+    public static ConfigPlayers configPlayersFile(){
+        return  configPlayers;
+    }
+
     public  static void  createHouseLocation(String houseName, Location location){
         configFile.createLocationSection(houseName, location);
     }
