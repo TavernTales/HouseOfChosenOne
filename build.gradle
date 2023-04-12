@@ -1,31 +1,28 @@
+
 plugins {
+    id 'com.github.johnrengelman.shadow' version '7.1.0'
     id 'java'
 }
 
 group 'com.alphadev'
-version '1.0-SNAPSHOT'
+version '1.0'
 
 repositories {
     mavenCentral()
     maven { url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
     maven { url 'https://jitpack.io' }
-    maven {
-        url "https://maven.citizensnpcs.co/repo"
-    }
+    maven { url "https://maven.citizensnpcs.co/repo"}
 }
 
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
     compileOnly 'org.spigotmc:spigot-api:1.19-R0.1-SNAPSHOT'
-    compileOnly 'org.projectlombok:lombok:1.18.24'
 
+    implementation group: 'org.mongodb', name: 'mongodb-driver-sync', version: '4.9.1'
     implementation 'com.github.TechFortress:GriefPrevention:16.18.1'
     implementation "net.citizensnpcs:citizensapi:2.0.30-SNAPSHOT"
 
-    testCompileOnly 'org.projectlombok:lombok:1.18.24'
-    testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
-    implementation("jakarta.persistence:jakarta.persistence-api:3.1.0")
 }
 
 processResources {
@@ -33,6 +30,20 @@ processResources {
         file("$buildDir/resource/main").listFiles().each {it.delete()}
     }
 }
+shadowJar{
+    project.configurations.implementation.canBeResolved = true
+    configurations = [project.configurations.implementation]
+    archiveName = "${project.name}-${project.version}.jar";
+    destinationDir = file("D:/Documentos/Servers/DEV_1_19_3_oficial/plugins");
+
+    dependencies {
+        exclude(dependency('net.citizensnpcs:citizensapi:2.0.30-SNAPSHOT'))
+        exclude(dependency('com.github.TechFortress:GriefPrevention:16.18.1'))
+    }
+
+    minimize()
+}
+
 
 test {
     useJUnitPlatform()

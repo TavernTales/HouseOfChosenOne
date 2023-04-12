@@ -10,21 +10,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="35f25348-fbe5-4e9b-8bd9-5225e7985891" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/7/2/720ee492717899c6395ba480146480aef0dc4400" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/7/b/7b2c8ac838c22a8455ee232ca8153026762101d4" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/b/2/b292b22643b437b5738f46c3b86fbc13614e34c9" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/HouseOfChosenOne.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/HouseOfChosenOne.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/9/2/92bd899607df0a91975dbd74cd74b95ebc2e4888" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/7/2/720ee492717899c6395ba480146480aef0dc4400" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/7/b/7b2c8ac838c22a8455ee232ca8153026762101d4" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/b/2/b292b22643b437b5738f46c3b86fbc13614e34c9" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/9/2/92bd899607df0a91975dbd74cd74b95ebc2e4888" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/alphadev/HouseOfChosenOne.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alphadev/HouseOfChosenOne.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alphadev/entity/Quest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alphadev/entity/Quest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alphadev/schedules/QuestSchedulesService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alphadev/schedules/QuestSchedulesService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/alphadev/services/QuestService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alphadev/services/QuestService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/alphadev/utils/ItemFactoryUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alphadev/utils/ItemFactoryUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/alphadev/utils/config/ConfigFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alphadev/utils/config/ConfigFile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/alphadev/utils/config/ConfigPlayers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alphadev/utils/config/ConfigPlayers.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/alphadev/utils/config/ConfigQuests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alphadev/utils/config/ConfigQuests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/plugin.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,6 +46,40 @@
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="HouseOfChosenOne" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="HouseOfChosenOne" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="HouseOfChosenOne" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="build" type="c8890929:TasksNode$1" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="HouseOfChosenOne" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="shadow" type="c8890929:TasksNode$1" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="HouseOfChosenOne" type="f1a62948:ProjectNode" />
+                <item name="Dependencies" type="6de06a37:ExternalSystemViewDefaultContributor$MyDependenciesNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="HouseOfChosenOne" type="f1a62948:ProjectNode" />
+                <item name="Dependencies" type="6de06a37:ExternalSystemViewDefaultContributor$MyDependenciesNode" />
+                <item name="compileClasspath" type="62daadca:ExternalSystemViewDefaultContributor$DependencyScopeExternalSystemNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="HouseOfChosenOne" type="f1a62948:ProjectNode" />
+                <item name="Dependencies" type="6de06a37:ExternalSystemViewDefaultContributor$MyDependenciesNode" />
+                <item name="runtimeClasspath" type="62daadca:ExternalSystemViewDefaultContributor$DependencyScopeExternalSystemNode" />
               </path>
             </expand>
             <select />
@@ -98,22 +130,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/Documentos/Servers/DEV_1_19_3_oficial/plugins&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.34637326&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "last_opened_file_path": "D:/Documentos/Servers/DEV_1_19_3_oficial/plugins",
+    "project.structure.last.edited": "Problems",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.34637326",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\leofr\OneDrive\Documentos\Projetos\HouseOfChosenOne\src\main\java\com\alphadev\commands" />
       <recent name="C:\Users\leofr\OneDrive\Documentos\Projetos\HouseOfChosenOne\src\main\java" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\leofr\OneDrive\Documentos\Projetos\HouseOfChosenOne\src\main\resources" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.alphadev.utils.config" />
@@ -128,7 +163,7 @@
       <command value="gradle jar" />
     </option>
   </component>
-  <component name="RunManager" selected="Remote JVM Debug.Plugin">
+  <component name="RunManager" selected="Gradle.HouseOfChosenOne [shadowJar]">
     <configuration name="HelpUtilsTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -196,6 +231,27 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
+    <configuration name="HouseOfChosenOne [shadowJar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="shadowJar" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
     <configuration name="QuestServiceTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -219,29 +275,6 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="QuestServiceTest.testePercentChangeQuestTier" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":test" />
-            <option value="--tests" />
-            <option value="&quot;QuestServiceTest.testePercentChangeQuestTier&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <method v="2" />
-    </configuration>
     <configuration name="Plugin" type="Remote">
       <option name="USE_SOCKET_TRANSPORT" value="true" />
       <option name="SERVER_MODE" value="false" />
@@ -256,20 +289,20 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Gradle.HouseOfChosenOne [shadowJar]" />
       <item itemvalue="Gradle.HelpUtilsTest" />
       <item itemvalue="Gradle.HelpUtilsTest.testIfNotNull" />
       <item itemvalue="Gradle.HouseOfChosenOne [jar]" />
       <item itemvalue="Gradle.QuestServiceTest" />
-      <item itemvalue="Gradle.QuestServiceTest.testePercentChangeQuestTier" />
       <item itemvalue="Remote JVM Debug.Plugin" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.HouseOfChosenOne [shadowJar]" />
+        <item itemvalue="Gradle.HouseOfChosenOne [jar]" />
         <item itemvalue="Gradle.HelpUtilsTest.testIfNotNull" />
         <item itemvalue="Gradle.HelpUtilsTest" />
         <item itemvalue="Gradle.QuestServiceTest" />
-        <item itemvalue="Gradle.QuestServiceTest.testePercentChangeQuestTier" />
-        <item itemvalue="Gradle.HouseOfChosenOne [jar]" />
       </list>
     </recent_temporary>
   </component>

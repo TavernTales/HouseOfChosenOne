@@ -8,7 +8,6 @@ import com.alphadev.enums.QuestTypeEnum;
 import com.alphadev.utils.ChatColorUtil;
 import com.alphadev.utils.HelpUtils;
 import com.alphadev.utils.ItemFactoryUtil;
-import com.alphadev.utils.config.ConfigFile;
 import com.alphadev.utils.config.ConfigPlayers;
 import com.alphadev.utils.config.ConfigQuests;
 import org.bukkit.Bukkit;
@@ -30,9 +29,9 @@ public class QuestService {
 
     private static QuestService istance;
 
-    private ConfigQuests configQuests = new ConfigQuests();
-    private  ConfigurationSection questSettings = configQuests.getQuestSettings();
-    private  ConfigurationSection settingsConfiguration  = configQuests.getConfigurationSettings();
+    private final ConfigQuests configQuests = new ConfigQuests();
+    private final ConfigurationSection questSettings = configQuests.getQuestSettings();
+    private final ConfigurationSection settingsConfiguration  = configQuests.getConfigurationSettings();
 
     public static QuestTierEnum sortQuestTier(){
         double percentChange = HelpUtils.sortPercent();
@@ -41,7 +40,6 @@ public class QuestService {
         int legendaryPercent = questTiersSettings.contains("quest-tiers.legendary-percent") ? questTiersSettings.getInt("quest-tiers.legendary-percent") : 5;
         int rarePercent = questTiersSettings.contains("quest-tiers.rare-percent") ? questTiersSettings.getInt("quest-tiers.rare-percent") : 20;
         int uncommonPercent = questTiersSettings.contains("quest-tiers.uncommon-percent") ? questTiersSettings.getInt("quest-tiers.uncommon-percent") : 50;
-        //int commonPercent =questTiersSettings.contains("quest-tiers.common-percent") ? questTiersSettings.getInt("quest-tiers.common-percent") : 80;
 
         if(percentChange < legendaryPercent)
             return QuestTierEnum.LEGENDARY;
@@ -148,7 +146,7 @@ public class QuestService {
         final int finalCurrentAmmount = currentAmmount;
         Arrays.stream(player.getInventory().getContents()).filter(itemStack -> !questBookIsConcluded(itemStack) ).forEach(itemStack -> {
             if(itemStack != null && itemStack.getItemMeta() != null  && itemStack.getType().equals(Material.WRITTEN_BOOK) &&
-                    ((BookMeta) itemStack.getItemMeta()).getTitle().equalsIgnoreCase(bookMeta.getTitle())){
+                    Objects.requireNonNull(((BookMeta) itemStack.getItemMeta()).getTitle()).equalsIgnoreCase(bookMeta.getTitle())){
 
                 if(finalCurrentAmmount >= maxAmmount){
                     player.sendMessage(ChatColorUtil.textColor("Voc\u00EA concluiu o objetivo da miss\u00E3o",ChatColor.GREEN));
@@ -168,6 +166,7 @@ public class QuestService {
         return questList.stream().map( quest -> {
             ItemStack writtenBook = new ItemStack(Material.WRITTEN_BOOK);
             BookMeta bookMeta = (BookMeta) writtenBook.getItemMeta();
+            assert bookMeta != null;
             bookMeta.setTitle(quest.getName()+" - " +getTitleByType(quest));
             bookMeta.setAuthor(quest.getHouse().getName());
             bookMeta.setLore(
@@ -182,7 +181,7 @@ public class QuestService {
                     ChatColorUtil.boldText(quest.getQuestTierEnum().getName(),quest.getQuestTierEnum().getColor()).toUpperCase()+"\n\n"+
                     getLoreByQuestType(quest.getQuestTypeEnum()));
 
-            pages.add( ChatColorUtil.boldText("Miss\u00E3o:\n\n",ChatColor.DARK_GREEN) + ChatColorUtil.boldText(getMissionByType(quest,0)));
+            pages.add( ChatColorUtil.boldText("Miss\u00E3o:\n\n",ChatColor.DARK_GREEN) + ChatColorUtil.boldText(getMissionByType(quest)));
             pages.add(ChatColorUtil.boldText("Recompensas",ChatColor.DARK_GREEN)+
                     ChatColorUtil.boldText("\nPontos:",ChatColor.GOLD)+"  "+ChatColorUtil.textColor(quest.getContibuitionPoints().toString(),ChatColor.GOLD));
             bookMeta.setPages(pages);
@@ -221,9 +220,9 @@ public class QuestService {
 
         return  "T\u00EDtulo Inv\u00E1lido";
     }
-    private  String getMissionByType(Quest quest, int ammout){
+    private  String getMissionByType(Quest quest){
 
-        return ChatColor.DARK_GREEN +"\nProgresso: "+ammout+"/"+quest.getCountRequired();
+        return ChatColor.DARK_GREEN +"\nProgresso: "+ 0 +"/"+quest.getCountRequired();
     }
 
     private Object getRandomIndex(List<?> list){
@@ -259,8 +258,6 @@ public class QuestService {
         ConfigurationSection configurationSection = new ConfigPlayers().getConfiguration(player);
         if(configurationSection == null || configurationSection.getString("house") == null)
             return;
-
-        House house = new House(HouseOfChosenOne.getConfigFile() ,configurationSection.getString("house"));
 
         Inventory inventory = Bukkit.createInventory( player, InventoryType.CHEST, ChatColorUtil.boldText("Gerenciador de Miss\u00F5es", ChatColor.DARK_AQUA));
         inventory.addItem(ItemFactoryUtil.questCreate());
@@ -400,22 +397,7 @@ public class QuestService {
     }
 
     private List<?> getQuestTierList(QuestTierEnum tierEnum, String section){
-
-        if(tierEnum.equals(QuestTierEnum.COMMON))
-            return questSettings.getList("settings-tier.common."+section);
-
-        if(tierEnum.equals(QuestTierEnum.UNCOMMON))
-            return questSettings.getList("settings-tier.uncommon."+section);
-        if(tierEnum.equals(QuestTierEnum.RARE))
-            return questSettings.getList("settings-tier.rare."+section);
-
-        if(tierEnum.equals(QuestTierEnum.LEGENDARY))
-            return questSettings.getList("settings-tier.legendary."+section);
-
-        if(tierEnum.equals(QuestTierEnum.CURSED))
-            return questSettings.getList("settings-tier.cursed."+section);
-
-        return new ArrayList();
+        return questSettings.getList("settings-tier."+tierEnum.toString().toLowerCase()+"."+section);
     }
 
     public static QuestService getIstance(){

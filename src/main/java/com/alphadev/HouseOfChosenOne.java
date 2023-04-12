@@ -9,6 +9,9 @@ import com.alphadev.utils.ChatColorUtil;
 import com.alphadev.utils.config.ConfigFile;
 import com.alphadev.utils.config.ConfigPlayers;
 import com.alphadev.utils.config.ConfigQuests;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoDatabase;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -41,6 +44,10 @@ public class HouseOfChosenOne extends JavaPlugin {
         broadcast(ChatColorUtil.textColor(" Author: "+getPlugin().getDescription().getAuthors(), ChatColor.GREEN));
         broadcast(ChatColorUtil.textColor(" Description: \n "+ChatColor.GRAY+getPlugin().getDescription().getDescription(), ChatColor.GREEN));
         broadcast(ChatColorUtil.boldText("======================", ChatColor.GOLD));
+
+
+        MongoClient mongoClient = MongoClients.create("mongodb+srv://hoc_db:123456!@hoc.oxosawo.mongodb.net/test");
+        MongoDatabase database = mongoClient.getDatabase("localMongoDB");
 
     }
 

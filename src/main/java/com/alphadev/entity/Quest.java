@@ -2,12 +2,6 @@ package com.alphadev.entity;
 
 import com.alphadev.enums.QuestTierEnum;
 import com.alphadev.enums.QuestTypeEnum;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
