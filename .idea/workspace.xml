@@ -10,24 +10,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="35f25348-fbe5-4e9b-8bd9-5225e7985891" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/HouseOfChosenOne.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/5/b/5b65217986983c52180a3276c7e9806f3d3f434a" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/9/2/9234e245766039c5c71abfd9a50e8b638f0159c1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/b/8/b875f97c46eb2ae74d8dac2645e11edadad9f41e" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/b/f/bfbcd0848d2c9cc2daae00df933d8b5950b437be" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/a/5/a5cc2925ca8258af241be7e5b0381edf30266302" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/5/b/5b65217986983c52180a3276c7e9806f3d3f434a" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/b/8/b875f97c46eb2ae74d8dac2645e11edadad9f41e" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/b/f/bfbcd0848d2c9cc2daae00df933d8b5950b437be" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/a/5/a5cc2925ca8258af241be7e5b0381edf30266302" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/alphadev/HouseOfChosenOne.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alphadev/HouseOfChosenOne.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/alphadev/commands/BasicCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alphadev/commands/BasicCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/alphadev/events/InventoryInteractEventListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alphadev/events/InventoryInteractEventListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/alphadev/events/PlayerInteractEventListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alphadev/events/PlayerInteractEventListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/alphadev/events/PlayerKillEntityEventListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alphadev/events/PlayerKillEntityEventListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/alphadev/utils/config/ConfigFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alphadev/utils/config/ConfigFile.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
