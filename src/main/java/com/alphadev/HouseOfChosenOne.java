@@ -9,9 +9,7 @@ import com.alphadev.utils.ChatColorUtil;
 import com.alphadev.utils.config.ConfigFile;
 import com.alphadev.utils.config.ConfigPlayers;
 import com.alphadev.utils.config.ConfigQuests;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoDatabase;
+import com.alphadev.utils.connection.MongoProvider;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -34,9 +32,7 @@ public class HouseOfChosenOne extends JavaPlugin {
     public void onLoad() {
         super.onLoad();
 
-        configFile = new ConfigFile();
-        configPlayers = new ConfigPlayers();
-        configQuests = new ConfigQuests();
+
 
         broadcast(ChatColorUtil.boldText("======================", ChatColor.GOLD));
         broadcast(ChatColorUtil.boldText("[HouseOfChosenOne] ", ChatColor.GREEN));
@@ -45,9 +41,11 @@ public class HouseOfChosenOne extends JavaPlugin {
         broadcast(ChatColorUtil.textColor(" Description: \n "+ChatColor.GRAY+getPlugin().getDescription().getDescription(), ChatColor.GREEN));
         broadcast(ChatColorUtil.boldText("======================", ChatColor.GOLD));
 
+        configFile = new ConfigFile();
+        configPlayers = new ConfigPlayers();
+        configQuests = new ConfigQuests();
 
-        MongoClient mongoClient = MongoClients.create("mongodb+srv://hoc_db:123456!@hoc.oxosawo.mongodb.net/test");
-        MongoDatabase database = mongoClient.getDatabase("localMongoDB");
+        MongoProvider.getInstance();
 
     }
 
@@ -70,7 +68,7 @@ public class HouseOfChosenOne extends JavaPlugin {
         Objects.requireNonNull(getCommand("citadel")).setExecutor(new AdminCommand());
         Objects.requireNonNull(getCommand("quest")).setExecutor(new AdminCommand());
 
-        reloadPlayerStats();
+        loadConfigs();
         new QuestSchedulesService().questScheduleDaily();
     }
 
@@ -81,15 +79,20 @@ public class HouseOfChosenOne extends JavaPlugin {
         HandlerList.unregisterAll();
     }
 
-    public static void loadConfigurations(){
-        Bukkit.getServer().getOnlinePlayers().forEach(player -> ScoreBoardService.removePlayerFromHouseTeam(player,null));
-        configFile = new ConfigFile();
-        configPlayers = new ConfigPlayers();
-        configQuests = new ConfigQuests();
+    public static void loadPlayerStats(){
+        loadConfigs();
         reloadPlayerStats();
     }
 
+    private static void loadConfigs(){
+        configFile = new ConfigFile();
+        configPlayers = new ConfigPlayers();
+        configQuests = new ConfigQuests();
+    }
+
     public static void reloadPlayerStats(){
+        Bukkit.getServer().getOnlinePlayers().forEach(player -> ScoreBoardService.removePlayerFromHouseTeam(player,null));
+        loadPlayerStats();
         Bukkit.getScheduler().scheduleSyncDelayedTask(HouseOfChosenOne.getPlugin(), () -> Bukkit.getServer().getOnlinePlayers().forEach(ScoreBoardService::setPlayerHouseScoreBoardTag), 1);
     }
 

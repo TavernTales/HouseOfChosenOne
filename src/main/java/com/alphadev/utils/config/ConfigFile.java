@@ -59,7 +59,14 @@ public class ConfigFile {
             configSection = configFileConfiguration.createSection("houses");
         }
 
-        settingsSection.set("api-grief-prevention-block-bonus", 3000);
+        if(!settingsSection.contains("mongodb-uri"))
+            settingsSection.set("mongodb-uri", "mongodb://localhost:27017");
+
+        if(!settingsSection.contains("mongodb-name"))
+            settingsSection.set("mongodb-name", "houseOfChosenOne");
+
+        if(!settingsSection.contains("api-grief-prevention-block-bonus"))
+            settingsSection.set("api-grief-prevention-block-bonus", 3000);
 
 
        if( configSection.getConfigurationSection("zeronia") == null)
@@ -272,8 +279,8 @@ public class ConfigFile {
 
     public void addContribuition(int amount, String houseName){
 
-        ConfigurationSection configSection = configFileConfiguration.getConfigurationSection("houses");
-        configSection.set(houseName+".contribuition", configSection.getInt(houseName+".contribuition")+ amount);
+        ConfigurationSection configSection = configFileConfiguration.getConfigurationSection("houses."+houseName);
+        configSection.set("contribuition", configSection.getInt("contribuition")+ amount);
 
         try {
             configFileConfiguration.save(configFile);

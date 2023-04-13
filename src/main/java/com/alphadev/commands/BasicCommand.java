@@ -96,7 +96,7 @@ public class BasicCommand implements Listener, CommandExecutor, TabCompleter {
                 return  false;
             }
 
-            HouseOfChosenOne.loadConfigurations();
+            HouseOfChosenOne.loadPlayerStats();
             player.sendMessage("[HCO] Configura\u00E7\u00F5es recarregadas ...");
             return true;
         }
@@ -119,7 +119,7 @@ public class BasicCommand implements Listener, CommandExecutor, TabCompleter {
             }
 
             new ConfigFile().changeTag(args[2], args[1]);
-            HouseOfChosenOne.loadConfigurations();
+            HouseOfChosenOne.loadPlayerStats();
 
             player.sendMessage("Tag de "+ args[1] + " alterada para "+ ChatColor.translateAlternateColorCodes('&', args[2]));
             return true;

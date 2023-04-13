@@ -11,8 +11,6 @@ import java.util.Arrays;
 
 public class PlayerKillEntityEventListener implements Listener {
 
-
-
     @EventHandler
     public void onPlayerKillEntity(EntityDeathEvent event){
 

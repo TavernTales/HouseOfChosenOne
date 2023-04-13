@@ -1,9 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="HouseOfChosenOne">
-    <output-path>D:/Documentos/Servers/DEV_1_19_3_oficial/plugins</output-path>
-    <root id="archive" name="HouseOfChosenOne.jar">
-      <element id="module-output" name="HouseOfChosenOne.main" />
-      <element id="file-copy" path="$PROJECT_DIR$/src/main/resources/plugin.yml" />
-    </root>
-  </artifact>
-</component>
