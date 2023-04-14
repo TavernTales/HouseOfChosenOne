@@ -72,7 +72,6 @@ public class ConfigQuests {
         ConfigurationSection uncommonSectionTier = configurationSection.getConfigurationSection("uncommon");
         ConfigurationSection rareSectionTier = configurationSection.getConfigurationSection("rare");
         ConfigurationSection legendarySectionTier = configurationSection.getConfigurationSection("legendary");
-        ConfigurationSection cursedSectionTier = configurationSection.getConfigurationSection("cursed");
 
         if(commonSectionTier == null)
             commonSectionTier = configurationSection.createSection("common");
@@ -93,10 +92,6 @@ public class ConfigQuests {
             legendarySectionTier = configurationSection.createSection("legendary");
 
         setupLegendaryTier(legendarySectionTier);
-
-        if(cursedSectionTier == null)
-            cursedSectionTier = configurationSection.createSection("cursed");
-
 
         saveChanges();
     }
@@ -322,10 +317,6 @@ public class ConfigQuests {
             configurationSection.set("pvp-percent", 5);
 
         saveChanges();
-    }
-
-    public File getSettingsFile() {
-        return settingsFile;
     }
     public FileConfiguration getConfigurationSettings() {
         return configurationSettings;

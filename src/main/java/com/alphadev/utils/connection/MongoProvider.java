@@ -2,7 +2,6 @@ package com.alphadev.utils.connection;
 
 
 import com.alphadev.HouseOfChosenOne;
-import com.mongodb.MongoClient;
 import com.mongodb.client.MongoClients;
 import dev.morphia.Datastore;
 import dev.morphia.Morphia;

@@ -111,7 +111,7 @@ public class BasicCommandHandler implements Listener, CommandExecutor, TabComple
                 return  false;
             }
 
-            if( args.length < 3 || args[2] == null || args[2].isEmpty() || Bukkit.getServer().getOnlinePlayers().stream().filter(pl -> pl.getName().equalsIgnoreCase(args[2])).count() > 0){
+            if( args.length < 3 || args[2] == null || args[2].isEmpty() || Bukkit.getServer().getOnlinePlayers().stream().anyMatch(pl -> pl.getName().equalsIgnoreCase(args[2]))){
                 player.sendMessage("Tag inv\u00E1lida");
                 return  false;
             }
@@ -166,7 +166,7 @@ public class BasicCommandHandler implements Listener, CommandExecutor, TabComple
             scheduleTaskPlayer.put(player.getUniqueId(),  Bukkit.getScheduler().scheduleSyncRepeatingTask(HouseOfChosenOne.getPlugin(), ()->{
 
                 long endTime = System.currentTimeMillis();
-                long secondsRemaning = Math.round(((startTime+11000) - endTime)/1000);
+                long secondsRemaning = ((startTime+11000) - endTime)/1000;
 
                 player.sendTitle("Retornando ao Lobby","N\u00E3o se mova "+secondsRemaning+" Segundos",5 , 20, 5);
 

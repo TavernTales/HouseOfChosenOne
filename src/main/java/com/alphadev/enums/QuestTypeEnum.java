@@ -6,8 +6,8 @@ public enum QuestTypeEnum {
     HUNTER(3L, "Ca\u00E7a"),
     HARVEST(4L, "Coleta"),
     PVP(5L, "Combate");
-    private Long id;
-    private String name;
+    private final Long id;
+    private final String name;
 
     QuestTypeEnum(Long id, String name) {
         this.id = id;
@@ -17,15 +17,9 @@ public enum QuestTypeEnum {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 }

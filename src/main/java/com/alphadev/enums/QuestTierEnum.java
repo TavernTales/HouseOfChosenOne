@@ -9,32 +9,19 @@ public enum QuestTierEnum {
     RARE(3L, "Raro", ChatColor.LIGHT_PURPLE ),
     LEGENDARY(4L, "Lend\u00E1rio", ChatColor.GOLD),
     CURSED(5L, "Amaldi\u00E7oado",ChatColor.DARK_RED);
-    private Long id;
-    private String name;
-    private ChatColor color;
+    private final Long id;
+    private final String name;
+    private final ChatColor color;
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public ChatColor getColor() {
         return color;
-    }
-
-    public void setColor(ChatColor color) {
-        this.color = color;
     }
 
     QuestTierEnum(Long id, String name, ChatColor color) {

@@ -5,7 +5,6 @@ import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.Plugin;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,8 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ConfigFile {
-    private final Plugin plugin = HouseOfChosenOne.getPlugin();
-    private final File configFile = new File(plugin.getDataFolder(), "config.yml");
+    private final File config = new File(HouseOfChosenOne.getPlugin().getDataFolder(), "config.yml");
     private  FileConfiguration configFileConfiguration = new YamlConfiguration();
 
     public ConfigFile() {
@@ -23,19 +21,19 @@ public class ConfigFile {
 
     private void createConnectionConfig() {
         try {
-            if (!configFile.exists()) {
+            if (!config.exists()) {
                 HouseOfChosenOne.logInfo("[HouseOfChosenOne] Creating config file . . .");
 
-                configFileConfiguration.save(configFile);
+                configFileConfiguration.save(config);
 
                 HouseOfChosenOne.logInfo("[HouseOfChosenOne] Config file configuration: 100%");
                 HouseOfChosenOne.logInfo("[HouseOfChosenOne] Config File: 100%");
             }
-            configFileConfiguration = YamlConfiguration.loadConfiguration(configFile);
+            configFileConfiguration = YamlConfiguration.loadConfiguration(config);
 
             createConfigSection();
 
-            configFileConfiguration.save(configFile);
+            configFileConfiguration.save(config);
 
         } catch (Exception e) {
             HouseOfChosenOne.logInfo("[HouseOfChosenOne] Config file configuration error:\n" + e.getMessage(),e);
@@ -71,16 +69,35 @@ public class ConfigFile {
 
        if( configSection.getConfigurationSection("zeronia") == null)
             configSection.createSection("zeronia");
+
        if( configSection.getConfigurationSection("vlarola") == null)
             configSection.createSection("vlarola");
+
         if( configSection.getConfigurationSection("frandhra") == null)
             configSection.createSection("frandhra");
+
         if( configSection.getConfigurationSection("nashor") == null)
             configSection.createSection("nashor");
+
         if( configSection.getConfigurationSection("drakkaris") == null)
             configSection.createSection("drakkaris");
 
+        populateZeroniaConfig(configSection);
+        populateVlarolaConfig(configSection);
+        populateFrandhraConfig(configSection);
+        populateNashorConfig(configSection);
+        populateDrakkarisConfig(configSection);
+
+        configFileConfiguration.save(config);
+    }
+
+
+    private void populateZeroniaConfig(ConfigurationSection configSection){
+
         ConfigurationSection zenoniaKingdom = configSection.getConfigurationSection("zeronia");
+
+        if(zenoniaKingdom == null)
+            return;
 
         if (!zenoniaKingdom.contains("house"))
             zenoniaKingdom.set("house", "Reino de Zeronia");
@@ -98,10 +115,10 @@ public class ConfigFile {
             zenoniaKingdom.set("align", "Bom e Leal");
 
         if (!zenoniaKingdom.contains("ally"))
-            zenoniaKingdom.set("ally", Arrays.asList("Vlarol\u00E1"));
+            zenoniaKingdom.set("ally", List.of("Vlarol\u00E1"));
 
         if (!zenoniaKingdom.contains("neutral"))
-            zenoniaKingdom.set("neutral", Arrays.asList("Frandha"));
+            zenoniaKingdom.set("neutral", List.of("Frandha"));
 
         if (!zenoniaKingdom.contains("enemy"))
             zenoniaKingdom.set("enemy", Arrays.asList("Nashor","Drakkaris"));
@@ -114,43 +131,14 @@ public class ConfigFile {
 
         if (!zenoniaKingdom.contains("permissions"))
             zenoniaKingdom.set("permissions", List.of());
+    }
 
-        ConfigurationSection vlarolaCitadel = configSection.getConfigurationSection("vlarola");
 
-        if (!vlarolaCitadel.contains("house"))
-            vlarolaCitadel.set("house", "Cidade de Vlarol\u00E1");
-
-        if (!vlarolaCitadel.contains("tag"))
-            vlarolaCitadel.set("tag", "&bVlarol\u00E1");
-
-        if (!vlarolaCitadel.contains("details"))
-            vlarolaCitadel.set("details", "A Cidade de Vlarol\u00E1 se encontra nos grandes Desertos, sua bandeira simboliza o conhecimento e constru\u00E7\u00E3o. Vlarol\u00E1 possui um forte vinculo com Zeronia, principalmente no comercio de materias para constru\u00E7\u00F5es e alimentos, entretanto, nada impede de fazer vinculos com outras casas para o bem de sua civiliza\u00E7\u00E3o, o foco da Cidade \u00E9 ser extremamente avan\u00E7ado na Tecnologia de Redstone e constru\u00E7\u00F5es, alem de uma grande produ\u00E7\u00E3o de comida e alimento para comercio.");
-
-        if (!vlarolaCitadel.contains("policy"))
-            vlarolaCitadel.set("policy", "Democracia");
-
-        if (!vlarolaCitadel.contains("align"))
-            vlarolaCitadel.set("align", "Neutro Bom");
-
-        if (!vlarolaCitadel.contains("ally"))
-            vlarolaCitadel.set("ally", Arrays.asList("Zeronia"));
-
-        if (!vlarolaCitadel.contains("neutral"))
-            vlarolaCitadel.set("neutral", Arrays.asList("Frandha","Nashor"));
-
-        if (!vlarolaCitadel.contains("enemy"))
-            vlarolaCitadel.set("enemy", Arrays.asList("Drakkaris"));
-
-        if (!vlarolaCitadel.contains("objective"))
-            vlarolaCitadel.set("objective", "Com\u00E9rcio local e internacional, crescimento da civiliza\u00E7\u00E3o e batalhas PVP");
-
-        if (!vlarolaCitadel.contains("contribuition"))
-            vlarolaCitadel.set("contribuition", 0);
-
-        if (!vlarolaCitadel.contains("permissions"))
-            vlarolaCitadel.set("permissions", List.of());
-
+    private void populateFrandhraConfig(ConfigurationSection configSection){
         ConfigurationSection frandhraMonastery = configSection.getConfigurationSection("frandhra");
+
+        if(frandhraMonastery == null)
+            return;
 
         if (!frandhraMonastery.contains("house"))
             frandhraMonastery.set("house", "Monast\u00E9rio dos Frandhra");
@@ -184,8 +172,13 @@ public class ConfigFile {
 
         if (!frandhraMonastery.contains("permissions"))
             frandhraMonastery.set("permissions", List.of());
+    }
 
+    private void populateNashorConfig(ConfigurationSection configSection){
         ConfigurationSection nashorImperio = configSection.getConfigurationSection("nashor");
+
+        if(nashorImperio == null)
+            return;
 
         if (!nashorImperio.contains("house"))
             nashorImperio.set("house", "Imp\u00E9rio de Nashor");
@@ -203,13 +196,13 @@ public class ConfigFile {
             nashorImperio.set("align", "Mal e Leal");
 
         if (!nashorImperio.contains("ally"))
-            nashorImperio.set("ally",Arrays.asList("Drakkaris"));
+            nashorImperio.set("ally", List.of("Drakkaris"));
 
         if (!nashorImperio.contains("neutral"))
             nashorImperio.set("neutral", Arrays.asList("Vlarol\u00E1","Frandha"));
 
         if (!nashorImperio.contains("enemy"))
-            nashorImperio.set("enemy", Arrays.asList("Zeronia"));
+            nashorImperio.set("enemy", List.of("Zeronia"));
 
         if (!nashorImperio.contains("objective"))
             nashorImperio.set("objective", "Explora\u00E7\u00E3o em larga escala e combates PVP");
@@ -219,8 +212,54 @@ public class ConfigFile {
 
         if (!nashorImperio.contains("permissions"))
             nashorImperio.set("permissions", List.of());
+    }
 
+    private void populateVlarolaConfig(ConfigurationSection configSection){
+        ConfigurationSection vlarolaCitadel = configSection.getConfigurationSection("vlarola");
+
+        if(vlarolaCitadel == null)
+            return;
+
+        if (!vlarolaCitadel.contains("house"))
+            vlarolaCitadel.set("house", "Cidade de Vlarol\u00E1");
+
+        if (!vlarolaCitadel.contains("tag"))
+            vlarolaCitadel.set("tag", "&bVlarol\u00E1");
+
+        if (!vlarolaCitadel.contains("details"))
+            vlarolaCitadel.set("details", "A Cidade de Vlarol\u00E1 se encontra nos grandes Desertos, sua bandeira simboliza o conhecimento e constru\u00E7\u00E3o. Vlarol\u00E1 possui um forte vinculo com Zeronia, principalmente no comercio de materias para constru\u00E7\u00F5es e alimentos, entretanto, nada impede de fazer vinculos com outras casas para o bem de sua civiliza\u00E7\u00E3o, o foco da Cidade \u00E9 ser extremamente avan\u00E7ado na Tecnologia de Redstone e constru\u00E7\u00F5es, alem de uma grande produ\u00E7\u00E3o de comida e alimento para comercio.");
+
+        if (!vlarolaCitadel.contains("policy"))
+            vlarolaCitadel.set("policy", "Democracia");
+
+        if (!vlarolaCitadel.contains("align"))
+            vlarolaCitadel.set("align", "Neutro Bom");
+
+        if (!vlarolaCitadel.contains("ally"))
+            vlarolaCitadel.set("ally", List.of("Zeronia"));
+
+        if (!vlarolaCitadel.contains("neutral"))
+            vlarolaCitadel.set("neutral", Arrays.asList("Frandha","Nashor"));
+
+        if (!vlarolaCitadel.contains("enemy"))
+            vlarolaCitadel.set("enemy", List.of("Drakkaris"));
+
+        if (!vlarolaCitadel.contains("objective"))
+            vlarolaCitadel.set("objective", "Com\u00E9rcio local e internacional, crescimento da civiliza\u00E7\u00E3o e batalhas PVP");
+
+        if (!vlarolaCitadel.contains("contribuition"))
+            vlarolaCitadel.set("contribuition", 0);
+
+        if (!vlarolaCitadel.contains("permissions"))
+            vlarolaCitadel.set("permissions", List.of());
+    }
+
+
+    private  void populateDrakkarisConfig(ConfigurationSection configSection){
         ConfigurationSection drakkaris = configSection.getConfigurationSection("drakkaris");
+
+        if(drakkaris == null)
+            return;
 
         if (!drakkaris.contains("house"))
             drakkaris.set("house", "Guarni\u00E7\u00E3o Drakkaris");
@@ -238,10 +277,10 @@ public class ConfigFile {
             drakkaris.set("align", "Caotico Mal");
 
         if (!drakkaris.contains("ally"))
-            drakkaris.set("ally",Arrays.asList("Nashor"));
+            drakkaris.set("ally", List.of("Nashor"));
 
         if (!drakkaris.contains("neutral"))
-            drakkaris.set("neutral",Arrays.asList("Frandha"));
+            drakkaris.set("neutral", List.of("Frandha"));
 
         if (!drakkaris.contains("enemy"))
             drakkaris.set("enemy", Arrays.asList("Vlarol\u00E1","Zeronia"));
@@ -254,14 +293,18 @@ public class ConfigFile {
 
         if (!drakkaris.contains("permissions"))
             drakkaris.set("permissions", List.of());
-
-        configFileConfiguration.save(configFile);
     }
 
     public void createLocationSection(String houseName, Location location ){
 
         ConfigurationSection configSection = configFileConfiguration.getConfigurationSection("houses");
+
+        if(configSection == null)
+            return;
+
         ConfigurationSection houseSection =  configSection.getConfigurationSection(houseName);
+        if(houseSection == null)
+            return;
 
         houseSection.set("location.world-name", location.getWorld().getName());
         houseSection.set("location.x", location.getX());
@@ -271,7 +314,7 @@ public class ConfigFile {
         houseSection.set("location.pitch",location.getPitch());
 
         try {
-            configFileConfiguration.save(configFile);
+            configFileConfiguration.save(config);
         } catch (IOException e) {
             HouseOfChosenOne.logInfo("[HouseOfChosenOne] Config file configuration error location:\n" + e.getMessage(),e);
         }
@@ -280,10 +323,14 @@ public class ConfigFile {
     public void addContribuition(int amount, String houseName){
 
         ConfigurationSection configSection = configFileConfiguration.getConfigurationSection("houses."+houseName);
+
+        if(configSection == null)
+            return;
+
         configSection.set("contribuition", configSection.getInt("contribuition")+ amount);
 
         try {
-            configFileConfiguration.save(configFile);
+            configFileConfiguration.save(config);
         } catch (IOException e) {
             HouseOfChosenOne.logInfo("[HouseOfChosenOne] N\u00E3o foi possivel alterar a contribui\u00E7\u00E3o da casa:\n" + e.getMessage(),e);
         }
@@ -295,18 +342,22 @@ public class ConfigFile {
             return;
 
         ConfigurationSection configSection = configFileConfiguration.getConfigurationSection("houses");
-        ConfigurationSection houseSection =  configSection.getConfigurationSection(houseName);
+
+        if(configSection == null)
+            return;
+
+        ConfigurationSection houseSection = configSection.getConfigurationSection(houseName);
+
+        if(houseSection == null)
+            return;
+
         houseSection.set("tag",tag);
 
         try {
-            configFileConfiguration.save(configFile);
+            configFileConfiguration.save(config);
         } catch (IOException e) {
             HouseOfChosenOne.logInfo("[HouseOfChosenOne] N\u00E3o foi possivel alterar a Tag da casa:\n" + e.getMessage(),e);
         }
-    }
-
-    public  File getFile() {
-        return configFile;
     }
 
     public FileConfiguration getConfig() {
