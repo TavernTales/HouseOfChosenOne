@@ -3,6 +3,7 @@ package com.alphadev.commands;
 import com.alphadev.HouseOfChosenOne;
 import com.alphadev.entity.House;
 import com.alphadev.services.QuestService;
+import com.alphadev.utils.HelpUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -14,7 +15,7 @@ import org.bukkit.event.Listener;
 import java.util.List;
 import java.util.Objects;
 
-public class AdminCommand implements Listener, CommandExecutor, TabCompleter {
+public class AdminCommandHandler implements Listener, CommandExecutor, TabCompleter {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
@@ -26,7 +27,7 @@ public class AdminCommand implements Listener, CommandExecutor, TabCompleter {
         }
 
         if(command.getName().equalsIgnoreCase("citadel") && args[0].equalsIgnoreCase("set")){
-            return  List.of("zeronia", "vlarola", "frandhra", "nashor", "drakkaris");
+            return HelpUtils.HOUSES;
         }
 
         if(command.getName().equalsIgnoreCase("quest") && args.length == 1)
@@ -53,7 +54,6 @@ public class AdminCommand implements Listener, CommandExecutor, TabCompleter {
 
             switch (args[0].toLowerCase()){
                 case "create" -> questService.questManagerPainel(player);
-                case "open" -> questService.openQuestMenu(player);
                 default -> questService.openQuestMenu(player);
             }
             return true;

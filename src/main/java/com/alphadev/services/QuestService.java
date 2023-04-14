@@ -32,7 +32,11 @@ public class QuestService {
     private final ConfigQuests configQuests = new ConfigQuests();
     private final ConfigurationSection questSettings = configQuests.getQuestSettings();
     private final ConfigurationSection settingsConfiguration  = configQuests.getConfigurationSettings();
-
+    private static final String HOUSE_CONSTANT = "house";
+    private static final String MISSION_CONSTANT = "Miss\u00E3o";
+    private static final String CONCLUDED_CONSTANT = "Concluido";
+    private static final String SETTINGS_CONSTANT = "settings-tier.";
+    private final Random randomProvider = new Random();
     public static QuestTierEnum sortQuestTier(){
         double percentChange = HelpUtils.sortPercent();
 
@@ -81,7 +85,7 @@ public class QuestService {
 
     HashMap<String, Set<ItemStack>> questBooks = new HashMap<>();
     public void generateDayliQuests(){
-        List.of("zeronia", "vlarola", "frandhra", "nashor", "drakkaris").forEach(houseName -> {
+        HelpUtils.HOUSES.forEach(houseName -> {
 
             House house = new House(HouseOfChosenOne.getConfigFile(),houseName);
             Set<Quest> questList = new HashSet<>();
@@ -105,13 +109,13 @@ public class QuestService {
         if(book == null || book.getItemMeta() == null || book.getItemMeta().getLore() == null)
             return false;
 
-        if(!ChatColor.stripColor(book.getItemMeta().getLore().get(0)).contains("Miss\u00E3o"))
+        if(!ChatColor.stripColor(book.getItemMeta().getLore().get(0)).contains(MISSION_CONSTANT))
             return false;
 
         BookMeta bookMeta = (BookMeta) book.getItemMeta();
         String bookPage = bookMeta.getPage(2);
 
-        return ChatColor.stripColor(bookPage).contains("Concluido");
+        return ChatColor.stripColor(bookPage).contains(CONCLUDED_CONSTANT);
 
     }
     public static void updateQuestionAmount(ItemStack book, Player player, int ammount){
@@ -119,7 +123,7 @@ public class QuestService {
         if(book == null || book.getItemMeta() == null || book.getItemMeta().getLore() == null)
             return;
 
-        if(!ChatColor.stripColor(book.getItemMeta().getLore().get(0)).contains("Miss\u00E3o"))
+        if(!ChatColor.stripColor(book.getItemMeta().getLore().get(0)).contains(MISSION_CONSTANT))
             return;
 
         BookMeta bookMeta = (BookMeta) book.getItemMeta();
@@ -134,7 +138,7 @@ public class QuestService {
         final int maxAmmount = Integer.parseInt(progress[1].trim());
 
         if( currentAmmount >= maxAmmount){
-            bookMeta.getLore().add(ChatColorUtil.boldText("Concluido", ChatColor.GREEN));
+            bookMeta.getLore().add(ChatColorUtil.boldText(CONCLUDED_CONSTANT, ChatColor.GREEN));
             book.setItemMeta(bookMeta);
             return;
         }
@@ -152,7 +156,7 @@ public class QuestService {
                     player.sendMessage(ChatColorUtil.textColor("Voc\u00EA concluiu o objetivo da miss\u00E3o",ChatColor.GREEN));
                     player.getWorld().spawnEntity(player.getLocation(),EntityType.FIREWORK);
                     player.playSound(player,Sound.ITEM_GOAT_HORN_SOUND_0,1F,1F);
-                    bookMeta.setPage(2, baseProgress + ChatColorUtil.boldText("Concluido", ChatColor.DARK_GREEN));
+                    bookMeta.setPage(2, baseProgress + ChatColorUtil.boldText(CONCLUDED_CONSTANT, ChatColor.DARK_GREEN));
 
                 }else{
                     player.sendMessage(ChatColorUtil.textColor("Voc\u00EA contribuiu com o objetivo da miss\u00E3o",ChatColor.GREEN));
@@ -171,7 +175,7 @@ public class QuestService {
             bookMeta.setAuthor(quest.getHouse().getName());
             bookMeta.setLore(
                 List.of(
-                        ChatColorUtil.boldText("Miss\u00E3o", ChatColor.GOLD),
+                        ChatColorUtil.boldText(MISSION_CONSTANT, ChatColor.GOLD),
                         ChatColorUtil.textColor("  Rank: ", ChatColor.WHITE)+ChatColorUtil.textColor(quest.getQuestTierEnum().getName(),quest.getQuestTierEnum().getColor()),
                         ChatColorUtil.textColor("  Objetivo: ", ChatColor.WHITE)+ChatColorUtil.textColor(getTitleByType(quest), ChatColor.GREEN)
                 )
@@ -229,7 +233,7 @@ public class QuestService {
         if( list.isEmpty() )
             return "";
 
-        return list.get(new Random().nextInt(0, list.size()));
+        return list.get(randomProvider.nextInt(0, list.size()));
     }
 
     private void setQuestData(Quest quest){
@@ -248,15 +252,15 @@ public class QuestService {
         if(quest.getQuestTypeEnum().equals(QuestTypeEnum.PVP))
             quest.setMobRequired(getRandomIndex(getQuestTierList(quest.getQuestTierEnum(),"pvp")).toString());
 
-        quest.setCountRequired( Math.round(Math.random() * questSettings.getInt("settings-tier."+quest.getQuestTierEnum().toString().toLowerCase()+".aditional-rate-progress") + questSettings.getInt("settings-tier."+quest.getQuestTierEnum().toString().toLowerCase().toLowerCase()+".min-progress")));
-        quest.setContibuitionPoints((int) Math.round(Math.random() * questSettings.getInt("settings-tier."+quest.getQuestTierEnum().toString().toLowerCase()+".aditional-rate-chance-reward") + questSettings.getInt("settings-tier."+quest.getQuestTierEnum().toString().toLowerCase().toLowerCase()+".min-points-reward")));
+        quest.setCountRequired( Math.round(Math.random() * questSettings.getInt(SETTINGS_CONSTANT+quest.getQuestTierEnum().toString().toLowerCase()+".aditional-rate-progress") + questSettings.getInt(SETTINGS_CONSTANT+quest.getQuestTierEnum().toString().toLowerCase().toLowerCase()+".min-progress")));
+        quest.setContibuitionPoints(randomProvider.nextInt() * questSettings.getInt(SETTINGS_CONSTANT+quest.getQuestTierEnum().toString().toLowerCase()+".aditional-rate-chance-reward") + questSettings.getInt(SETTINGS_CONSTANT+quest.getQuestTierEnum().toString().toLowerCase().toLowerCase()+".min-points-reward"));
 
         quest.setCurrentTime(System.currentTimeMillis());
     }
 
     public void questManagerPainel(Player player){
         ConfigurationSection configurationSection = new ConfigPlayers().getConfiguration(player);
-        if(configurationSection == null || configurationSection.getString("house") == null)
+        if(configurationSection == null || configurationSection.getString(HOUSE_CONSTANT) == null)
             return;
 
         Inventory inventory = Bukkit.createInventory( player, InventoryType.CHEST, ChatColorUtil.boldText("Gerenciador de Miss\u00F5es", ChatColor.DARK_AQUA));
@@ -267,10 +271,10 @@ public class QuestService {
 
     public void openQuestMenu(Player player){
         ConfigurationSection configurationSection = new ConfigPlayers().getConfiguration(player);
-        if(configurationSection == null || configurationSection.getString("house") == null)
+        if(configurationSection == null || configurationSection.getString(HOUSE_CONSTANT) == null)
             return;
 
-        House house = new House(HouseOfChosenOne.getConfigFile() ,configurationSection.getString("house"));
+        House house = new House(HouseOfChosenOne.getConfigFile() ,configurationSection.getString(HOUSE_CONSTANT));
 
         Inventory inventory = Bukkit.createInventory( player,54, ChatColorUtil.boldText("Miss\u00F5es: ", ChatColor.GOLD)+house.getName() );
 
@@ -278,7 +282,7 @@ public class QuestService {
 
         AtomicInteger index = new AtomicInteger();
         final ItemStack questStatus = checkIfPlayerhasTimeOutQuestion(player) ?  ItemFactoryUtil.menuDivisorRed() : ItemFactoryUtil.menuDivisorGreen();
-        questBooks.get(configurationSection.getString("house")).forEach(itemStack -> {
+        questBooks.get(configurationSection.getString(HOUSE_CONSTANT)).forEach(itemStack -> {
             inventory.setItem(index.getAndIncrement(), ItemFactoryUtil.menuDivisor());
             inventory.setItem(index.getAndIncrement(), itemStack);
             inventory.setItem(index.getAndIncrement(), questStatus);
@@ -291,7 +295,7 @@ public class QuestService {
         if(guiName == null || guiName.isEmpty())
             return true;
 
-        return !ChatColor.stripColor(guiName).contains("Miss\u00F5es");
+        return !ChatColor.stripColor(guiName).contains(MISSION_CONSTANT);
     }
 
     public void onInventoryClickEvent(InventoryClickEvent event){
@@ -312,23 +316,23 @@ public class QuestService {
     private void conclueMissions(Player player){
 
         Arrays.stream(player.getInventory().getContents())
-            .filter(itemStack ->itemStack != null && itemStack.getItemMeta() != null && itemStack.getItemMeta().getLore() != null && itemStack.getItemMeta().getLore().get(0).contains("Miss\u00E3o"))
+            .filter(itemStack ->itemStack != null && itemStack.getItemMeta() != null && itemStack.getItemMeta().getLore() != null && itemStack.getItemMeta().getLore().get(0).contains(MISSION_CONSTANT))
             .forEach(itemStack -> {
 
                 BookMeta bookMeta = (BookMeta) itemStack.getItemMeta();
                 String bookPage = bookMeta.getPage(2);
 
-                if(ChatColor.stripColor(bookPage).contains("Concluido")){
+                if(ChatColor.stripColor(bookPage).contains(CONCLUDED_CONSTANT)){
                     String rewardPage = ChatColor.stripColor(bookMeta.getPage(3));
 
                     String pontos = rewardPage.split("Pontos:")[1].trim();
 
                     ConfigurationSection configurationSection = new ConfigPlayers().getConfiguration(player);
-                    if(configurationSection == null || configurationSection.getString("house") == null)
+                    if(configurationSection == null || configurationSection.getString(HOUSE_CONSTANT) == null)
                         return;
 
                     HouseOfChosenOne.configPlayersFile().addContribuition(player,Integer.parseInt(pontos) );
-                    HouseOfChosenOne.configFile().addContribuition(Integer.parseInt(pontos), configurationSection.getString("house"));
+                    HouseOfChosenOne.configFile().addContribuition(Integer.parseInt(pontos), configurationSection.getString(HOUSE_CONSTANT));
 
                     player.getWorld().spawnEntity(player.getLocation(),EntityType.FIREWORK);
                     player.playSound(player,Sound.BLOCK_CONDUIT_ACTIVATE,1F,1F);
@@ -371,12 +375,10 @@ public class QuestService {
     private boolean checkIfPlayerHasMission(Player player){
        return Arrays.stream(player.getInventory().getContents()).anyMatch(itemStack -> {
 
-           if (itemStack == null || !itemStack.hasItemMeta() || itemStack.getItemMeta() == null || itemStack.getItemMeta().getLore() == null || itemStack.getItemMeta().getLore().isEmpty()) return false;
-
-           if (!ChatColor.stripColor(itemStack.getItemMeta().getLore().get(0)).contains("Miss\u00E3o"))
+           if (itemStack == null || !itemStack.hasItemMeta() || itemStack.getItemMeta() == null || itemStack.getItemMeta().getLore() == null || itemStack.getItemMeta().getLore().isEmpty())
                return false;
 
-           return true;
+           return ChatColor.stripColor(itemStack.getItemMeta().getLore().get(0)).contains(MISSION_CONSTANT);
        });
     }
 
@@ -397,7 +399,7 @@ public class QuestService {
     }
 
     private List<?> getQuestTierList(QuestTierEnum tierEnum, String section){
-        return questSettings.getList("settings-tier."+tierEnum.toString().toLowerCase()+"."+section);
+        return questSettings.getList(SETTINGS_CONSTANT+tierEnum.toString().toLowerCase()+"."+section);
     }
 
     public static QuestService getIstance(){

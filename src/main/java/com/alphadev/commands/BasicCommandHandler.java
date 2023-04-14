@@ -5,6 +5,7 @@ import com.alphadev.entity.House;
 import com.alphadev.services.PlayerMoveService;
 import com.alphadev.services.ScoreBoardService;
 import com.alphadev.utils.ChatColorUtil;
+import com.alphadev.utils.HelpUtils;
 import com.alphadev.utils.config.ConfigFile;
 import com.alphadev.utils.config.ConfigPlayers;
 import me.ryanhamshire.GriefPrevention.DataStore;
@@ -24,17 +25,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-public class BasicCommand implements Listener, CommandExecutor, TabCompleter {
+public class BasicCommandHandler implements Listener, CommandExecutor, TabCompleter {
 
-    private static HashMap<UUID, Integer> scheduleTaskPlayer = new HashMap<>();
-    private final List<String> HOUSES = List.of("zeronia", "vlarola", "frandhra", "nashor", "drakkaris");
+    private static final HashMap<UUID, Integer> scheduleTaskPlayer = new HashMap<>();
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
 
-        if(!(sender instanceof Player))
+        if(!(sender instanceof Player player))
             return false;
-
-        Player player = ((Player) sender).getPlayer();
 
         if(command.getName().equalsIgnoreCase("houseofchosenone") && args.length > 1 && args[0].equalsIgnoreCase("join")){
 
@@ -108,7 +106,7 @@ public class BasicCommand implements Listener, CommandExecutor, TabCompleter {
                 return  false;
             }
 
-            if(args[1] == null || args[1].isEmpty() || !HOUSES.contains(args[1])){
+            if(args[1] == null || args[1].isEmpty() || !HelpUtils.HOUSES.contains(args[1])){
                 player.sendMessage("Nome da casa inv\u00E1lido");
                 return  false;
             }
@@ -163,7 +161,7 @@ public class BasicCommand implements Listener, CommandExecutor, TabCompleter {
             long startTime = System.currentTimeMillis();
 
           if(scheduleTaskPlayer.get(player.getUniqueId()) != null)
-              Bukkit.getScheduler().cancelTask(scheduleTaskPlayer.get(player.getUniqueId()).intValue());
+              Bukkit.getScheduler().cancelTask(scheduleTaskPlayer.get(player.getUniqueId()));
 
             scheduleTaskPlayer.put(player.getUniqueId(),  Bukkit.getScheduler().scheduleSyncRepeatingTask(HouseOfChosenOne.getPlugin(), ()->{
 
@@ -179,12 +177,12 @@ public class BasicCommand implements Listener, CommandExecutor, TabCompleter {
                         player.teleport(house.getLocation());
                         player.sendTitle(ChatColorUtil.boldText(house.getName()),"",10,20,10);
                     }
-                    Bukkit.getScheduler().cancelTask(scheduleTaskPlayer.get(player.getUniqueId()).intValue());
+                    Bukkit.getScheduler().cancelTask(scheduleTaskPlayer.get(player.getUniqueId()));
                 }
 
                 if(  PlayerMoveService.isPlayerInMovement(player)){
                     player.sendTitle("Teleport Cancelado","",10 , 20, 10);
-                    Bukkit.getScheduler().cancelTask(scheduleTaskPlayer.get(player.getUniqueId()).intValue());
+                    Bukkit.getScheduler().cancelTask(scheduleTaskPlayer.get(player.getUniqueId()));
                 }
 
             }, 0L,20L));
@@ -203,7 +201,7 @@ public class BasicCommand implements Listener, CommandExecutor, TabCompleter {
             return List.of("join","leave","load","reload","tag");
 
         if(command.getName().equalsIgnoreCase("houseofchosenone") && args.length == 2 && (args[0].equalsIgnoreCase("join") || args[0].equalsIgnoreCase("tag")) )
-            return HOUSES;
+            return HelpUtils.HOUSES;
 
 
         return List.of();

@@ -1,4 +1,4 @@
-package com.alphadev.events;
+package com.alphadev.services;
 
 import com.alphadev.HouseOfChosenOne;
 import com.alphadev.entity.House;
@@ -6,19 +6,11 @@ import com.alphadev.utils.ChatColorUtil;
 import com.alphadev.utils.config.ConfigPlayers;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
+public class HouseService {
 
-public class PlayerRespawnEventListener implements Listener {
-
-
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onPlayerDieEvent(PlayerRespawnEvent event){
-
-        Player player = event.getPlayer();
+    public void onPlayerRespawn(Player player, PlayerRespawnEvent event){
 
         if(player.getBedSpawnLocation() != null)
             return;
@@ -34,6 +26,7 @@ public class PlayerRespawnEventListener implements Listener {
             player.sendTitle(ChatColorUtil.boldText(house.getName()),"",10,20,10);
         }
     }
+
 
 
 

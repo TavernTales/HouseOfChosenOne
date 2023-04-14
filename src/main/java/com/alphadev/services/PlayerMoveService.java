@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerMoveService {
+    private  PlayerMoveService(){
 
-    private static List<Player> inMoviment = new ArrayList<>();
+    }
+    private static final List<Player> inMoviment = new ArrayList<>();
 
 
     public static void trackPlayerMove(Player player){
@@ -18,8 +20,7 @@ public class PlayerMoveService {
     }
 
     public static void removePlayerTracker(Player player){
-        if(inMoviment.contains(player))
-            inMoviment.remove(player);
+        inMoviment.remove(player);
     }
 
     public static boolean isPlayerInMovement(Player player){

@@ -1,7 +1,7 @@
 package com.alphadev;
 
-import com.alphadev.commands.AdminCommand;
-import com.alphadev.commands.BasicCommand;
+import com.alphadev.commands.AdminCommandHandler;
+import com.alphadev.commands.BasicCommandHandler;
 import com.alphadev.events.*;
 import com.alphadev.schedules.QuestSchedulesService;
 import com.alphadev.services.ScoreBoardService;
@@ -9,7 +9,11 @@ import com.alphadev.utils.ChatColorUtil;
 import com.alphadev.utils.config.ConfigFile;
 import com.alphadev.utils.config.ConfigPlayers;
 import com.alphadev.utils.config.ConfigQuests;
+
 import com.alphadev.utils.connection.MongoProvider;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoDatabase;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -32,8 +36,6 @@ public class HouseOfChosenOne extends JavaPlugin {
     public void onLoad() {
         super.onLoad();
 
-
-
         broadcast(ChatColorUtil.boldText("======================", ChatColor.GOLD));
         broadcast(ChatColorUtil.boldText("[HouseOfChosenOne] ", ChatColor.GREEN));
         broadcast(ChatColorUtil.textColor(" Loaded Version: "+getPlugin().getDescription().getVersion(), ChatColor.GREEN));
@@ -41,9 +43,12 @@ public class HouseOfChosenOne extends JavaPlugin {
         broadcast(ChatColorUtil.textColor(" Description: \n "+ChatColor.GRAY+getPlugin().getDescription().getDescription(), ChatColor.GREEN));
         broadcast(ChatColorUtil.boldText("======================", ChatColor.GOLD));
 
-        configFile = new ConfigFile();
-        configPlayers = new ConfigPlayers();
-        configQuests = new ConfigQuests();
+        loadConfigs();
+//
+//        MongoClient mongoClient = MongoClients.create("mongodb+srv://hoc_db:123456!@hoc.oxosawo.mongodb.net/test");
+//        MongoDatabase database = mongoClient.getDatabase("localMongoDB");
+//
+//        database.createCollection("customers");
 
         MongoProvider.getInstance();
 
@@ -53,20 +58,14 @@ public class HouseOfChosenOne extends JavaPlugin {
     public void onEnable() {
         super.onEnable();
 
-        pluginManager.registerEvents(new SignChangeEventListener(),this);
-        pluginManager.registerEvents(new PlayerInteractEventListener(), this);
-        pluginManager.registerEvents(new PlayerRespawnEventListener(), this);
-        pluginManager.registerEvents(new PlayerJoinEventListener(), this);
-        pluginManager.registerEvents(new PlayerMoveEventListener(), this);
-        pluginManager.registerEvents(new InventoryInteractEventListener(), this);
-        pluginManager.registerEvents(new PlayerKillEntityEventListener(), this);
-        pluginManager.registerEvents(new PlayerBreakEventListener(), this);
+        pluginManager.registerEvents(new HousesEventHandler(),this);
+        pluginManager.registerEvents(new QuestEventHandler(), this);
+        pluginManager.registerEvents(new PlayerEventHandler(), this);
 
-
-        Objects.requireNonNull(getCommand("houseofchosenone")).setExecutor(new BasicCommand());
-        Objects.requireNonNull(getCommand("lobby")).setExecutor(new BasicCommand());
-        Objects.requireNonNull(getCommand("citadel")).setExecutor(new AdminCommand());
-        Objects.requireNonNull(getCommand("quest")).setExecutor(new AdminCommand());
+        Objects.requireNonNull(getCommand("houseofchosenone")).setExecutor(new BasicCommandHandler());
+        Objects.requireNonNull(getCommand("lobby")).setExecutor(new BasicCommandHandler());
+        Objects.requireNonNull(getCommand("citadel")).setExecutor(new AdminCommandHandler());
+        Objects.requireNonNull(getCommand("quest")).setExecutor(new AdminCommandHandler());
 
         loadConfigs();
         new QuestSchedulesService().questScheduleDaily();
@@ -126,7 +125,6 @@ public class HouseOfChosenOne extends JavaPlugin {
     public  static void  createHouseLocation(String houseName, Location location){
         configFile.createLocationSection(houseName, location);
     }
-
     public static ConfigPlayers getPlayerConfig(){return  configPlayers;}
 
 }
