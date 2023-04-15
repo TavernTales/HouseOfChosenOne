@@ -41,7 +41,7 @@ public class QuestEventHandler implements Listener {
                 return;
 
             if(ChatColor.stripColor(itemStack.getItemMeta().getLore().get(2)).split("Objetivo: ")[1].equalsIgnoreCase(event.getBlock().getType().name())
-                    && !QuestService.questBookIsConcluded(itemStack)){
+                    && QuestService.questBookIsConcluded(itemStack)){
 
                 QuestService.updateQuestionAmount(itemStack, player, 1);
                 event.setCancelled(true);
@@ -52,7 +52,7 @@ public class QuestEventHandler implements Listener {
     @EventHandler
     public void onPlayerKillEntity(EntityDeathEvent event){
 
-        if(!(event.getEntity().getKiller() instanceof Player))
+        if(event.getEntity().getKiller() == null)
             return;
 
         Player player = event.getEntity().getKiller();

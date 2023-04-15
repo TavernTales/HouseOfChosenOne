@@ -47,7 +47,9 @@ shadowJar{
     minimize()
 }
 
-
 test {
     useJUnitPlatform()
+
 }
+
+shadowJar.dependsOn check

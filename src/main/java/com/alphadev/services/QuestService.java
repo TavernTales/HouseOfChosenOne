@@ -115,7 +115,7 @@ public class QuestService {
         BookMeta bookMeta = (BookMeta) book.getItemMeta();
         String bookPage = bookMeta.getPage(2);
 
-        return ChatColor.stripColor(bookPage).contains(CONCLUDED_CONSTANT);
+        return !ChatColor.stripColor(bookPage).contains(CONCLUDED_CONSTANT);
 
     }
     public static void updateQuestionAmount(ItemStack book, Player player, int ammount){
@@ -148,7 +148,7 @@ public class QuestService {
         bookMeta.setPage(2,baseProgress+"Progresso: "+String.format(" %s/%s", currentAmmount, maxAmmount));
 
         final int finalCurrentAmmount = currentAmmount;
-        Arrays.stream(player.getInventory().getContents()).filter(itemStack -> !questBookIsConcluded(itemStack) ).forEach(itemStack -> {
+        Arrays.stream(player.getInventory().getContents()).filter(QuestService::questBookIsConcluded).forEach(itemStack -> {
             if(itemStack != null && itemStack.getItemMeta() != null  && itemStack.getType().equals(Material.WRITTEN_BOOK) &&
                     Objects.requireNonNull(((BookMeta) itemStack.getItemMeta()).getTitle()).equalsIgnoreCase(bookMeta.getTitle())){
 
@@ -295,7 +295,7 @@ public class QuestService {
         if(guiName == null || guiName.isEmpty())
             return true;
 
-        return !ChatColor.stripColor(guiName).contains(MISSION_CONSTANT);
+        return !ChatColor.stripColor(guiName).contains("Miss\u00F5es");
     }
 
     public void onInventoryClickEvent(InventoryClickEvent event){

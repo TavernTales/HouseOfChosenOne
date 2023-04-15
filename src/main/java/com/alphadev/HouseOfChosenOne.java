@@ -11,9 +11,6 @@ import com.alphadev.utils.config.ConfigPlayers;
 import com.alphadev.utils.config.ConfigQuests;
 
 import com.alphadev.utils.connection.MongoProvider;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoDatabase;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -44,11 +41,6 @@ public class HouseOfChosenOne extends JavaPlugin {
         broadcast(ChatColorUtil.boldText("======================", ChatColor.GOLD));
 
         loadConfigs();
-//
-//        MongoClient mongoClient = MongoClients.create("mongodb+srv://hoc_db:123456!@hoc.oxosawo.mongodb.net/test");
-//        MongoDatabase database = mongoClient.getDatabase("localMongoDB");
-//
-//        database.createCollection("customers");
 
         MongoProvider.getInstance();
 
@@ -65,7 +57,7 @@ public class HouseOfChosenOne extends JavaPlugin {
         Objects.requireNonNull(getCommand("houseofchosenone")).setExecutor(new BasicCommandHandler());
         Objects.requireNonNull(getCommand("lobby")).setExecutor(new BasicCommandHandler());
         Objects.requireNonNull(getCommand("citadel")).setExecutor(new AdminCommandHandler());
-        Objects.requireNonNull(getCommand("quest")).setExecutor(new AdminCommandHandler());
+        Objects.requireNonNull(getCommand("quest")).setExecutor(new BasicCommandHandler());
 
         loadConfigs();
         new QuestSchedulesService().questScheduleDaily();
