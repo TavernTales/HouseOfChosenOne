@@ -1,42 +1,53 @@
 package com.alphadev.utils.connection;
 
-
 import com.alphadev.HouseOfChosenOne;
+import com.alphadev.entity.PlayerData;
+import com.alphadev.entity.Quest;
+import com.mongodb.ConnectionString;
+import com.mongodb.MongoClientSettings;
+import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
-import dev.morphia.Datastore;
-import dev.morphia.Morphia;
+import com.mongodb.client.MongoDatabase;
+import org.bson.codecs.configuration.CodecProvider;
+import org.bson.codecs.configuration.CodecRegistries;
+import org.bson.codecs.configuration.CodecRegistry;
+import org.bson.codecs.pojo.PojoCodecProvider;
 import org.bukkit.configuration.ConfigurationSection;
-
 
 public class MongoProvider {
     private static MongoProvider instance;
-    private final Datastore datastore;
-    private static final ConfigurationSection settingsFile = HouseOfChosenOne.getConfigFile().getConfigurationSection("settings");
+    private final MongoDatabase database;
     private static final String MONGODB_URI;
     private static final String MONGODB_NAME;
+    private final CodecRegistry codecRegistry;
 
-    static  {
-        MONGODB_URI = settingsFile != null  && settingsFile.contains("mongodb-uri") ? settingsFile.getString("mongodb-uri") : "mongodb+srv://hoc_db:123456!@hoc.oxosawo.mongodb.net/test";
-        MONGODB_NAME = settingsFile != null  && settingsFile.contains("mongodb-name") ? settingsFile.getString("mongodb-name") : "houseOfChosenOne";
+    static {
+        ConfigurationSection settingsFile = HouseOfChosenOne.getConfigFile().getConfigurationSection("settings");
+        MONGODB_URI = settingsFile != null && settingsFile.contains("mongodb-uri") ? settingsFile.getString("mongodb-uri") : "mongodb://localhost/hoco";
+        MONGODB_NAME = settingsFile != null && settingsFile.contains("mongodb-name") ? settingsFile.getString("mongodb-name") : "houseOfChosenOne";
     }
 
     private MongoProvider() {
+        CodecProvider pojoCodecProvider = PojoCodecProvider.builder().register(PlayerData.class, Quest.class).build();
+        codecRegistry = CodecRegistries.fromRegistries(MongoClientSettings.getDefaultCodecRegistry(), CodecRegistries.fromProviders(pojoCodecProvider));
 
-        datastore = Morphia.createDatastore(MongoClients.create(MONGODB_URI), MONGODB_NAME);
-        datastore.getMapper().mapPackage("com.alphadev.entity");
+        MongoClientSettings settings = MongoClientSettings.builder()
+                .applyConnectionString(new ConnectionString(MONGODB_URI))
+                .codecRegistry(codecRegistry)
+                .build();
 
-        datastore.ensureIndexes();
+        MongoClient mongoClient = MongoClients.create(settings);
+        database = mongoClient.getDatabase(MONGODB_NAME);
     }
 
-    public static MongoProvider getInstance() {
+    public static synchronized MongoProvider getInstance() {
         if (instance == null) {
             instance = new MongoProvider();
         }
         return instance;
     }
 
-    public Datastore getDatastore() {
-        return datastore;
+    public MongoDatabase getDatabase() {
+        return database;
     }
-
 }

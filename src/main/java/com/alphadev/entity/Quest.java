@@ -2,37 +2,46 @@ package com.alphadev.entity;
 
 import com.alphadev.enums.QuestTierEnum;
 import com.alphadev.enums.QuestTypeEnum;
-import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.List;
+import java.util.UUID;
 
 
 public class Quest {
+    private UUID uuid;
     private String name;
+    private UUID owner;
+    private UUID completeBy;
     private Integer contibuitionPoints;
-    private List<ItemStack> itensRequired;
-    private String itemRequired;
-    private List<EntityType> mobsRequired;
-    private String mobRequired;
-
-    private List<Material> haverstItensRequired;
-    private String haverstItemRequired;
-
     private QuestTypeEnum questTypeEnum;
+    private EntityType mobObjective;
+    private ItemStack itemObjective;
     private QuestTierEnum questTierEnum;
-
     private Double vault;
-    private Long countRequired;
-    private List<Player> playersInProgress;
-    private House house;
+    private Integer countRequired;
     private Long currentTime;
+    private Boolean isComplete;
 
     public Quest() {
+        // Construtor vazio necessário para o Morphia
     }
 
+    public Quest(UUID uuid, String name, UUID owner, UUID completeBy, Integer contibuitionPoints, QuestTypeEnum questTypeEnum, QuestTierEnum questTierEnum, Double vault, Integer countRequired, Long currentTime, Boolean isComplete) {
+        this.uuid = uuid;
+        this.name = name;
+        this.owner = owner;
+        this.completeBy = completeBy;
+        this.contibuitionPoints = contibuitionPoints;
+        this.questTypeEnum = questTypeEnum;
+        this.questTierEnum = questTierEnum;
+        this.vault = vault;
+        this.countRequired = countRequired;
+        this.currentTime = currentTime;
+        this.isComplete = isComplete;
+    }
+
+    // getters e setters
     public String getName() {
         return name;
     }
@@ -47,54 +56,6 @@ public class Quest {
 
     public void setContibuitionPoints(Integer contibuitionPoints) {
         this.contibuitionPoints = contibuitionPoints;
-    }
-
-    public List<ItemStack> getItensRequired() {
-        return itensRequired;
-    }
-
-    public void setItensRequired(List<ItemStack> itensRequired) {
-        this.itensRequired = itensRequired;
-    }
-
-    public String getItemRequired() {
-        return itemRequired;
-    }
-
-    public void setItemRequired(String itemRequired) {
-        this.itemRequired = itemRequired;
-    }
-
-    public List<EntityType> getMobsRequired() {
-        return mobsRequired;
-    }
-
-    public void setMobsRequired(List<EntityType> mobsRequired) {
-        this.mobsRequired = mobsRequired;
-    }
-
-    public String getMobRequired() {
-        return mobRequired;
-    }
-
-    public void setMobRequired(String mobRequired) {
-        this.mobRequired = mobRequired;
-    }
-
-    public List<Material> getHaverstItensRequired() {
-        return haverstItensRequired;
-    }
-
-    public void setHaverstItensRequired(List<Material> haverstItensRequired) {
-        this.haverstItensRequired = haverstItensRequired;
-    }
-
-    public String getHaverstItemRequired() {
-        return haverstItemRequired;
-    }
-
-    public void setHaverstItemRequired(String haverstItemRequired) {
-        this.haverstItemRequired = haverstItemRequired;
     }
 
     public QuestTypeEnum getQuestTypeEnum() {
@@ -121,28 +82,12 @@ public class Quest {
         this.vault = vault;
     }
 
-    public Long getCountRequired() {
+    public Integer getCountRequired() {
         return countRequired;
     }
 
-    public void setCountRequired(Long countRequired) {
+    public void setCountRequired(Integer countRequired) {
         this.countRequired = countRequired;
-    }
-
-    public List<Player> getPlayersInProgress() {
-        return playersInProgress;
-    }
-
-    public void setPlayersInProgress(List<Player> playersInProgress) {
-        this.playersInProgress = playersInProgress;
-    }
-
-    public House getHouse() {
-        return house;
-    }
-
-    public void setHouse(House house) {
-        this.house = house;
     }
 
     public Long getCurrentTime() {
@@ -151,5 +96,53 @@ public class Quest {
 
     public void setCurrentTime(Long currentTime) {
         this.currentTime = currentTime;
+    }
+
+    public UUID getOwner() {
+        return owner;
+    }
+
+    public void setOwner(UUID owner) {
+        this.owner = owner;
+    }
+
+    public Boolean getComplete() {
+        return isComplete;
+    }
+
+    public void setComplete(Boolean complete) {
+        isComplete = complete;
+    }
+
+    public UUID getUUID() {
+        return uuid;
+    }
+
+    public void setUUID(UUID uuid) {
+        this.uuid = uuid;
+    }
+
+    public UUID getCompleteBy() {
+        return completeBy;
+    }
+
+    public void setCompleteBy(UUID completeBy) {
+        this.completeBy = completeBy;
+    }
+
+    public EntityType getMobObjective() {
+        return mobObjective;
+    }
+
+    public void setMobObjective(EntityType mobObjective) {
+        this.mobObjective = mobObjective;
+    }
+
+    public ItemStack getItemObjective() {
+        return itemObjective;
+    }
+
+    public void setItemObjective(ItemStack itemObjective) {
+        this.itemObjective = itemObjective;
     }
 }

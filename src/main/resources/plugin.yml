@@ -20,6 +20,9 @@ commands:
   quest:
     description: Comando usado para abertura de quests atraves dos npcs
     permission: npc.quests
+  questTest:
+    description: TESTETETSTE
+    permission: hco.use
 permissions:
   hco.use:
     default: true

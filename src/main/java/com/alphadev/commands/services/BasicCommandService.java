@@ -2,6 +2,7 @@ package com.alphadev.commands.services;
 
 import com.alphadev.HouseOfChosenOne;
 import com.alphadev.entity.House;
+import com.alphadev.events.quest.QuestStartEvent;
 import com.alphadev.services.PlayerMoveService;
 import com.alphadev.services.ScoreBoardService;
 import com.alphadev.utils.ChatColorUtil;
@@ -155,6 +156,10 @@ public class BasicCommandService {
             }
         }
     }
-
+    public static boolean questTest(Player sender, String... args){
+        if(!args[0].equalsIgnoreCase("start"))return false;
+        Bukkit.getScheduler().runTaskAsynchronously(HouseOfChosenOne.getPlugin(), () -> Bukkit.getPluginManager().callEvent(new QuestStartEvent(sender)));
+        return true;
+    }
 
 }
