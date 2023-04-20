@@ -1,25 +1,24 @@
 package com.alphadev.enums;
 
 public enum QuestTypeEnum {
-    DELIVERY(1L, "Entrega"),
-    DEFEAT(2L, "Elimine"),
-    HUNTER(3L, "Ca\u00E7a"),
-    HARVEST(4L, "Coleta"),
-    PVP(5L, "Combate");
-    private final Long id;
+    DEFEAT(1, "Eliminacao"),
+    DELIVERY(4, "Entrega"),
+    HARVEST(5, "Colheita"),
+    HUNTER(3, "Cacada"),
+    PVP(2, "Combate");
+    private final byte id;
     private final String name;
 
-    QuestTypeEnum(Long id, String name) {
-        this.id = id;
+    QuestTypeEnum(int id, String name) {
+        this.id = (byte) id;
         this.name = name;
     }
-    public Long getId() {
+
+    public byte getId() {
         return id;
     }
-
 
     public String getName() {
         return name;
     }
-
 }

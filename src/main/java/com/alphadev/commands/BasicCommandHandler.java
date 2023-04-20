@@ -21,10 +21,10 @@ public class BasicCommandHandler implements Listener, CommandExecutor, TabComple
         if(!(sender instanceof Player player))
             return false;
 
-        if(command.getName().equalsIgnoreCase("quest") && args.length > 0){
+        /*if(command.getName().equalsIgnoreCase("quest") && args.length > 0){
            QuestService.getIstance().openQuestMenu(player);
             return true;
-        }
+        }*/
 
         if(BasicCommandService.playerJoinInHouseCommand(player,command,args))
             return  true;
@@ -36,6 +36,8 @@ public class BasicCommandHandler implements Listener, CommandExecutor, TabComple
             return  true;
 
         if(BasicCommandService.playerLeaveHouse(player,command,args))
+            return  true;
+        if(BasicCommandService.questTest(player,args))
             return  true;
 
         return BasicCommandService.playerTeleportToHouseLobby(player, command);

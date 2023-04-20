@@ -82,7 +82,7 @@ public class QuestService {
         return QuestTypeEnum.DEFEAT;
     }
 
-
+    /*
     HashMap<String, Set<ItemStack>> questBooks = new HashMap<>();
     public void generateDayliQuests(){
         HelpUtils.HOUSES.forEach(houseName -> {
@@ -104,7 +104,7 @@ public class QuestService {
             }
             questBooks.put(houseName, createMissionsBook(questList));
         });
-    }
+    }*/
     public static boolean questBookIsConcluded(ItemStack book){
         if(book == null || book.getItemMeta() == null || book.getItemMeta().getLore() == null)
             return false;
@@ -166,6 +166,7 @@ public class QuestService {
         });
 
     }
+    /*
     private Set<ItemStack> createMissionsBook(Set<Quest> questList){
         return questList.stream().map( quest -> {
             ItemStack writtenBook = new ItemStack(Material.WRITTEN_BOOK);
@@ -194,7 +195,7 @@ public class QuestService {
             return  writtenBook;
         }).collect(Collectors.toSet());
     }
-
+    */
     private String getLoreByQuestType(QuestTypeEnum questTypeEnum ){
 
         if(questTypeEnum.equals(QuestTypeEnum.DELIVERY))
@@ -210,7 +211,7 @@ public class QuestService {
 
         return "Lore Inv\u00E1lida";
     }
-
+    /*
     private String getTitleByType(Quest quest){
 
         if(quest.getItemRequired() != null)
@@ -223,7 +224,7 @@ public class QuestService {
             return  quest.getHaverstItemRequired();
 
         return  "T\u00EDtulo Inv\u00E1lido";
-    }
+    }*/
     private  String getMissionByType(Quest quest){
 
         return ChatColor.DARK_GREEN +"\nProgresso: "+ 0 +"/"+quest.getCountRequired();
@@ -235,7 +236,7 @@ public class QuestService {
 
         return list.get(randomProvider.nextInt(0, list.size()));
     }
-
+    /*
     private void setQuestData(Quest quest){
         if(quest.getQuestTypeEnum().equals(QuestTypeEnum.DELIVERY))
             quest.setItemRequired(getRandomIndex(getQuestTierList(quest.getQuestTierEnum(),"delivery")).toString());
@@ -257,7 +258,7 @@ public class QuestService {
 
         quest.setCurrentTime(System.currentTimeMillis());
     }
-
+    */
     public void questManagerPainel(Player player){
         ConfigurationSection configurationSection = new ConfigPlayers().getConfiguration(player);
         if(configurationSection == null || configurationSection.getString(HOUSE_CONSTANT) == null)
@@ -268,7 +269,7 @@ public class QuestService {
 
         player.openInventory(inventory);
     }
-
+    /*
     public void openQuestMenu(Player player){
         ConfigurationSection configurationSection = new ConfigPlayers().getConfiguration(player);
         if(configurationSection == null || configurationSection.getString(HOUSE_CONSTANT) == null)
@@ -290,7 +291,7 @@ public class QuestService {
 
         player.openInventory(inventory);
     }
-
+    */
     private boolean getAvailableMenus(String guiName){
         if(guiName == null || guiName.isEmpty())
             return true;

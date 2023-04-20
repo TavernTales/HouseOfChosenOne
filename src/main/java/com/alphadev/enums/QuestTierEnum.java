@@ -4,16 +4,16 @@ import org.bukkit.ChatColor;
 
 public enum QuestTierEnum {
 
-    COMMON(1L,"Comum", ChatColor.DARK_GREEN),
-    UNCOMMON(2L, "Incomum", ChatColor.BLUE),
-    RARE(3L, "Raro", ChatColor.LIGHT_PURPLE ),
-    LEGENDARY(4L, "Lend\u00E1rio", ChatColor.GOLD),
-    CURSED(5L, "Amaldi\u00E7oado",ChatColor.DARK_RED);
-    private final Long id;
+    COMMON(1,"Comum", ChatColor.DARK_GREEN),
+    UNCOMMON(2, "Incomum", ChatColor.BLUE),
+    RARE(3, "Raro", ChatColor.LIGHT_PURPLE ),
+    LEGENDARY(4, "Lend\u00E1rio", ChatColor.GOLD),
+    CURSED(5, "Amaldi\u00E7oado",ChatColor.DARK_RED);
+    private final Integer id;
     private final String name;
     private final ChatColor color;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -24,7 +24,7 @@ public enum QuestTierEnum {
         return color;
     }
 
-    QuestTierEnum(Long id, String name, ChatColor color) {
+    QuestTierEnum(Integer id, String name, ChatColor color) {
         this.id = id;
         this.name = name;
         this.color = color;

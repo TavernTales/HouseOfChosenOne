@@ -3,7 +3,8 @@ package com.alphadev;
 import com.alphadev.commands.AdminCommandHandler;
 import com.alphadev.commands.BasicCommandHandler;
 import com.alphadev.events.*;
-import com.alphadev.schedules.QuestSchedulesService;
+import com.alphadev.listeners.EntityTypeQuestListener;
+import com.alphadev.listeners.QuestCoreListener;
 import com.alphadev.services.ScoreBoardService;
 import com.alphadev.utils.ChatColorUtil;
 import com.alphadev.utils.config.ConfigFile;
@@ -50,18 +51,19 @@ public class HouseOfChosenOne extends JavaPlugin {
     @Override
     public void onEnable() {
         super.onEnable();
-
+        pluginManager.registerEvents(new EntityTypeQuestListener(),this);
         pluginManager.registerEvents(new HousesEventHandler(),this);
         pluginManager.registerEvents(new QuestEventHandler(), this);
         pluginManager.registerEvents(new PlayerEventHandler(), this);
-
+        pluginManager.registerEvents(new QuestCoreListener(), this);
+        getCommand("questTest").setExecutor(new BasicCommandHandler());
         Objects.requireNonNull(getCommand("houseofchosenone")).setExecutor(new BasicCommandHandler());
         Objects.requireNonNull(getCommand("lobby")).setExecutor(new BasicCommandHandler());
         Objects.requireNonNull(getCommand("citadel")).setExecutor(new AdminCommandHandler());
         Objects.requireNonNull(getCommand("quest")).setExecutor(new BasicCommandHandler());
 
         loadConfigs();
-        new QuestSchedulesService().questScheduleDaily();
+        //new QuestSchedulesService().questScheduleDaily();
     }
 
     @Override
