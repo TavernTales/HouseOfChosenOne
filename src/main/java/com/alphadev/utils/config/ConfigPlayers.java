@@ -16,7 +16,7 @@ public class ConfigPlayers {
     private final Plugin plugin = HouseOfChosenOne.getPlugin();
     private final File playersFile = new File(plugin.getDataFolder(), "players/players.yml");
     private FileConfiguration playersConfiguration = new YamlConfiguration();
-    public static ConfigPlayers instance;
+    private static ConfigPlayers instance;
     public ConfigPlayers() {
         createConnectionConfig();
     }

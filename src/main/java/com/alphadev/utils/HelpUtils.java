@@ -9,6 +9,8 @@ import org.bukkit.inventory.ItemStack;
 import java.util.*;
 
 public class HelpUtils {
+
+    private HelpUtils(){}
     // Constantes para cálculos e listas pré-definidas
     private static final int MAX_COUNT_REQUIRED = 10;
     private static final int MAX_CONTRIBUTION_POINTS = 50;
@@ -52,6 +54,7 @@ public class HelpUtils {
     public static int getRandomCountRequired() {
         return (int) (Math.random() * MAX_COUNT_REQUIRED) + 1;
     }
+
 
     // Gera o total de recompensa
     public static int getRandomContributionPoints() {
@@ -118,7 +121,8 @@ public class HelpUtils {
         }
         return new ItemStack(Material.FROSTED_ICE);
     }
-    public static boolean isNullOrEmpty(Collection collections){
+
+    public static boolean isNullOrEmpty(Collection<?> collections){
         return  collections == null || collections.isEmpty();
     }
 

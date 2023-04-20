@@ -21,6 +21,9 @@ dependencies {
     compileOnly 'org.spigotmc:spigot-api:1.19-R0.1-SNAPSHOT'
 
     implementation group: 'org.mongodb', name: 'mongodb-driver-sync', version: '4.9.1'
+    implementation group: 'dev.morphia.morphia', name: 'morphia-core', version: '2.3.1'
+    testImplementation 'org.powermock:powermock-mockito-release-full:1.6.4'
+    testImplementation 'org.spigotmc:spigot-api:1.19-R0.1-SNAPSHOT'
 
     implementation 'com.github.TechFortress:GriefPrevention:16.18.1'
     implementation "net.citizensnpcs:citizensapi:2.0.30-SNAPSHOT"
@@ -37,11 +40,13 @@ shadowJar{
     project.configurations.implementation.canBeResolved = true
     configurations = [project.configurations.implementation]
     archiveName = "${project.name}-${project.version}.jar";
-    destinationDir = file("C:/Users/Lucas/Desktop/Plugin/server/plugins");
+    destinationDir = customOutputTask();
 
     dependencies {
         exclude(dependency('net.citizensnpcs:citizensapi:2.0.30-SNAPSHOT'))
         exclude(dependency('com.github.TechFortress:GriefPrevention:16.18.1'))
+        exclude(dependency( 'org.powermock:powermock-mockito-release-full:1.6.4'))
+        exclude(dependency( 'org.junit.jupiter:junit-jupiter-api:5.8.1'))
     }
 
     minimize()
@@ -50,6 +55,16 @@ shadowJar{
 test {
     useJUnitPlatform()
 
+}
+
+def customOutputTask() {
+    if(System.getenv("PROFILE")=="LEO")
+        return file("D:/Documentos/Servers/DEV_1_19_3_oficial/plugins");
+
+    if(System.getenv("PROFILE") == "LUCAS")
+        return file("C:/Users/Lucas/Desktop/Plugin/server/plugins");
+
+    return file("$buildDir/libs");
 }
 
 shadowJar.dependsOn check

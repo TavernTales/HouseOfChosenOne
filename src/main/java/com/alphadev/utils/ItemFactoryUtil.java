@@ -11,6 +11,7 @@ import java.util.Objects;
 
 public class ItemFactoryUtil {
 
+    private ItemFactoryUtil(){}
     public static ItemStack menuDivisor(){
         ItemStack itemStack = new ItemStack(Material.BLACK_STAINED_GLASS_PANE, 1);
         ItemMeta itemMeta = itemStack.getItemMeta();

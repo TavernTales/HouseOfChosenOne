@@ -1,6 +1,7 @@
 package com.alphadev.services;
 
 import com.alphadev.HouseOfChosenOne;
+import com.alphadev.commands.services.AdminCommandService;
 import com.alphadev.entity.House;
 import com.alphadev.utils.ChatColorUtil;
 import net.md_5.bungee.api.chat.*;
@@ -15,12 +16,12 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 
 public class SignHouseService {
-
+    private  SignHouseService(){}
     private static final String DIVISOR_STRING = "====================================";
 
     public static void signPlaceHouseSetup(SignChangeEvent event){
 
-        if(!event.getPlayer().hasPermission("hco.admin"))
+        if(!AdminCommandService.playerHasAdminPermission(event.getPlayer()))
             return;
 
        switch (event.getLine(0).toLowerCase()){
@@ -29,9 +30,6 @@ public class SignHouseService {
             case "frandhra" -> configureSign(event,"Frandhra", ChatColor.GREEN);
             case "nashor" ->  configureSign(event,"Nashor", ChatColor.DARK_RED);
             case "drakkaris" -> configureSign(event,"Drakkaris", ChatColor.DARK_GRAY);
-            default -> {
-
-            }
         }
     }
 
@@ -60,7 +58,6 @@ public class SignHouseService {
           case "frandhra" -> sendMessageHouseDetails(player,new House(configFile , "frandhra"), ChatColor.DARK_GREEN, "frandhra");
           case "nashor" -> sendMessageHouseDetails(player,new House(configFile , "nashor"), ChatColor.DARK_RED, "nashor");
           case "drakkaris" -> sendMessageHouseDetails(player,new House(configFile , "drakkaris"), ChatColor.DARK_GRAY, "drakkaris");
-          default -> {}
       }
     }
 

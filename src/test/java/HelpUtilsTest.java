@@ -1,11 +1,15 @@
+import com.alphadev.commands.services.AdminCommandService;
 import com.alphadev.utils.HelpUtils;
+import org.bukkit.entity.Player;
 import org.junit.jupiter.api.Test;
+import org.powermock.api.mockito.PowerMockito;
 
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class HelpUtilsTest {
+
+public class HelpUtilsTest  {
 
     @Test
     void testIfNotNull(){
@@ -17,6 +21,12 @@ class HelpUtilsTest {
         assertTrue(HelpUtils.isNullOrEmpty(null));
         assertTrue(HelpUtils.isNullOrEmpty(new ArrayList()));
         assertFalse(HelpUtils.isNullOrEmpty(HelpUtils.HOUSES));
+
+    }
+    @Test
+    void playerNaoTemPermissao(){
+        Player player = PowerMockito.mock(Player.class);
+        assertFalse(AdminCommandService.playerHasAdminPermission(player));
     }
 
 }
