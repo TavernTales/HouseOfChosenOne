@@ -1,14 +1,18 @@
 package com.alphadev.entity;
 
+import dev.morphia.annotations.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.List;
 import java.util.Objects;
 
-public class House {
+@Entity("house")
+public class House  {
+    @Id
+    private Long id;
+    @Indexed
     private String name;
     private String tag;
     private String details;
@@ -18,8 +22,16 @@ public class House {
     private List<String> neutral;
     private List<String> enemy;
     private String objective;
-    private Location location;
     private List<String> permissions;
+    private Integer contribuition;
+
+    private String worldName;
+    private Double x;
+    private Double y;
+    private Double z;
+    private Float yaw;
+    private Float pitch;
+
 
     public House() {
     }
@@ -39,18 +51,18 @@ public class House {
         objective = Objects.requireNonNull(configFileSections.getString("houses." + houseName + ".objective"));
         permissions = configFileSections.getStringList("houses." + houseName + ".permissions");
 
-        if(configFileSections.get("houses." + houseName + ".location") != null)
-         location = new Location(
-                getWorldFromConfigFile(configFileSections, houseName),
-                getCoordsLocationFromConfigFile(configFileSections, houseName, "x"),
-                getCoordsLocationFromConfigFile(configFileSections, houseName, "y"),
-                getCoordsLocationFromConfigFile(configFileSections, houseName, "z"),
-                getRotationLocationFromConfigFile(configFileSections, houseName, "yaw"),
-                getRotationLocationFromConfigFile(configFileSections, houseName, "pitch")
-        );
+        if(configFileSections.get("houses." + houseName + ".location") != null){
+            worldName = getWorldFromConfigFile(configFileSections, houseName);
+            x = getCoordsLocationFromConfigFile(configFileSections, houseName, "x");
+            y = getCoordsLocationFromConfigFile(configFileSections, houseName, "y");
+            z = getCoordsLocationFromConfigFile(configFileSections, houseName, "z");
+            yaw = getRotationLocationFromConfigFile(configFileSections, houseName, "yaw");
+            pitch = getRotationLocationFromConfigFile(configFileSections, houseName, "pitch");
+        }
+
     }
-    private World getWorldFromConfigFile(ConfigurationSection configFileSections, String houseName){
-        return Bukkit.getWorld(Objects.requireNonNull(configFileSections.getString("houses." + houseName + ".location.world-name")));
+    private String getWorldFromConfigFile(ConfigurationSection configFileSections, String houseName){
+        return Objects.requireNonNull(configFileSections.getString("houses." + houseName + ".location.world-name"));
     }
 
     private double getCoordsLocationFromConfigFile(ConfigurationSection configFileSections, String houseName, String coord){
@@ -64,87 +76,131 @@ public class House {
         return name;
     }
 
-    public void setName(String name) {
+    public House setName(String name) {
         this.name = name;
+        return this;
     }
 
     public String getTag() {
         return tag;
     }
 
-    public void setTag(String tag) {
+    public House setTag(String tag) {
         this.tag = tag;
+        return this;
     }
 
     public String getDetails() {
         return details;
     }
 
-    public void setDetails(String details) {
+    public House setDetails(String details) {
         this.details = details;
+        return this;
     }
 
     public String getPolicy() {
         return policy;
     }
 
-    public void setPolicy(String policy) {
+    public House setPolicy(String policy) {
         this.policy = policy;
+        return this;
     }
 
     public String getAlign() {
         return align;
     }
 
-    public void setAlign(String align) {
+    public House setAlign(String align) {
         this.align = align;
+        return this;
     }
 
     public List<String> getAlly() {
         return ally;
     }
 
-    public void setAlly(List<String> ally) {
+    public House setAlly(List<String> ally) {
         this.ally = ally;
+        return this;
     }
 
     public List<String> getNeutral() {
         return neutral;
     }
 
-    public void setNeutral(List<String> neutral) {
+    public House setNeutral(List<String> neutral) {
         this.neutral = neutral;
+        return this;
     }
 
     public List<String> getEnemy() {
         return enemy;
     }
 
-    public void setEnemy(List<String> enemy) {
+    public House setEnemy(List<String> enemy) {
         this.enemy = enemy;
+        return this;
     }
 
     public String getObjective() {
         return objective;
     }
 
-    public void setObjective(String objective) {
+    public House setObjective(String objective) {
         this.objective = objective;
+        return this;
     }
 
     public Location getLocation() {
-        return location;
+        return new Location(Bukkit.getWorld(worldName), x, y, z, yaw, pitch);
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
+    public House setLocation(Location location) {
+        if(location == null) {
+            worldName = null;
+            x = null;
+            y = null;
+            z = null;
+            yaw = null ;
+            pitch = null;
+            return this;
+        }
+        worldName = location.getWorld().getName();
+        x = location.getX();
+        y = location.getY();
+        z = location.getZ();
+        yaw= location.getYaw();
+        pitch = location.getPitch();
+
+        return this;
     }
 
     public List<String> getPermissions() {
         return permissions;
     }
 
-    public void setPermissions(List<String> permissions) {
+    public House setPermissions(List<String> permissions) {
         this.permissions = permissions;
+        return this;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public House setId(Long id) {
+        this.id = id;
+        return  this;
+    }
+
+    public Integer getContribuition() {
+        return contribuition;
+    }
+
+    public House setContribuition(Integer contribuition) {
+        this.contribuition = contribuition;
+        return this;
     }
 }

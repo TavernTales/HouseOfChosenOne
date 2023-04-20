@@ -14,6 +14,7 @@ import java.util.Objects;
 
 public class ScoreBoardService {
 
+    private ScoreBoardService(){}
     private static final Scoreboard SCOREBOARD = Bukkit.getScoreboardManager().getMainScoreboard();
     private static Team zeroniaTeam = SCOREBOARD.getTeam("zeronia");
     private static  Team vlarolaTeam = SCOREBOARD.getTeam("vlarola");
@@ -37,7 +38,7 @@ public class ScoreBoardService {
                 case "frandhra" -> setTeamSettings(frandhraTeam, player,  house);
                 case "nashor" -> setTeamSettings(nashorTeam, player, house);
                 case "drakkaris" -> setTeamSettings(drakkarisTeam, player, house);
-                default -> {}
+                default -> player.sendMessage("Nenhum time dispon\u00EDvel.");
             }
         }
     }
@@ -77,7 +78,7 @@ public class ScoreBoardService {
             player.setPlayerListName(player.getPlayerListName().replace(ChatColor.translateAlternateColorCodes('&',house.getTag()), ""));
         }
 
-        if(player.getDisplayName() != null && player.getDisplayName().contains(ChatColor.translateAlternateColorCodes('&',house.getTag()))){
+        if(player.getDisplayName().contains(ChatColor.translateAlternateColorCodes('&',house.getTag()))){
             player.setDisplayName(player.getDisplayName().replace(ChatColor.translateAlternateColorCodes('&',house.getTag()), ""));
         }
     }

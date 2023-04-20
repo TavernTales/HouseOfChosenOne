@@ -40,7 +40,6 @@ public class AdminCommandService {
         return true;
     }
 
-
     public  static boolean playerChangeHouseTag(Player player, Command command, String[] args){
         if( !command.getName().equalsIgnoreCase("houseofchosenone") || args == null ||args.length <= 0 || !args[0].equalsIgnoreCase("tag"))
             return  false;

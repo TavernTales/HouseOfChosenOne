@@ -2,10 +2,12 @@ package com.alphadev.utils.connection;
 
 
 import com.alphadev.HouseOfChosenOne;
+import com.alphadev.entity.House;
 import com.mongodb.client.MongoClients;
 import dev.morphia.Datastore;
 import dev.morphia.Morphia;
 import org.bukkit.configuration.ConfigurationSection;
+
 
 
 public class MongoProvider {
@@ -21,9 +23,8 @@ public class MongoProvider {
     }
 
     private MongoProvider() {
-
         datastore = Morphia.createDatastore(MongoClients.create(MONGODB_URI), MONGODB_NAME);
-        datastore.getMapper().mapPackage("com.alphadev.entity");
+        datastore.getMapper().map(House.class);
 
         datastore.ensureIndexes();
     }

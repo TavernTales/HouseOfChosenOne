@@ -2,6 +2,7 @@ package com.alphadev.commands;
 
 import com.alphadev.commands.services.AdminCommandService;
 import com.alphadev.utils.HelpUtils;
+import java.util.Collections;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -16,7 +17,7 @@ public class AdminCommandHandler implements Listener, CommandExecutor, TabComple
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
         if(!(sender instanceof Player))
-            return null;
+            return Collections.emptyList();
 
         if(command.getName().equalsIgnoreCase("citadel") && args.length == 1){
             return  List.of("set");
@@ -29,7 +30,7 @@ public class AdminCommandHandler implements Listener, CommandExecutor, TabComple
         if(command.getName().equalsIgnoreCase("quest") && args.length == 1)
             return  List.of("create","open");
 
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
@@ -39,11 +40,7 @@ public class AdminCommandHandler implements Listener, CommandExecutor, TabComple
             return false;
 
 
-        if(AdminCommandService.citadelDefineCommand(player,command,args)){
-            return  true;
-        }
-
-        return false;
+        return AdminCommandService.citadelDefineCommand(player, command, args);
     }
 
 

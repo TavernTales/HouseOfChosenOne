@@ -4,6 +4,7 @@ import org.bukkit.ChatColor;
 
 public class ChatColorUtil {
 
+    private ChatColorUtil(){}
     public static String boldText(String msg){
         return ChatColor.BOLD+msg;
     }

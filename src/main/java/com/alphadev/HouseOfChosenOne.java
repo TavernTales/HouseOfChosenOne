@@ -10,6 +10,7 @@ import com.alphadev.utils.config.ConfigFile;
 import com.alphadev.utils.config.ConfigPlayers;
 import com.alphadev.utils.config.ConfigQuests;
 
+import com.alphadev.utils.config.mongo.HouseConfigurationBuilder;
 import com.alphadev.utils.connection.MongoProvider;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -79,6 +80,8 @@ public class HouseOfChosenOne extends JavaPlugin {
         configFile = new ConfigFile();
         configPlayers = new ConfigPlayers();
         configQuests = new ConfigQuests();
+
+        new HouseConfigurationBuilder();
     }
 
     public static void reloadPlayerStats(){

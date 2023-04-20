@@ -30,9 +30,6 @@ public class Quest {
     private House house;
     private Long currentTime;
 
-    public Quest() {
-    }
-
     public String getName() {
         return name;
     }

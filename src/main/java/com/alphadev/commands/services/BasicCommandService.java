@@ -24,8 +24,10 @@ public class BasicCommandService {
 
     private BasicCommandService(){}
     private static final HashMap<UUID, Integer> scheduleTaskPlayer = new HashMap<>();
-    private static long ELEVEN_SECONDS_IN_MILLIS = 11000;
-    private static long MILLIS_TO_SECONDS = 1000;
+    private static final long ELEVEN_SECONDS_IN_MILLIS = 11000;
+    private static final long MILLIS_TO_SECONDS = 1000;
+    private static final String HOUSE_CONSTANT = "house";
+    private  static final String API_GRIEF_PREVENTION_BONUS = "api-grief-prevention-block-bonus";
 
     public static boolean playerJoinInHouseCommand(Player player, Command command, String[] args){
 
@@ -40,7 +42,7 @@ public class BasicCommandService {
             return  false;
 
         ConfigurationSection configurationSection = new ConfigPlayers().getConfiguration(player);
-        if(configurationSection != null && configurationSection.getString("house") != null){
+        if(configurationSection != null && configurationSection.getString(HOUSE_CONSTANT) != null){
             player.sendMessage(ChatColorUtil.boldText("Voc\u00EA j\u00E1 est\u00E1 em uma casa", ChatColor.RED));
             player.sendMessage("Execute o comando '/hco leave' para sair da sua casa atual. mas voc\u00EA perder\u00E1 todo o seu progresso e sofrer\u00E1 uma penalidade de 48Horas para entrar na pr\u00F3xima casa.");
             return false;
@@ -93,8 +95,8 @@ public class BasicCommandService {
 
             if(secondsRemaning <= 0 ){
                 ConfigurationSection configurationSection = new ConfigPlayers().getConfiguration(player);
-                if(configurationSection != null && configurationSection.getString("house") != null) {
-                    House house = new House(HouseOfChosenOne.getConfigFile(), configurationSection.getString("house"));
+                if(configurationSection != null && configurationSection.getString(HOUSE_CONSTANT) != null) {
+                    House house = new House(HouseOfChosenOne.getConfigFile(), configurationSection.getString(HOUSE_CONSTANT));
                     player.teleport(house.getLocation());
                     player.sendTitle(ChatColorUtil.boldText(house.getName()),"",10,20,10);
                 }
@@ -118,12 +120,12 @@ public class BasicCommandService {
             return  false;
 
         ConfigurationSection configurationSection = new ConfigPlayers().getConfiguration(player);
-        if(configurationSection == null || configurationSection.getString("house") == null) {
+        if(configurationSection == null || configurationSection.getString(HOUSE_CONSTANT) == null) {
             return  false;
         }
 
         HouseOfChosenOne.getPlayerConfig().createResetSection(player);
-        House house = new House( HouseOfChosenOne.getConfigFile(),configurationSection.getString("house"));
+        House house = new House( HouseOfChosenOne.getConfigFile(),configurationSection.getString(HOUSE_CONSTANT));
 
         ScoreBoardService.removePlayerFromHouseTeam(player,house);
 
@@ -142,14 +144,14 @@ public class BasicCommandService {
         if(griefPrevention != null ) {
             ConfigurationSection settingsFile = new ConfigFile().getConfig().getConfigurationSection("settings");
 
-            if(settingsFile != null && settingsFile.getInt("api-grief-prevention-block-bonus") > 0){
+            if(settingsFile != null && settingsFile.getInt(API_GRIEF_PREVENTION_BONUS) > 0){
                 DataStore dataStore = griefPrevention.dataStore;
                 PlayerData playerData = dataStore.getPlayerData(player.getUniqueId());
 
                 if(!remove)
-                    playerData.setBonusClaimBlocks(playerData.getBonusClaimBlocks() + settingsFile.getInt("api-grief-prevention-block-bonus"));
+                    playerData.setBonusClaimBlocks(playerData.getBonusClaimBlocks() + settingsFile.getInt(API_GRIEF_PREVENTION_BONUS));
                 else
-                    playerData.setBonusClaimBlocks(playerData.getBonusClaimBlocks() - settingsFile.getInt("api-grief-prevention-block-bonus"));
+                    playerData.setBonusClaimBlocks(playerData.getBonusClaimBlocks() - settingsFile.getInt(API_GRIEF_PREVENTION_BONUS));
 
                 dataStore.savePlayerData(player.getUniqueId(), playerData);
             }
