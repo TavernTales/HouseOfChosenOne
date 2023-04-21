@@ -10,12 +10,14 @@ import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClients;
 import dev.morphia.Datastore;
 import dev.morphia.Morphia;
+import org.bson.UuidRepresentation;
 import org.bson.codecs.configuration.CodecProvider;
 import org.bson.codecs.configuration.CodecRegistries;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
 import org.bukkit.configuration.ConfigurationSection;
 
+import java.util.List;
 
 
 public class MongoProvider {
@@ -24,7 +26,7 @@ public class MongoProvider {
     private static final ConfigurationSection settingsFile = HouseOfChosenOne.getConfigFile().getConfigurationSection("settings");
     private static final String MONGODB_URI;
     private static final String MONGODB_NAME;
-    private final CodecRegistry codecRegistry;
+
     static  {
         MONGODB_URI = settingsFile != null  && settingsFile.contains("mongodb-uri") ? settingsFile.getString("mongodb-uri") : "mongodb+srv://hoc_db:123456!@hoc.oxosawo.mongodb.net/test";
         MONGODB_NAME = settingsFile != null  && settingsFile.contains("mongodb-name") ? settingsFile.getString("mongodb-name") : "houseOfChosenOne";
@@ -32,17 +34,19 @@ public class MongoProvider {
 
     private MongoProvider() {
 
+        List<Class<?>> providers = List.of();
+
         CodecProvider pojoCodecProvider = PojoCodecProvider.builder().register(PlayerData.class, Quest.class, House.class).build();
-        codecRegistry = CodecRegistries.fromRegistries(MongoClientSettings.getDefaultCodecRegistry(), CodecRegistries.fromProviders(pojoCodecProvider));
+        CodecRegistry codecRegistry = CodecRegistries.fromRegistries(MongoClientSettings.getDefaultCodecRegistry(), CodecRegistries.fromProviders(pojoCodecProvider));
 
         MongoClientSettings settings = MongoClientSettings.builder()
                 .applyConnectionString(new ConnectionString(MONGODB_URI))
+                .uuidRepresentation(UuidRepresentation.STANDARD)
                 .codecRegistry(codecRegistry)
                 .build();
 
         datastore = Morphia.createDatastore(MongoClients.create(settings), MONGODB_NAME);
-        datastore.getMapper().map(House.class);
-
+        datastore.getMapper().map();
         datastore.ensureIndexes();
     }
 

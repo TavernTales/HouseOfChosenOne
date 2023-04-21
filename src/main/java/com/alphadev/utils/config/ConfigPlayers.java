@@ -87,26 +87,26 @@ public class ConfigPlayers {
             HouseOfChosenOne.logInfo("[HouseOfChosenOne] Error to save File Players: \n"+ e.getMessage(), e);
         }
     }
-    public void createResetSection(Player player){
-        playersConfiguration = YamlConfiguration.loadConfiguration(playersFile);
-        ConfigurationSection configurationSection = playersConfiguration.getConfigurationSection("players");
-
-        if(configurationSection == null)
-            return;
-
-        configurationSection.createSection(player.getUniqueId().toString());
-        ConfigurationSection configurationPlayer = getConfiguration(player);
-        configurationPlayer.set("playerName", player.getName());
-        configurationPlayer.set("reset", System.currentTimeMillis()+ 2L * 24 * 60 * 60 * 1000);
-
-        player.sendMessage(ChatColorUtil.boldText("Voc\u00EA deixou sua casa "));
-
-        try {
-            playersConfiguration.save(playersFile);
-        } catch (IOException e) {
-            HouseOfChosenOne.logInfo("[HouseOfChosenOne] Error to save File Players: \n"+ e.getMessage(), e);
-        }
-    }
+//    public void createResetSection(Player player){
+//        playersConfiguration = YamlConfiguration.loadConfiguration(playersFile);
+//        ConfigurationSection configurationSection = playersConfiguration.getConfigurationSection("players");
+//
+//        if(configurationSection == null)
+//            return;
+//
+//        configurationSection.createSection(player.getUniqueId().toString());
+//        ConfigurationSection configurationPlayer = getConfiguration(player);
+//        configurationPlayer.set("playerName", player.getName());
+//        configurationPlayer.set("reset", System.currentTimeMillis()+ 2L * 24 * 60 * 60 * 1000);
+//
+//        player.sendMessage(ChatColorUtil.boldText("Voc\u00EA deixou sua casa "));
+//
+//        try {
+//            playersConfiguration.save(playersFile);
+//        } catch (IOException e) {
+//            HouseOfChosenOne.logInfo("[HouseOfChosenOne] Error to save File Players: \n"+ e.getMessage(), e);
+//        }
+//    }
     public void addContribuition(Player player, int amount){
 
         ConfigurationSection configurationPlayer = getConfiguration(player);

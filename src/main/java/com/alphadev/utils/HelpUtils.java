@@ -50,7 +50,6 @@ public class HelpUtils {
                 return page;
         }
     }
-    // Gera o quantidade necessária para para concluir a missão
     public static int getRandomCountRequired() {
         return (int) (Math.random() * MAX_COUNT_REQUIRED) + 1;
     }
@@ -124,6 +123,9 @@ public class HelpUtils {
 
     public static boolean isNullOrEmpty(Collection<?> collections){
         return  collections == null || collections.isEmpty();
+    }
+    public static boolean isNullOrEmpty(Object o){
+        return o == null;
     }
 
     // TODAS AS CONFIGURAÇÕES DAS QUESTS

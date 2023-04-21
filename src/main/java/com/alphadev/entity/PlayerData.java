@@ -1,141 +1,95 @@
 package com.alphadev.entity;
-import java.util.UUID;
-public class PlayerData {
+import dev.morphia.annotations.Entity;
+import dev.morphia.annotations.Id;
+import dev.morphia.annotations.Indexed;
+import dev.morphia.annotations.Reference;
 
+import java.util.List;
+import java.util.UUID;
+@Entity("PlayerData")
+public class PlayerData {
+    @Id
     private UUID uuid;
+    @Indexed
     private String playerName;
-    private Double currentXp;
-    private Double maxXp;
-    private Integer level;
-    private Double balance;
-    private Integer core;
-    private Double health;
-    private Double maxHealth;
-    private Double mana;
-    private Double maxMana;
+    @Reference
+    private House house;
+
+    public Long getResetTimeout() {
+        return resetTimeout;
+    }
+
+    public PlayerData setResetTimeout(Long resetTimeout) {
+        this.resetTimeout = resetTimeout;
+        return this;
+    }
+
+    private Long resetTimeout;
     private Boolean isCandidate;
     private Boolean isChief;
-    public PlayerData(UUID uuid, String playerName, Double currentXp, Double maxXp, Integer level, Double balance, Integer core, Double health, Double maxHealth, Double mana, Double maxMana) {
-        this.uuid = uuid;
-        this.playerName = playerName;
-        this.currentXp = currentXp;
-        this.maxXp = maxXp;
-        this.level = level;
-        this.balance = balance;
-        this.core = core;
-        this.health = health;
-        this.maxHealth = maxHealth;
-        this.mana = mana;
-        this.maxMana = maxMana;
-        // Os campos Boolean não precisam entrar no construtor pois seriam dados a mais para cada jogador.
-    }
+    private List<String> permissions;
+    private Integer contribuitions;
 
-    public PlayerData() {
-        // Construtor vazio necessário para o Morphia
-    }
-
-    // getters e setters
-    public UUID getUuid() {
+    public UUID getUUID() {
         return uuid;
     }
 
-    public void setUuid(UUID uuid) {
+    public PlayerData setUUID(UUID uuid) {
         this.uuid = uuid;
+        return this;
     }
 
     public String getPlayerName() {
         return playerName;
     }
 
-    public void setPlayerName(String playerName) {
+    public PlayerData setPlayerName(String playerName) {
         this.playerName = playerName;
+        return this;
     }
 
-    public Double getCurrentXp() {
-        return currentXp;
+    public House getHouse() {
+        return house;
     }
 
-    public void setCurrentXp(Double currentXp) {
-        this.currentXp = currentXp;
+    public PlayerData setHouse(House house) {
+        this.house = house;
+        return this;
     }
 
-    public Double getMaxXp() {
-        return maxXp;
-    }
-
-    public void setMaxXp(Double maxXp) {
-        this.maxXp = maxXp;
-    }
-
-    public Integer getLevel() {
-        return level;
-    }
-
-    public void setLevel(Integer level) {
-        this.level = level;
-    }
-
-    public Double getBalance() {
-        return balance;
-    }
-
-    public void setBalance(Double balance) {
-        this.balance = balance;
-    }
-
-    public Integer getCore() {
-        return core;
-    }
-
-    public void setCore(Integer core) {
-        this.core = core;
-    }
-
-    public Double getMaxHealth() {
-        return maxHealth;
-    }
-
-    public void setMaxHealth(Double maxHealth) {
-        this.maxHealth = maxHealth;
-    }
-
-    public Double getHealth() {
-        return health;
-    }
-
-    public void setHealth(Double health) {
-        this.health = health;
-    }
-
-    public Double getMana() {
-        return mana;
-    }
-    public void setMana(Double mana) {
-        this.mana = mana;
-    }
-    public Double getMaxMana() {
-        return maxMana;
-    }
-
-    public void setMaxMana(Double maxMana) {
-        this.maxMana = maxMana;
-    }
-
-    // Getters e Setters para a "eleição de cada player".
-
-    public Boolean getIsCandidate() {
+    public Boolean getCandidate() {
         return isCandidate;
     }
 
-    public void setIsCandidate(Boolean isCandidate) {
-        this.isCandidate = isCandidate;
+    public PlayerData setCandidate(Boolean candidate) {
+        isCandidate = candidate;
+        return this;
     }
 
-    public Boolean getIsChief() {
+    public Boolean getChief() {
         return isChief;
     }
 
-    public void setIsChief(Boolean isChief) {
-        this.isChief = isChief;
+    public PlayerData setChief(Boolean chief) {
+        isChief = chief;
+        return this;
+    }
+
+    public List<String> getPermissions() {
+        return permissions;
+    }
+
+    public PlayerData setPermissions(List<String> permissions) {
+        this.permissions = permissions;
+        return this;
+    }
+
+    public Integer getContribuitions() {
+        return contribuitions;
+    }
+
+    public PlayerData setContribuitions(Integer contribuitions) {
+        this.contribuitions = contribuitions;
+        return this;
     }
 }

@@ -21,6 +21,7 @@ public class HelpUtilsTest  {
         assertTrue(HelpUtils.isNullOrEmpty(null));
         assertTrue(HelpUtils.isNullOrEmpty(new ArrayList()));
         assertFalse(HelpUtils.isNullOrEmpty(HelpUtils.HOUSES));
+        assertFalse(HelpUtils.isNullOrEmpty(new Object()));
 
     }
     @Test
