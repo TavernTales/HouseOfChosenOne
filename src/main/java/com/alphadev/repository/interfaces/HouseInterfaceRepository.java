@@ -7,7 +7,6 @@ import java.util.Optional;
 public interface HouseInterfaceRepository {
 
     Optional<House> findById(long id);
-    Optional<House> findByName(String name);
     House save(House house);
 
 }

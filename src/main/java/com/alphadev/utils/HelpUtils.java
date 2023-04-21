@@ -127,7 +127,9 @@ public class HelpUtils {
     public static boolean isNullOrEmpty(Object o){
         return o == null;
     }
-
+    public static boolean isNullOrEmpty(Object[] o){
+        return  o == null || o.length <= 0 ;
+    }
     // TODAS AS CONFIGURAÇÕES DAS QUESTS
     private static final List<String> COMMON_HUNTER_OPTIONS = Arrays.asList(
             "COW", "PIG", "SHEEP", "CHICKEN", "COD");

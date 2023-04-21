@@ -2,10 +2,12 @@ package com.alphadev.enums;
 
 import org.bukkit.ChatColor;
 
+import java.util.Arrays;
+
 public enum HouseEnum {
 
     ZERONIA(1,"zeronia", ChatColor.RED),
-    VLAROLA(2, "vrarola", ChatColor.BLUE),
+    VLAROLA(2, "vlarola", ChatColor.BLUE),
     FRANDHRA(3, "frandhra", ChatColor.DARK_GREEN ),
     NASHOR(4, "nashor", ChatColor.DARK_RED),
     DRAKKARIS(5, "drakkaris",ChatColor.DARK_GRAY);
@@ -29,5 +31,8 @@ public enum HouseEnum {
         this.id = id;
         this.name = name;
         this.color = color;
+    }
+    public static HouseEnum fromName(String text) {
+       return  Arrays.stream(HouseEnum.values()).filter(houseEnum -> houseEnum.getName().equalsIgnoreCase(text)).findFirst().orElse(HouseEnum.ZERONIA);
     }
 }

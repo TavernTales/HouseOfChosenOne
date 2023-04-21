@@ -70,11 +70,8 @@ public class AdminCommandService {
             return false;
         }
 
-        if(args.length == 1 || args[1] == null){
-            player.sendMessage(ChatColor.RED+" Nome da casa inv\u00E1lido tente /city set <nome da casa>");
-            player.sendMessage(ChatColor.RED+" casas dispon\u00EDveis: zeronia, vlarola, frandhra, nashor, drakkaris");
-            return  false;
-        }
+       if(!houseCommandValidations(player, args))
+           return false;
 
         House house = new House( HouseOfChosenOne.getConfigFile(), args[1]);
 
@@ -90,5 +87,17 @@ public class AdminCommandService {
         return true;
     }
 
+    public static boolean checkIfHouseNameExists(String houseName){
+        return !HelpUtils.isNullOrEmpty(houseName) && HelpUtils.HOUSES.contains(houseName.toLowerCase());
+    }
+
+    public static boolean houseCommandValidations(Player player , String... args){
+
+        if(HelpUtils.isNullOrEmpty(args) || args.length < 2 || !checkIfHouseNameExists(args[1])){
+            player.sendMessage(ChatColor.RED+" casas dispon\u00EDveis: zeronia, vlarola, frandhra, nashor, drakkaris");
+            return  false;
+        }
+        return  true;
+    }
 
 }

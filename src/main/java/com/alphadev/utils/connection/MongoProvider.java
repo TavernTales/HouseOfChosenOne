@@ -17,8 +17,6 @@ import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
 import org.bukkit.configuration.ConfigurationSection;
 
-import java.util.List;
-
 
 public class MongoProvider {
     private static MongoProvider instance;
@@ -34,8 +32,6 @@ public class MongoProvider {
 
     private MongoProvider() {
 
-        List<Class<?>> providers = List.of();
-
         CodecProvider pojoCodecProvider = PojoCodecProvider.builder().register(PlayerData.class, Quest.class, House.class).build();
         CodecRegistry codecRegistry = CodecRegistries.fromRegistries(MongoClientSettings.getDefaultCodecRegistry(), CodecRegistries.fromProviders(pojoCodecProvider));
 
@@ -46,7 +42,7 @@ public class MongoProvider {
                 .build();
 
         datastore = Morphia.createDatastore(MongoClients.create(settings), MONGODB_NAME);
-        datastore.getMapper().map(PlayerData.class, Quest.class, House.class);
+        datastore.getMapper().map(PlayerData.class, House.class);
         datastore.ensureIndexes();
     }
 

@@ -2,6 +2,7 @@ package com.alphadev.commands.services;
 
 import com.alphadev.HouseOfChosenOne;
 import com.alphadev.entity.House;
+import com.alphadev.enums.HouseEnum;
 import com.alphadev.events.quest.QuestStartEvent;
 import com.alphadev.repository.HouseRepository;
 import com.alphadev.repository.PlayerDataRepository;
@@ -20,10 +21,7 @@ import org.bukkit.command.Command;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 public class BasicCommandService {
 
@@ -43,8 +41,12 @@ public class BasicCommandService {
         if(!command.getName().equalsIgnoreCase("houseofchosenone") || args.length  <= 0  || !args[0].equalsIgnoreCase("join")){
             return false;
         }
-        Optional<House> house = houseRepository.findByName(args[1]);
 
+        if(!AdminCommandService.houseCommandValidations(player, args)){
+            return  false;
+        }
+
+        Optional<House> house = houseRepository.findById(HouseEnum.fromName(args[1]).getId());
         if( house.isEmpty() || house.get().getName() == null)
             return  false;
 
