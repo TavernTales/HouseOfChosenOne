@@ -46,7 +46,7 @@ public class MongoProvider {
                 .build();
 
         datastore = Morphia.createDatastore(MongoClients.create(settings), MONGODB_NAME);
-        datastore.getMapper().map();
+        datastore.getMapper().map(PlayerData.class, Quest.class, House.class);
         datastore.ensureIndexes();
     }
 
