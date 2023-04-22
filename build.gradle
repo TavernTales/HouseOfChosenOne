@@ -39,8 +39,8 @@ processResources {
 shadowJar{
     project.configurations.implementation.canBeResolved = true
     configurations = [project.configurations.implementation]
-    archiveName = "${project.name}-${project.version}.jar";
-    destinationDir = customOutputTask();
+    archiveFileName.set("${project.name}-${project.version}.jar")
+    getDestinationDirectory().set(customOutputTask())
 
     dependencies {
         exclude(dependency('net.citizensnpcs:citizensapi:2.0.30-SNAPSHOT'))
@@ -59,12 +59,12 @@ test {
 
 def customOutputTask() {
     if(System.getenv("PROFILE")=="LEO")
-        return file("D:/Documentos/Servers/DEV_1_19_3_oficial/plugins");
+        return file("D:/Documentos/Servers/DEV_1_19_3_oficial/plugins")
 
     if(System.getenv("PROFILE") == "LUCAS")
-        return file("C:/Users/Lucas/Desktop/Plugin/server/plugins");
+        return file("C:/Users/Lucas/Desktop/Plugin/server/plugins")
 
-    return file("$buildDir/libs");
+    return file("$buildDir/libs")
 }
 
 shadowJar.dependsOn check
