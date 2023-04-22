@@ -1,0 +1,4 @@
+#!/bin/bash
+echo >&2 "Runing Check"
+./gradlew check
+echo >&2 "Finish Check!"
