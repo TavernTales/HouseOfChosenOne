@@ -27,7 +27,6 @@ dependencies {
 
     implementation 'com.github.TechFortress:GriefPrevention:16.18.1'
     implementation "net.citizensnpcs:citizensapi:2.0.30-SNAPSHOT"
-
 }
 
 processResources {
@@ -54,7 +53,6 @@ shadowJar{
 
 test {
     useJUnitPlatform()
-
 }
 
 def customOutputTask() {
@@ -69,9 +67,8 @@ def customOutputTask() {
 
 shadowJar.dependsOn check
 
-
 task installLocalGitHook(type: Copy){
-    from new File(rootProject.rootDir, 'hooks/pre-commit')
+    from new File(rootProject.rootDir, 'hooks/')
     into { new File(rootProject.rootDir, '.git/hooks')}
     fileMode 0775
 }
