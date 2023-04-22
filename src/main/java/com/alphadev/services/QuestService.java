@@ -1,7 +1,6 @@
 package com.alphadev.services;
 
 import com.alphadev.HouseOfChosenOne;
-import com.alphadev.entity.House;
 import com.alphadev.entity.Quest;
 import com.alphadev.enums.QuestTierEnum;
 import com.alphadev.enums.QuestTypeEnum;
