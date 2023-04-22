@@ -68,3 +68,13 @@ def customOutputTask() {
 }
 
 shadowJar.dependsOn check
+
+
+task installLocalGitHook(type: Copy){
+    from new File(rootProject.rootDir, 'hooks/pre-commit')
+    into { new File(rootProject.rootDir, '.git/hooks')}
+    fileMode 0775
+}
+
+build.dependsOn installLocalGitHook
+shadowJar.dependsOn installLocalGitHook
