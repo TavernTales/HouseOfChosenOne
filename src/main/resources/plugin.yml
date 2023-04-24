@@ -23,6 +23,10 @@ commands:
   questTest:
     description: TESTETETSTE
     permission: hco.use
+  global:
+    description: Define o chat global como padrão
+  local:
+    description: Define o chat local como padrão
 permissions:
   hco.use:
     default: true

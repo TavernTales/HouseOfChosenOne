@@ -6,6 +6,7 @@ import com.alphadev.enums.HouseEnum;
 import com.alphadev.events.quest.QuestStartEvent;
 import com.alphadev.repository.HouseRepository;
 import com.alphadev.repository.PlayerDataRepository;
+import com.alphadev.services.ChatManagerService;
 import com.alphadev.services.PlayerMoveService;
 import com.alphadev.services.ScoreBoardService;
 import com.alphadev.utils.ChatColorUtil;
@@ -176,10 +177,25 @@ public class BasicCommandService {
             }
         }
     }
-    public static boolean questTest(Player sender, String... args){
-        if(!args[0].equalsIgnoreCase("start"))return false;
+
+    public static boolean questTest(Player sender, Command command, String... args){
+        if(!command.getName().equalsIgnoreCase("questTest") || !args[0].equalsIgnoreCase("start"))return false;
         Bukkit.getScheduler().runTaskAsynchronously(HouseOfChosenOne.getPlugin(), () -> Bukkit.getPluginManager().callEvent(new QuestStartEvent(sender)));
         return true;
+    }
+
+    public static boolean addPlayerToGlobalChat(Player sender, Command command){
+        if(!command.getName().equalsIgnoreCase("global")) return false ;
+        ChatManagerService.addPlayerToGlobalChat(sender);
+        sender.sendMessage(ChatColorUtil.textColor("Voc\u00EA entrou no Chat Global", ChatColor.GREEN));
+        return  true;
+    }
+
+    public static boolean addPlayerToLocalChat(Player sender, Command command){
+        if(!command.getName().equalsIgnoreCase("local")) return false ;
+        ChatManagerService.removePlayerToGlobalChat(sender);
+        sender.sendMessage(ChatColorUtil.textColor("Voc\u00EA entrou no Chat Local", ChatColor.GREEN));
+        return  true;
     }
 
 }

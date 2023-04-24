@@ -20,23 +20,19 @@ public class BasicCommandHandler implements Listener, CommandExecutor, TabComple
         if(!(sender instanceof Player player))
             return false;
 
-        /*if(command.getName().equalsIgnoreCase("quest") && args.length > 0){
-           QuestService.getIstance().openQuestMenu(player);
-            return true;
-        }*/
-
         if(BasicCommandService.playerJoinInHouseCommand(player,command,args))
             return  true;
-
         if(AdminCommandService.playerLoadHouseOfChosenOne(player,command,args))
             return  true;
-
         if(AdminCommandService.playerChangeHouseTag(player,command,args))
             return  true;
-
         if(BasicCommandService.playerLeaveHouse(player,command,args))
             return  true;
-        if(BasicCommandService.questTest(player,args))
+        if(BasicCommandService.questTest(player,command, args))
+            return  true;
+        if(BasicCommandService.addPlayerToGlobalChat(player,command))
+            return  true;
+        if(BasicCommandService.addPlayerToLocalChat(player,command))
             return  true;
 
         return BasicCommandService.playerTeleportToHouseLobby(player, command);

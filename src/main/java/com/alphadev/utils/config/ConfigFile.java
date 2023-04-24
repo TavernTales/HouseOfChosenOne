@@ -46,10 +46,17 @@ public class ConfigFile {
 
         ConfigurationSection configSection = configFileConfiguration.getConfigurationSection("houses");
 
+        ConfigurationSection chatSettingsSection = configFileConfiguration.getConfigurationSection("chat-settings");
+
 
         if(settingsSection == null){
             HouseOfChosenOne.logInfo("[HouseOfChosenOne] Creating Settings File Configuration . . .");
             settingsSection = configFileConfiguration.createSection("settings");
+        }
+
+        if(chatSettingsSection == null){
+            HouseOfChosenOne.logInfo("[HouseOfChosenOne] Creating Settings File Configuration . . .");
+            chatSettingsSection = configFileConfiguration.createSection("chat-settings");
         }
 
         if (configSection == null){
@@ -66,6 +73,8 @@ public class ConfigFile {
         if(!settingsSection.contains("api-grief-prevention-block-bonus"))
             settingsSection.set("api-grief-prevention-block-bonus", 3000);
 
+        if(!chatSettingsSection.contains("distance-chat-local-limit"))
+            chatSettingsSection.set("distance-chat-local-limit", 800);
 
        if( configSection.getConfigurationSection("zeronia") == null)
             configSection.createSection("zeronia");
