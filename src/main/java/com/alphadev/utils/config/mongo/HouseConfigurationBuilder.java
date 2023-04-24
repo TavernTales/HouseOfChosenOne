@@ -1,25 +1,26 @@
 package com.alphadev.utils.config.mongo;
 
 import com.alphadev.entity.House;
+import com.alphadev.entity.HouseLocation;
 import com.alphadev.repository.HouseRepository;
-
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class HouseConfigurationBuilder {
 
     private final HouseRepository repository = new HouseRepository();
+    private final List<House> houses = new ArrayList<>();
     public HouseConfigurationBuilder() {
-       List.of(zeroniaBuilder(),vlarolaBuilder(),frandhraBuilder(),nashorBuilder(),drakkarisBuilder()).forEach(this::populateHouseDatabase);
+        if (repository.isEmpty()) populateHouseDatabase();
     }
-    private void populateHouseDatabase(House house){
-        if(repository.findById(house.getId()).isPresent()) return;
-
-        repository.save(house);
+    private void populateHouseDatabase() {
+        setHousesRelationship();
+        repository.saveAll(houses);
     }
-
     private House zeroniaBuilder(){
         return new House()
-                .setId(1L)
                 .setName("Reino de Zeronia")
                 .setTag("[&c&lZ&r]")
                 .setDetails("""
@@ -31,18 +32,13 @@ public class HouseConfigurationBuilder {
                  grandes guerreiros para lutar em nome de Zeronia""")
                 .setPolicy("Monarquia")
                 .setAlign("Bom e Leal")
-                .setAlly(List.of("Vlarol\u00E1"))
-                .setNeutral(List.of("Frandha"))
-                .setEnemy(List.of("Nashor", "Drakkaris"))
-                .setObjective("Com\u00E9rcio local e internacional, crescimento da civiliza\u00E7\u00E3o e batalhas PVP")
-                .setContribuition(0)
+                .setObjective("Comércio local e internacional, crescimento da civilização e batalhas PVP")
+                .setContribution(0)
                 .setPermissions(List.of());
-
     }
     private House vlarolaBuilder(){
         return new House()
-                .setId(2L)
-                .setName("Cidade de Vlarol\u00E1")
+                .setName("Cidade de Vlarolá")
                 .setTag("[&9&lV&r]")
                 .setDetails("""
                     A Cidade de Vlarol\u00E1 se encontra nos grandes Desertos, sua bandeira simboliza
@@ -53,18 +49,14 @@ public class HouseConfigurationBuilder {
                     alem de uma grande produ\u00E7\u00E3o de comida e alimento para comercio.""")
                 .setPolicy("Democracia")
                 .setAlign("Neutro Bom")
-                .setAlly(List.of("Zeronia"))
-                .setNeutral(List.of("Frandha", "Nashor"))
-                .setEnemy(List.of("Drakkaris"))
                 .setObjective("Com\u00E9rcio local e internacional, crescimento da civiliza\u00E7\u00E3o e batalhas PVP")
-                .setContribuition(0)
+                .setContribution(0)
                 .setPermissions(List.of());
     }
 
     private House frandhraBuilder(){
         return new House()
-                .setId(3L)
-                .setName("Monast\u00E9rio dos Frandhra")
+                .setName("Monastério dos Frandhra")
                 .setTag("[&2&lF&f]")
                 .setDetails("""
                         O Monast\u00E9rio se encontra nos campos gelados da Taiga, sua bandeira simboliza
@@ -73,19 +65,15 @@ public class HouseConfigurationBuilder {
                         na existencia do ultimo da especie, apesar de nao saberem aonde ele se encontra,
                         por\u00E9m, com o conhecimento adquirido com o tempo, as po\u00E7\u00F5es e encantamentos foram
                         o que mais destacaram o Imp\u00E9rio, a Magia!""")
-                .setPolicy("Rep\u00FAblica")
+                .setPolicy("República")
                 .setAlign("Neutro Puro")
-                .setAlly(List.of())
-                .setNeutral(List.of("Vlarol\u00E1", "Zeronia","Nashor","Drakkaris"))
-                .setEnemy(List.of(""))
                 .setObjective("Com\u00E9rcio de po\u00E7\u00F5es e Encantamentos, explora\u00E7\u00E3o em larga escala e batalhas PVP")
-                .setContribuition(0)
+                .setContribution(0)
                 .setPermissions(List.of());
     }
     private House nashorBuilder(){
         return new House()
-                .setId(4L)
-                .setName("Imp\u00E9rio de Nashor")
+                .setName("Império de Nashor")
                 .setTag("[&4&lN&r]")
                 .setDetails("""
                         O Imp\u00E9rio de encontra nas grandes montanhas, seu simbolo \u00E9 uma F\u00EAnix.
@@ -95,18 +83,14 @@ public class HouseConfigurationBuilder {
                         atraves de combate, transforma todos os seus membros em verdadeiras maquinas de guerra!""")
                 .setPolicy("Imperialista")
                 .setAlign("Mal e Leal")
-                .setAlly(List.of("Drakkaris"))
-                .setNeutral(List.of("Vlarol\u00E1", "Frandha"))
-                .setEnemy(List.of("Zeronia"))
                 .setObjective("Explora\u00E7\u00E3o em larga escala e combates PVP")
-                .setContribuition(0)
+                .setContribution(0)
                 .setPermissions(List.of());
     }
 
     private House drakkarisBuilder(){
         return new House()
-                .setId(5L)
-                .setName("Guarni\u00E7\u00E3o Drakkaris")
+                .setName("Guarnição Drakkaris")
                 .setTag("[&8&lD&r]")
                 .setDetails("""
                         Os Drakkaris se encontram nos Pantanos, seu simbolo j\u00E1 diz por si s\u00F3
@@ -119,12 +103,38 @@ public class HouseConfigurationBuilder {
                         membro da propria Guilda""")
                 .setPolicy("Anarquia")
                 .setAlign("Caotico Mal")
-                .setAlly(List.of("Nashor"))
-                .setNeutral(List.of("Frandha"))
-                .setEnemy(List.of("Vlarol\u00E1","Zeronia"))
                 .setObjective("Saques de pessoas desprevinidas, Assasinatos por contrato e Batalhas PVP")
-                .setContribuition(0)
+                .setContribution(0)
                 .setPermissions(List.of());
     }
-
+    private void setHousesRelationship(){
+        // Build das entidades "houses"
+        House zeronia = zeroniaBuilder();
+        House vlarola = vlarolaBuilder();
+        House frandhra = frandhraBuilder();
+        House nashor = nashorBuilder();
+        House drakkaris = drakkarisBuilder();
+        // Relationship de zeronia
+        zeronia.setAlly(Collections.singletonList(vlarola));
+        zeronia.setNeutral(Collections.singletonList(frandhra));
+        zeronia.setEnemy(Arrays.asList(nashor,drakkaris));
+        // Relationship de zeronia
+        vlarola.setAlly(Collections.singletonList(zeronia));
+        vlarola.setNeutral(Arrays.asList(frandhra,nashor));
+        vlarola.setEnemy(Collections.singletonList(drakkaris));
+        // Relationship de frandhra
+        frandhra.setAlly(List.of());
+        frandhra.setNeutral(Arrays.asList(vlarola,zeronia,nashor,drakkaris));
+        frandhra.setEnemy(List.of());
+        // Relationship de nashor
+        nashor.setAlly(Collections.singletonList(drakkaris));
+        nashor.setNeutral(Arrays.asList(vlarola,frandhra));
+        nashor.setEnemy(Collections.singletonList(zeronia));
+        // Relationship de drakkaris
+        drakkaris.setAlly(Collections.singletonList(nashor));
+        drakkaris.setNeutral(Collections.singletonList(frandhra));
+        drakkaris.setEnemy(Arrays.asList(vlarola,zeronia));
+        // Adiciona as casas na lista
+        houses.addAll(Arrays.asList(zeronia,vlarola,frandhra,nashor,drakkaris));
+    }
 }
