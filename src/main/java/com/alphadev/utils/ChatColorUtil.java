@@ -16,5 +16,8 @@ public class ChatColorUtil {
     public static  String textColor(String msg, ChatColor color){
         return  color+""+msg+ChatColor.RESET;
     }
+    public static  String textColor(String[] msg, ChatColor color){
+        return  color+""+String.join(" ",msg)+ChatColor.RESET;
+    }
 
 }

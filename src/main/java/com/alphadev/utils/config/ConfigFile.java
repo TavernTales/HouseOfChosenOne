@@ -74,7 +74,7 @@ public class ConfigFile {
             settingsSection.set("api-grief-prevention-block-bonus", 3000);
 
         if(!chatSettingsSection.contains("distance-chat-local-limit"))
-            chatSettingsSection.set("distance-chat-local-limit", 800);
+            chatSettingsSection.set("distance-chat-local-limit", 500);
 
        if( configSection.getConfigurationSection("zeronia") == null)
             configSection.createSection("zeronia");

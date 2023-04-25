@@ -65,6 +65,8 @@ public class HouseOfChosenOne extends JavaPlugin {
 
         Objects.requireNonNull(getCommand("global")).setExecutor(new BasicCommandHandler());
         Objects.requireNonNull(getCommand("local")).setExecutor(new BasicCommandHandler());
+        Objects.requireNonNull(getCommand("whisper")).setExecutor(new BasicCommandHandler());
+        Objects.requireNonNull(getCommand("reply")).setExecutor(new BasicCommandHandler());
 
         loadConfigs();
         //new QuestSchedulesService().questScheduleDaily();

@@ -198,4 +198,59 @@ public class BasicCommandService {
         return  true;
     }
 
+    public static boolean whisperToPlayer(Player sender, Command command, String...args) {
+        if(!command.getName().equalsIgnoreCase("whisper") ) return false ;
+
+        if(args == null || args.length < 2){
+            sender.sendMessage(ChatColorUtil.textColor("Mensagem inv\u00E1lida tente: /w <Player> <Digite seu texto aqui>",ChatColor.RED));
+            return  false;
+        }
+
+        final String[] message = Arrays.copyOfRange(args, 1, args.length);
+        sender.sendMessage(ChatColorUtil.textColor(sender.getName() + " -> "+ args[0], ChatColor.GRAY) + ChatColorUtil.textColor(" >> ", ChatColor.GOLD) + ChatColorUtil.textColor(message, ChatColor.LIGHT_PURPLE));
+
+        Bukkit.getServer().getOnlinePlayers().forEach(receiver -> {
+           if( ChatManagerService.playerHasOpOrPermission(receiver) && !sender.getName().equalsIgnoreCase(receiver.getName())){
+               receiver.sendMessage( ChatColorUtil.textColor(sender.getName()+" -> "+ args[0] + " >> ", ChatColor.AQUA) + ChatColorUtil.textColor(message,ChatColor.GRAY));
+               return;
+           }
+
+           if(receiver.getName().equalsIgnoreCase(args[0]) && !sender.getName().equalsIgnoreCase(receiver.getName())){
+               receiver.sendMessage(ChatColorUtil.textColor(sender.getName() + " sussurrou ", ChatColor.GRAY) + ChatColorUtil.textColor(" >> ", ChatColor.AQUA) + ChatColorUtil.textColor(message, ChatColor.LIGHT_PURPLE));
+           }
+        });
+
+        return true;
+    }
+
+    public static boolean replyToPlayer(Player replier, Command command, String...args) {
+        if(!command.getName().equalsIgnoreCase("reply") ) return false ;
+
+        if(args == null){
+            replier.sendMessage(ChatColorUtil.textColor("Mensagem inv\u00E1lida tente: /r <Digite seu texto aqui>",ChatColor.RED));
+            return  false;
+        }
+        Player lastPlayer =  ChatManagerService.getLastPlayerToReply(replier);
+
+        if(lastPlayer == null){
+            replier.sendMessage(ChatColorUtil.textColor("Nenhum player lhe enviou mensagem ainda",ChatColor.RED));
+            return  false;
+        }
+
+        replier.sendMessage(ChatColorUtil.textColor(replier.getName() + " -> "+lastPlayer.getName() , ChatColor.GRAY) + ChatColorUtil.textColor(" >> ", ChatColor.GOLD) + ChatColorUtil.textColor(args, ChatColor.LIGHT_PURPLE));
+
+        Bukkit.getServer().getOnlinePlayers().forEach(receiver -> {
+            if( ChatManagerService.playerHasOpOrPermission(receiver) && !replier.getName().equalsIgnoreCase(receiver.getName())){
+                receiver.sendMessage( ChatColorUtil.textColor(replier.getName()+" -> "+ lastPlayer.getName() + " >> ", ChatColor.AQUA) + ChatColorUtil.textColor(args,ChatColor.GRAY));
+                return;
+            }
+
+            if(receiver.getName().equalsIgnoreCase(lastPlayer.getName()) && !replier.getName().equalsIgnoreCase(receiver.getName())){
+                receiver.sendMessage(ChatColorUtil.textColor(replier.getName() + " sussurrou ", ChatColor.GRAY) + ChatColorUtil.textColor(" >> ", ChatColor.AQUA) + ChatColorUtil.textColor(args, ChatColor.LIGHT_PURPLE));
+                ChatManagerService.addLastPlayerToReplay(replier, receiver);
+            }
+        });
+
+        return true;
+    }
 }

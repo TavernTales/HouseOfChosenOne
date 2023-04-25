@@ -22,6 +22,12 @@ public class PlayerEventHandler implements Listener {
     }
 
     @EventHandler
+    public void onPlayerJoinEvent(PlayerJoinEvent event){
+        ChatManagerService.onPlayerJoinEvent(event);
+    }
+
+
+    @EventHandler
     public void onJoinEvent(PlayerJoinEvent event){
         Bukkit.getScheduler().scheduleSyncDelayedTask(HouseOfChosenOne.getPlugin(),() -> ScoreBoardService.setPlayerHouseScoreBoardTag(event.getPlayer()),100);
     }

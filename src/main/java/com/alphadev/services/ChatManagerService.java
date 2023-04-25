@@ -6,12 +6,11 @@ import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 
 public class ChatManagerService {
@@ -21,12 +20,18 @@ public class ChatManagerService {
 
     private static final ConfigurationSection CHAT_SETTINGS = HouseOfChosenOne.getConfigFile().getConfigurationSection("chat-settings");
     public static final Long LOCAL_DISTANCE_LIMIT;
+    private static final HashMap<UUID, Player> PLAYER_REPLY = new HashMap<>();
 
     static {
         assert CHAT_SETTINGS != null;
         LOCAL_DISTANCE_LIMIT = CHAT_SETTINGS.getLong("distance-chat-local-limit");
     }
-
+    public static void addLastPlayerToReplay(Player sender, Player receiver){
+        PLAYER_REPLY.put(receiver.getUniqueId(), sender);
+    }
+    public static Player getLastPlayerToReply(Player player){
+        return PLAYER_REPLY.get(player.getUniqueId());
+    }
     public static void addPlayerToGlobalChat(Player player){
         PLAYERS_IN_GLOBAL_CHAT.add(player.getUniqueId());
     }
@@ -40,7 +45,7 @@ public class ChatManagerService {
 
     public static void onPlayerReceiveMessages(AsyncPlayerChatEvent event){
         Player sender = event.getPlayer();
-        event.setFormat(getMessagePrefix(sender) + sender.getDisplayName() + ChatColorUtil.textColor(" >> ", ChatColor.GREEN) + ChatColor.translateAlternateColorCodes('&',event.getMessage()));
+        event.setFormat(getMessagePrefix(sender) + sender.getPlayerListName() + ChatColorUtil.textColor(" >> ", ChatColor.GREEN) + ChatColor.translateAlternateColorCodes('&',event.getMessage()));
 
         final Iterator<Player> iterator = event.getRecipients().iterator();
         while (iterator.hasNext()) {
@@ -79,5 +84,13 @@ public class ChatManagerService {
 
     public static boolean playerHasOpOrPermission(Player player){
         return player.hasPermission("hco.admin");
+    }
+
+    public static void onPlayerJoinEvent(PlayerJoinEvent event) {
+        new BukkitRunnable() {
+            public void run() {
+                event.getPlayer().sendMessage(ChatColorUtil.textColor("Use /global para acessar o chat global e /local para voltar ao chat local", ChatColor.GREEN));
+            }
+        }.runTaskLaterAsynchronously(HouseOfChosenOne.getPlugin(),20*10);
     }
 }
