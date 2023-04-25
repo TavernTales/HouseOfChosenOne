@@ -210,7 +210,7 @@ public class BasicCommandService {
         sender.sendMessage(ChatColorUtil.textColor(sender.getName() + " -> "+ args[0], ChatColor.GRAY) + ChatColorUtil.textColor(" >> ", ChatColor.GOLD) + ChatColorUtil.textColor(message, ChatColor.LIGHT_PURPLE));
 
         Bukkit.getServer().getOnlinePlayers().forEach(receiver -> {
-           if( ChatManagerService.playerHasOpOrPermission(receiver) && !sender.getName().equalsIgnoreCase(receiver.getName())){
+           if( ChatManagerService.playerHasOpOrPermission(receiver) && !sender.getName().equalsIgnoreCase(receiver.getName()) && !receiver.getName().equalsIgnoreCase(args[0]) ){
                receiver.sendMessage( ChatColorUtil.textColor(sender.getName()+" -> "+ args[0] + " >> ", ChatColor.AQUA) + ChatColorUtil.textColor(message,ChatColor.GRAY));
                return;
            }
@@ -240,7 +240,7 @@ public class BasicCommandService {
         replier.sendMessage(ChatColorUtil.textColor(replier.getName() + " -> "+lastPlayer.getName() , ChatColor.GRAY) + ChatColorUtil.textColor(" >> ", ChatColor.GOLD) + ChatColorUtil.textColor(args, ChatColor.LIGHT_PURPLE));
 
         Bukkit.getServer().getOnlinePlayers().forEach(receiver -> {
-            if( ChatManagerService.playerHasOpOrPermission(receiver) && !replier.getName().equalsIgnoreCase(receiver.getName())){
+            if( ChatManagerService.playerHasOpOrPermission(receiver) && !replier.getName().equalsIgnoreCase(receiver.getName()) && !receiver.getName().equalsIgnoreCase(lastPlayer.getName())){
                 receiver.sendMessage( ChatColorUtil.textColor(replier.getName()+" -> "+ lastPlayer.getName() + " >> ", ChatColor.AQUA) + ChatColorUtil.textColor(args,ChatColor.GRAY));
                 return;
             }
