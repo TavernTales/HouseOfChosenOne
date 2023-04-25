@@ -10,7 +10,7 @@ public class HouseConfigurationBuilder {
 
     private final HouseRepository repository = new HouseRepository();
     public HouseConfigurationBuilder() {
-        if (repository.isEmpty()) populateHouseDatabase();
+        if (repository.countHouses()) populateHouseDatabase();
     }
     private void populateHouseDatabase() {
         repository.saveAll(setHousesRelationship());
