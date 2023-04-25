@@ -16,6 +16,7 @@ EX:
 E nas Configurações dos seus Executaveis, será necessário informar qual task quer executar, no campo **Run** escreva *shadowJar* e na sequencia crie uma **Environment variables** com seu perfil respectivo como exemplo abaixo:
 
 EX:
+
 ![img2](https://i.imgur.com/TsDQT1D.png)
 
 
