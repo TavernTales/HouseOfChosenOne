@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface HouseInterfaceRepository {
 
-    boolean isEmpty();
+    boolean countHouses();
 
     Optional<House> findById(long id);
 

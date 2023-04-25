@@ -14,10 +14,8 @@ public class HouseRepository implements HouseInterfaceRepository {
 
     private final Datastore datastore = MongoProvider.getInstance().getDatastore();
     @Override
-    public boolean isEmpty(){
-        Query<House> query = datastore.find(House.class);
-        long count = query.count();
-        return count >= 0;
+    public boolean countHouses(){
+        return datastore.find(House.class).count() >=0;
     }
     @Override
     public Optional<House> findById(long id) {

@@ -1,9 +1,7 @@
 package com.alphadev.utils.config.mongo;
 
 import com.alphadev.entity.House;
-import com.alphadev.entity.HouseLocation;
 import com.alphadev.repository.HouseRepository;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -11,13 +9,11 @@ import java.util.List;
 public class HouseConfigurationBuilder {
 
     private final HouseRepository repository = new HouseRepository();
-    private final List<House> houses = new ArrayList<>();
     public HouseConfigurationBuilder() {
         if (repository.isEmpty()) populateHouseDatabase();
     }
     private void populateHouseDatabase() {
-        setHousesRelationship();
-        repository.saveAll(houses);
+        repository.saveAll(setHousesRelationship());
     }
     private House zeroniaBuilder(){
         return new House()
@@ -107,7 +103,7 @@ public class HouseConfigurationBuilder {
                 .setContribution(0)
                 .setPermissions(List.of());
     }
-    private void setHousesRelationship(){
+    private List<House> setHousesRelationship(){
         // Build das entidades "houses"
         House zeronia = zeroniaBuilder();
         House vlarola = vlarolaBuilder();
@@ -135,6 +131,6 @@ public class HouseConfigurationBuilder {
         drakkaris.setNeutral(Collections.singletonList(frandhra));
         drakkaris.setEnemy(Arrays.asList(vlarola,zeronia));
         // Adiciona as casas na lista
-        houses.addAll(Arrays.asList(zeronia,vlarola,frandhra,nashor,drakkaris));
+        return Arrays.asList(zeronia,vlarola,frandhra,nashor,drakkaris);
     }
 }

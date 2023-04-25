@@ -5,16 +5,12 @@ import com.alphadev.HouseOfChosenOne;
 import com.alphadev.entity.House;
 import com.alphadev.entity.HouseLocation;
 import com.alphadev.entity.PlayerData;
-import com.alphadev.entity.codecs.LocationCodec;
 import com.mongodb.ConnectionString;
-import com.mongodb.MongoClientOptions;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClients;
 import dev.morphia.Datastore;
 import dev.morphia.Morphia;
 import org.bson.UuidRepresentation;
-import org.bson.codecs.configuration.CodecRegistries;
-import org.bson.codecs.configuration.CodecRegistry;
 import org.bukkit.configuration.ConfigurationSection;
 
 
