@@ -28,7 +28,7 @@ public class PlayerData {
     private Boolean isCandidate;
     private Boolean isChief;
     private List<String> permissions;
-    private Integer contribuitions;
+    private Integer contributions;
 
     public UUID getUUID() {
         return uuid;
@@ -84,12 +84,12 @@ public class PlayerData {
         return this;
     }
 
-    public Integer getContribuitions() {
-        return contribuitions;
+    public Integer getContributions() {
+        return contributions;
     }
 
-    public PlayerData setContribuitions(Integer contribuitions) {
-        this.contribuitions = contribuitions;
+    public PlayerData setContributions(Integer contributions) {
+        this.contributions = contributions;
         return this;
     }
 }
