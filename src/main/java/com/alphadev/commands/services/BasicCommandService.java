@@ -154,7 +154,6 @@ public class BasicCommandService {
         return true;
     }
 
-
     private static void griefPreventionIntegrationSetClaimMBlockBonus(Player player, boolean remove){
         if(HouseOfChosenOne.getPlugin().getServer().getPluginManager().getPlugin("GriefPrevention") == null)
             return;
