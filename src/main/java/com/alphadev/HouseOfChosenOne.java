@@ -68,6 +68,7 @@ public class HouseOfChosenOne extends JavaPlugin {
         Objects.requireNonNull(getCommand("whisper")).setExecutor(new BasicCommandHandler());
         Objects.requireNonNull(getCommand("reply")).setExecutor(new BasicCommandHandler());
 
+        new HouseConfigurationBuilder();
         loadConfigs();
         //new QuestSchedulesService().questScheduleDaily();
     }
@@ -88,8 +89,6 @@ public class HouseOfChosenOne extends JavaPlugin {
         configFile = new ConfigFile();
         configPlayers = new ConfigPlayers();
         configQuests = new ConfigQuests();
-
-        new HouseConfigurationBuilder();
     }
 
     public static void reloadPlayerStats(){

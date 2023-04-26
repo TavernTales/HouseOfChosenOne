@@ -10,12 +10,14 @@ Após a criação do servidor será necessário clonar o projeto e importar em s
 Para conseguir Exportar para o Diretório ideal do seu servidor, você precisará adicionar um Profile novo com seu Nome.
 
 EX:
+
 ![img](https://i.imgur.com/j5ALJwG.png)
 
 
 E nas Configurações dos seus Executaveis, será necessário informar qual task quer executar, no campo **Run** escreva *shadowJar* e na sequencia crie uma **Environment variables** com seu perfil respectivo como exemplo abaixo:
 
 EX:
+
 ![img2](https://i.imgur.com/TsDQT1D.png)
 
 

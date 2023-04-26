@@ -75,7 +75,7 @@ public class BasicCommandService {
                 .setPlayerName(player.getName())
                 .setHouse(house.get())
                 .setResetTimeout(0L)
-                .setContribuitions(0)
+                .setContributions(0)
                 .setPermissions(List.of());
 
         playerDataRepository.save(data);
