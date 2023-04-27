@@ -3,7 +3,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class AdminCommandServiceTest {
-
     @Test
     void verificaSeNomeDaCasaExisteNaListaDeCasas(){
         assertTrue(AdminCommandService.checkIfHouseNameExists("zeronia"));

@@ -56,11 +56,18 @@ public class HouseOfChosenOne extends JavaPlugin {
         pluginManager.registerEvents(new QuestEventHandler(), this);
         pluginManager.registerEvents(new PlayerEventHandler(), this);
         pluginManager.registerEvents(new QuestCoreListener(), this);
+
         getCommand("questTest").setExecutor(new BasicCommandHandler());
         Objects.requireNonNull(getCommand("houseofchosenone")).setExecutor(new BasicCommandHandler());
         Objects.requireNonNull(getCommand("lobby")).setExecutor(new BasicCommandHandler());
         Objects.requireNonNull(getCommand("citadel")).setExecutor(new AdminCommandHandler());
         Objects.requireNonNull(getCommand("quest")).setExecutor(new BasicCommandHandler());
+
+        Objects.requireNonNull(getCommand("global")).setExecutor(new BasicCommandHandler());
+        Objects.requireNonNull(getCommand("local")).setExecutor(new BasicCommandHandler());
+        Objects.requireNonNull(getCommand("whisper")).setExecutor(new BasicCommandHandler());
+        Objects.requireNonNull(getCommand("reply")).setExecutor(new BasicCommandHandler());
+
         new HouseConfigurationBuilder();
         loadConfigs();
         //new QuestSchedulesService().questScheduleDaily();

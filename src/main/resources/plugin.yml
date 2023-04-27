@@ -23,6 +23,18 @@ commands:
   questTest:
     description: TESTETETSTE
     permission: hco.use
+  global:
+    aliases: [g]
+    description: Define o chat global como padrão
+  local:
+    aliases: [l]
+    description: Define o chat local como padrão
+  whisper:
+    aliases: [ w, tell ]
+    description: Permite o player sussurrar para outro player
+  reply:
+    aliases: [ r ]
+    description: Permite o player sussurrar devolta para o ultimo player que lhe enviou mensagem
 permissions:
   hco.use:
     default: true
