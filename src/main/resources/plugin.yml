@@ -1,33 +1,31 @@
-name: HouseOfChosenOne
-main: com.alphadev.HouseOfChosenOne
+name: HocoPlugin
+main: com.alphadev.HocoPlugin
 author: AlphaDev_
 description: Este plugin faz parte de um server de RP e serve como base para o seu funcionamento
 version: 1.0
 api-version: 1.19
 commands:
-  houseofchosenone:
-    aliases: [chosen, choose, hco]
+  hoco:
+    aliases: [ choose, hco ]
+    usage: /command <subcommand> [options]
     description: Use este comando para selecionar uma casa
     permission: hco.use
   citadel:
-    aliases: [city, capital]
+    aliases: [ city, capital ]
     description: Use este comando para definir coordenadas para cada uma das capitais de cada casa
     permission: hco.admin
   lobby:
-    aliases: [hub]
+    aliases: [ hub ]
     description: Use este comando server para retornar a cordenadas da casa escolhida
     permission: hco.lobby
   quest:
     description: Comando usado para abertura de quests atraves dos npcs
     permission: npc.quests
-  questTest:
-    description: TESTETETSTE
-    permission: hco.use
   global:
-    aliases: [g]
+    aliases: [ g ]
     description: Define o chat global como padrão
   local:
-    aliases: [l]
+    aliases: [ l ]
     description: Define o chat local como padrão
   whisper:
     aliases: [ w, tell ]
@@ -38,6 +36,8 @@ commands:
 permissions:
   hco.use:
     default: true
+  hoco.use.g:
+    default: op
   hco.lobby:
     default: true
   hco.admin:

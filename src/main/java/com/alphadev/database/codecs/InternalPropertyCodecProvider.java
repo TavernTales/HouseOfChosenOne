@@ -1,0 +1,27 @@
+package com.alphadev.database.codecs;
+
+import com.alphadev.enums.HouseRelationshipEnum;
+import org.bson.codecs.Codec;
+import org.bson.codecs.pojo.PropertyCodecProvider;
+import org.bson.codecs.pojo.PropertyCodecRegistry;
+import org.bson.codecs.pojo.TypeWithTypeParameters;
+
+import java.util.Map;
+
+public class InternalPropertyCodecProvider implements PropertyCodecProvider {
+    @Override
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    public <T> Codec<T> get(TypeWithTypeParameters<T> type, PropertyCodecRegistry registry) {
+        if (Class.class.isAssignableFrom(type.getType())) {
+            return (Codec<T>) new ClassCodec();
+        }
+        if (Map.class.isAssignableFrom(type.getType()) && type.getTypeParameters().size() == 2) {
+            return new GenericMapCodec(type.getType(), registry.get(type.getTypeParameters().get(0)),
+                    registry.get(type.getTypeParameters().get(1)));
+        }
+        if(HouseRelationshipEnum.class.isAssignableFrom(type.getType())){
+            return (Codec<T>) new HouseRelationshipCodec();
+        }
+        return null;
+    }
+}

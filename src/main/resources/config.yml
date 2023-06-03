@@ -1,0 +1,9 @@
+mongodb:
+  server:
+    database: hoco
+    uri: "mongodb+srv://hoc_db:123456!@hoc.oxosawo.mongodb.net/test"
+  localhost:
+    uri: "mongodb://localhost:27017"
+    database: hoco
+chat-settings:
+  distance-chat-local-limit: 500

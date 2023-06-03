@@ -1,38 +1,70 @@
 package com.alphadev.utils;
 
+import com.alphadev.HocoPlugin;
+import com.alphadev.entities.HcoHouse;
 import com.alphadev.enums.QuestTierEnum;
 import com.alphadev.enums.QuestTypeEnum;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
+import java.io.*;
+import java.lang.reflect.Type;
 import java.util.*;
 
 public class HelpUtils {
-
-    private HelpUtils(){}
+    public static final List<String> HOUSES = List.of("zeronia", "vlarola", "frandhra", "nashor", "drakkaris");
     // Constantes para cálculos e listas pré-definidas
     private static final int MAX_COUNT_REQUIRED = 10;
     private static final int MAX_CONTRIBUTION_POINTS = 50;
     private static final double MAX_VAULT = 100.0;
-    public static final List<String> HOUSES = List.of("zeronia", "vlarola", "frandhra", "nashor", "drakkaris");
-
     // Objeto randomizador para uso nas funções seguintes
     private static final Random RAND = new Random();
+    // TODAS AS CONFIGURAÇÕES DAS QUESTS
+    private static final List<String> COMMON_HUNTER_OPTIONS = Arrays.asList(
+            "COW", "PIG", "SHEEP", "CHICKEN", "COD");
     // Gerador de porcentagem
+    private static final List<String> COMMON_HARVEST_OPTIONS = Arrays.asList(
+            "WHEAT", "CARROT", "SUGAR_CANE", "POTATOES", "BEETROOTS");
+    // Gera o tipo de quest
+    private static final List<String> COMMON_DEFEAT_OPTIONS = Arrays.asList(
+            "SKELETON", "CREEPER", "SLIME", "ENDERMAN", "DROWNED", "HUSK", "PHANTOM", "PILLAGER", "SPIDER", "STRAY", "ZOMBIE_VILLAGER");
+    private static final List<String> UNCOMMON_HUNTER_OPTIONS = Arrays.asList(
+            "GOAT", "RABBIT", "SQUID", "SALOM", "WOLF");
+    private static final List<String> UNCOMMON_HARVEST_OPTIONS = Arrays.asList(
+            "SWEET_BERRY_BUSH", "MELON", "PUMPKIN", "CACTUS", "KELP_PLANT", "BROWN_MUSHROOM", "RED_MUSHROOM");
+    private static final List<String> UNCOMMON_DEFEAT_OPTIONS = Arrays.asList(
+            "BLAZE", "MAGMA_CUBE", "PIGLIN_BRUTE", "ENDERMITE", "GHAST", "HOGLIN", "ZOMBFIED_PIGLIN", "ZOGLIN", "WITHER_SKELNTON", "WITCH", "CAVE_SPIDER");
+    private static final List<String> RARE_HUNTER_OPTIONS = Arrays.asList(
+            "GLOW_SQUID", "AXOLOTL", "PANDA", "PARROT", "FOX", "OCELOT");
+    private static final List<String> RARE_HARVEST_OPTIONS = Arrays.asList(
+            "SEA_PICKLE", "NETHER_WART", "CRIMSON_FUNGUS", "BAMBOO");
+    private static final List<String> RARE_DEFEAT_OPTIONS = Arrays.asList(
+            "ENDERMITE", "EVOKER", "GUARDIAN", "PILLAGER", "SHULKER", "VEX", "VINDICATOR");
+    private static final List<String> LEGENDARY_HUNTER_OPTIONS = Arrays.asList(
+            "MUSHROOM_COW", "FROG", "TURTLE", "POLAR_BEAR", "DOLPHIN", "TROPICAL_FISH", "PUFFERFISH");
+    private static final List<String> LEGENDARY_HARVEST_OPTIONS = Arrays.asList(
+            "CHORUS_PLANT", "SPORE_BLOSSOM");
+    private static final List<String> LEGENDARY_DEFEAT_OPTIONS = Arrays.asList(
+            "ELDER_GUARDIAN", "ENDER_DRAGON", "WITHER", "WARDEN", "ILLUSIONER");
+
+    public HelpUtils() {
+    }
 
     public static double sortPercent() {
         return Math.random() * 100;
     }
-    // Gera o tipo de quest
 
     public static QuestTypeEnum getRandomQuestType() {
         QuestTypeEnum[] questTypeEnums = QuestTypeEnum.values();
         return questTypeEnums[RAND.nextInt(questTypeEnums.length)];
     }
-    public static String setPageBook(int type){
+
+    public static String setPageBook(int type) {
         String page;
-        switch (type){
+        switch (type) {
             case 1:
                 page = "A Guerra contra o Mal \nDescricao: Enfrente as criaturas mais terriveis do mundo. Elimine hordas de monstros que ameacam a paz. Use armas, magias e estrategias. Ganhe experiencia, itens e respeito.";
                 return page;
@@ -50,10 +82,10 @@ public class HelpUtils {
                 return page;
         }
     }
+
     public static int getRandomCountRequired() {
         return (int) (Math.random() * MAX_COUNT_REQUIRED) + 1;
     }
-
 
     // Gera o total de recompensa
     public static int getRandomContributionPoints() {
@@ -63,6 +95,7 @@ public class HelpUtils {
     public static double getRandomVault() {
         return Math.round((Math.random() * MAX_VAULT) * 100.0) / 100.0;
     }
+
     // Cria uma tier para uma quest conforme o sortPercent()
     public static QuestTierEnum getRandomQuestTier() {
         QuestTierEnum[] questTierEnums = QuestTierEnum.values();
@@ -72,6 +105,7 @@ public class HelpUtils {
         if (percent <= 95) return questTierEnums[2];
         return questTierEnums[3];
     }
+
     // Gera uma entidade para o tier da quest
     public static EntityType generateEntityObjective(int tier, int type) {
         if (type == 1) {
@@ -121,42 +155,26 @@ public class HelpUtils {
         return new ItemStack(Material.FROSTED_ICE);
     }
 
-    public static boolean isNullOrEmpty(Collection<?> collections){
-        return  collections == null || collections.isEmpty();
+    public static boolean isNullOrEmpty(Collection<?> collections) {
+        return collections == null || collections.isEmpty();
     }
-    public static boolean isNullOrEmpty(Object o){
+
+    public static boolean isNullOrEmpty(Object o) {
         return o == null;
     }
-    public static boolean isNullOrEmpty(Object[] o){
-        return  o == null || o.length <= 0 ;
+
+    public static boolean isNullOrEmpty(Object[] o) {
+        return o == null || o.length <= 0;
     }
-    // TODAS AS CONFIGURAÇÕES DAS QUESTS
-    private static final List<String> COMMON_HUNTER_OPTIONS = Arrays.asList(
-            "COW", "PIG", "SHEEP", "CHICKEN", "COD");
-    private static final List<String> COMMON_HARVEST_OPTIONS = Arrays.asList(
-            "WHEAT", "CARROT", "SUGAR_CANE", "POTATOES", "BEETROOTS");
-    private static final List<String> COMMON_DEFEAT_OPTIONS = Arrays.asList(
-            "SKELETON", "CREEPER", "SLIME", "ENDERMAN", "DROWNED", "HUSK", "PHANTOM", "PILLAGER", "SPIDER", "STRAY", "ZOMBIE_VILLAGER");
-
-    private static final List<String> UNCOMMON_HUNTER_OPTIONS = Arrays.asList(
-            "GOAT", "RABBIT", "SQUID", "SALOM", "WOLF");
-    private static final List<String> UNCOMMON_HARVEST_OPTIONS = Arrays.asList(
-            "SWEET_BERRY_BUSH", "MELON", "PUMPKIN", "CACTUS", "KELP_PLANT", "BROWN_MUSHROOM", "RED_MUSHROOM");
-    private static final List<String> UNCOMMON_DEFEAT_OPTIONS = Arrays.asList(
-            "BLAZE", "MAGMA_CUBE", "PIGLIN_BRUTE", "ENDERMITE", "GHAST", "HOGLIN", "ZOMBFIED_PIGLIN", "ZOGLIN", "WITHER_SKELNTON", "WITCH", "CAVE_SPIDER");
-
-    private static final List<String> RARE_HUNTER_OPTIONS = Arrays.asList(
-            "GLOW_SQUID", "AXOLOTL", "PANDA", "PARROT", "FOX", "OCELOT");
-    private static final List<String> RARE_HARVEST_OPTIONS = Arrays.asList(
-            "SEA_PICKLE", "NETHER_WART", "CRIMSON_FUNGUS", "BAMBOO");
-    private static final List<String> RARE_DEFEAT_OPTIONS = Arrays.asList(
-            "ENDERMITE", "EVOKER", "GUARDIAN", "PILLAGER", "SHULKER", "VEX", "VINDICATOR");
-
-    private static final List<String> LEGENDARY_HUNTER_OPTIONS = Arrays.asList(
-            "MUSHROOM_COW", "FROG", "TURTLE", "POLAR_BEAR", "DOLPHIN", "TROPICAL_FISH", "PUFFERFISH");
-    private static final List<String> LEGENDARY_HARVEST_OPTIONS = Arrays.asList(
-            "CHORUS_PLANT", "SPORE_BLOSSOM");
-    private static final List<String> LEGENDARY_DEFEAT_OPTIONS = Arrays.asList(
-            "ELDER_GUARDIAN", "ENDER_DRAGON", "WITHER", "WARDEN", "ILLUSIONER");
-
+    public static List<HcoHouse> loadHouseConstants(){
+        Gson gson = new Gson();
+        List<HcoHouse> data = new ArrayList<>();
+        try (Reader reader = new InputStreamReader(HocoPlugin.class.getResourceAsStream("/house_constants.json"))) {
+            Type houseTypeList = new TypeToken<List<HcoHouse>>(){}.getType();
+            data = gson.fromJson(reader, houseTypeList);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return data;
+    }
 }

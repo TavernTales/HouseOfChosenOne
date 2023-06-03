@@ -1,0 +1,112 @@
+hocore:
+  mongodb:
+    server:
+      database: hoco
+      uri: "mongodb+srv://hoc_db:123456!@hoc.oxosawo.mongodb.net/test"
+    localhost:
+      uri: "mongodb://localhost:27017"
+      database: hoco
+
+  chat-settings:
+    distance-chat-local-limit: 500
+
+  quest:
+    goals:
+      common_hunter_goals:
+        - COW
+        - PIG
+        - SHEEP
+        - CHICKEN
+        - COD
+
+      common_harvest_goals:
+        - WHEAT
+        - CARROT
+        - SUGAR_CANE
+        - POTATOES
+        - BEETROOTS
+
+      common_defeat_goals:
+        - SKELETON
+        - CREEPER
+        - SLIME
+        - ENDERMAN
+        - DROWNED
+        - HUSK
+        - PHANTOM
+        - PILLAGER
+        - SPIDER
+        - STRAY
+        - ZOMBIE_VILLAGER
+
+      uncommon_hunter_goals:
+        - GOAT
+        - RABBIT
+        - SQUID
+        - SALOM
+        - WOLF
+
+      uncommon_harvest_goals:
+        - SWEET_BERRY_BUSH
+        - MELON
+        - PUMPKIN
+        - CACTUS
+        - KELP_PLANT
+        - BROWN_MUSHROOM
+        - RED_MUSHROOM
+
+      uncommon_defeat_goals:
+        - BLAZE
+        - MAGMA_CUBE
+        - PIGLIN_BRUTE
+        - ENDERMITE
+        - GHAST
+        - HOGLIN
+        - ZOMBFIED_PIGLIN
+        - ZOGLIN
+        - WITHER_SKELNTON
+        - WITCH
+        - CAVE_SPIDER
+
+      rare_hunter_goals:
+        - GLOW_SQUID
+        - AXOLOTL
+        - PANDA
+        - PARROT
+        - FOX
+        - OCELOT
+
+      rare_harvest_goals:
+        - SEA_PICKLE
+        - NETHER_WART
+        - CRIMSON_FUNGUS
+        - BAMBOO
+
+      rare_defeat_goals:
+        - ENDERMITE
+        - EVOKER
+        - GUARDIAN
+        - PILLAGER
+        - SHULKER
+        - VEX
+        - VINDICATOR
+
+      legendary_hunter_goals:
+        - MUSHROOM_COW
+        - FROG
+        - TURTLE
+        - POLAR_BEAR
+        - DOLPHIN
+        - TROPICAL_FISH
+        - PUFFERFISH
+
+      legendary_harvest_goals:
+        - CHORUS_PLANT
+        - SPORE_BLOSSOM
+
+      legendary_defeat_goals:
+        - ELDER_GUARDIAN
+        - ENDER_DRAGON
+        - WITHER
+        - WARDEN
+        - ILLUSIONER
