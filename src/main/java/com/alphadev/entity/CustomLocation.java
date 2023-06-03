@@ -1,8 +1,9 @@
 package com.alphadev.entity;
 import dev.morphia.annotations.Entity;
+import org.bukkit.Location;
 
 @Entity
-public class HouseLocation{
+public class CustomLocation {
     private String world;
 
     private double x;
@@ -13,22 +14,34 @@ public class HouseLocation{
     private float pitch;
     private float yaw;
 
-    public HouseLocation() {
+    public CustomLocation() {
     }
 
-    public HouseLocation(double x, double y, double z, float pitch, float yaw) {
+    public CustomLocation(double x, double y, double z, float pitch, float yaw, String world) {
         this.x = x;
         this.y = y;
         this.z = z;
         this.pitch = pitch;
         this.yaw = yaw;
+        this.world = world;
     }
+
+
+    public CustomLocation(Location location) {
+        this.x = location.getX();
+        this.y = location.getY();
+        this.z = location.getZ();
+        this.pitch = location.getPitch();
+        this.yaw = location.getYaw();
+        this.world = location.getWorld().getName();
+    }
+
 
     public String getWorldRef() {
         return world;
     }
 
-    public HouseLocation setWorld(String world) {
+    public CustomLocation setWorld(String world) {
         this.world = world;
         return this;
     }
@@ -37,7 +50,7 @@ public class HouseLocation{
         return x;
     }
 
-    public HouseLocation setX(double x) {
+    public CustomLocation setX(double x) {
         this.x = x;
         return this;
     }
@@ -46,7 +59,7 @@ public class HouseLocation{
         return y;
     }
 
-    public HouseLocation setY(double y) {
+    public CustomLocation setY(double y) {
         this.y = y;
         return this;
     }
@@ -55,7 +68,7 @@ public class HouseLocation{
         return z;
     }
 
-    public HouseLocation setZ(double z) {
+    public CustomLocation setZ(double z) {
         this.z = z;
         return this;
     }
@@ -64,7 +77,7 @@ public class HouseLocation{
         return pitch;
     }
 
-    public HouseLocation setPitch(float pitch) {
+    public CustomLocation setPitch(float pitch) {
         this.pitch = pitch;
         return this;
     }
@@ -73,7 +86,7 @@ public class HouseLocation{
         return yaw;
     }
 
-    public HouseLocation setYaw(float yaw) {
+    public CustomLocation setYaw(float yaw) {
         this.yaw = yaw;
         return this;
     }

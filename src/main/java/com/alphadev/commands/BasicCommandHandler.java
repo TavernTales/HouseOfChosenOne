@@ -1,6 +1,5 @@
 package com.alphadev.commands;
 
-import com.alphadev.HouseOfChosenOne;
 import com.alphadev.commands.services.AdminCommandService;
 import com.alphadev.commands.services.BasicCommandService;
 import com.alphadev.utils.HelpUtils;
@@ -11,6 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -18,6 +18,9 @@ public class BasicCommandHandler implements Listener, CommandExecutor, TabComple
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
+
+        if(BasicCommandService.playerWayStone(command,args))
+            return  true;
 
         if(!(sender instanceof Player player))
             return false;
@@ -48,7 +51,7 @@ public class BasicCommandHandler implements Listener, CommandExecutor, TabComple
 
 
     @Override
-    public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         if(!(sender instanceof Player))
             return List.of();
 

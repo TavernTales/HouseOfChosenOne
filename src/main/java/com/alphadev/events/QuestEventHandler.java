@@ -1,9 +1,6 @@
 package com.alphadev.events;
 
-import com.alphadev.entity.Quest;
-import com.alphadev.events.quest.QuestProgress;
 import com.alphadev.services.QuestService;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

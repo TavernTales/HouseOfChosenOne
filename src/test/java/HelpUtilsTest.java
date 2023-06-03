@@ -19,7 +19,7 @@ class HelpUtilsTest  {
     }
 
     @Test
-    void testisNullOrEmpty(){
+    void testIsNullOrEmpty(){
         assertTrue(HelpUtils.isNullOrEmpty((Collection<?>) null));
         assertTrue(HelpUtils.isNullOrEmpty(new ArrayList()));
         assertFalse(HelpUtils.isNullOrEmpty(HelpUtils.HOUSES));
@@ -38,5 +38,14 @@ class HelpUtilsTest  {
        assertEquals(1, HouseEnum.fromName("dasdas").getId());
        assertEquals(2, HouseEnum.fromName("vlarola").getId());
        assertNotEquals(1,HouseEnum.fromName("vlarola").getId());
+    }
+
+
+    @Test
+    void verificaConversaoDeCurrentMillisParaSegundos(){
+        long start = 1684725731712L;
+        long finish = 1684725743851L;
+
+        assertEquals(12, HelpUtils.convertMillisToSeconds(start,finish));
     }
 }

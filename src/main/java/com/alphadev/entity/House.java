@@ -29,7 +29,7 @@ public class House  {
     private String objective;
     private List<String> permissions;
     private Integer contribution;
-    private HouseLocation reg;
+    private CustomLocation reg;
 
     public House() {
     }
@@ -46,14 +46,6 @@ public class House  {
         objective = Objects.requireNonNull(configFileSections.getString("houses." + houseName + ".objective"));
         permissions = configFileSections.getStringList("houses." + houseName + ".permissions");
 
-        if(configFileSections.get("houses." + houseName + ".location") != null){
-            reg.setWorld(null);
-            reg.setX((double) getCoordsLocationFromConfigFile(configFileSections, houseName, "x"));
-            reg.setY((double)getCoordsLocationFromConfigFile(configFileSections, houseName, "y"));
-            reg.setZ((double)getCoordsLocationFromConfigFile(configFileSections, houseName, "z"));
-            reg.setYaw((float) getRotationLocationFromConfigFile(configFileSections, houseName, "yaw"));
-            reg.setPitch((float) getRotationLocationFromConfigFile(configFileSections, houseName, "pitch"));
-        }
 
     }
     private String getWorldFromConfigFile(ConfigurationSection configFileSections, String houseName){
@@ -160,13 +152,6 @@ public class House  {
         return new Location(Bukkit.getWorld(reg.getWorldRef()), reg.getX(), reg.getY(), reg.getZ(), reg.getYaw(), reg.getPitch());
     }
 
-    public House setLocation(HouseLocation reg) {
-        if(reg == null) {
-            return this;
-        }
-        this.reg = reg;
-        return this;
-    }
 
     public Integer getContribution() {
         return contribution;

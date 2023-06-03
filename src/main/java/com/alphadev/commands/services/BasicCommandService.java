@@ -3,12 +3,14 @@ package com.alphadev.commands.services;
 import com.alphadev.HouseOfChosenOne;
 import com.alphadev.entity.House;
 import com.alphadev.enums.HouseEnum;
+import com.alphadev.enums.WayStoneEnum;
 import com.alphadev.events.quest.QuestStartEvent;
 import com.alphadev.repository.HouseRepository;
 import com.alphadev.repository.PlayerDataRepository;
 import com.alphadev.services.ChatManagerService;
 import com.alphadev.services.PlayerMoveService;
 import com.alphadev.services.ScoreBoardService;
+import com.alphadev.services.WayStoneService;
 import com.alphadev.utils.ChatColorUtil;
 import com.alphadev.utils.HelpUtils;
 import com.alphadev.utils.config.ConfigFile;
@@ -92,7 +94,36 @@ public class BasicCommandService {
 
         return true;
     }
+    public static boolean playerTeleportToHouseLobby(Command command, String ...args){
 
+        if (!command.getName().equalsIgnoreCase("lobby") || HelpUtils.isNullOrEmpty(args))
+            return  false;
+
+        Player player = Bukkit.getPlayer(args[0]);
+
+        if(player == null)
+            return  false;
+
+        PlayerMoveService.removePlayerTracker(player);
+        schedulerLobbyTeleport(player);
+
+        return true;
+    }
+
+
+    public static boolean playerWayStone(Command command, String ...args){
+
+        if (!command.getName().equalsIgnoreCase("waystone") || HelpUtils.isNullOrEmpty(args))
+            return  false;
+
+        Player player = Bukkit.getPlayer(args[0]);
+
+        if(player == null)
+            return  false;
+
+        WayStoneService.openWayStoneGUIByName(player, WayStoneEnum.NETHERLAND);
+        return true;
+    }
 
     public static boolean playerTeleportToHouseLobby(Player player, Command command){
 
@@ -100,6 +131,12 @@ public class BasicCommandService {
             return  false;
 
         PlayerMoveService.removePlayerTracker(player);
+        schedulerLobbyTeleport(player);
+
+        return true;
+    }
+
+    private static void schedulerLobbyTeleport(Player player){
 
         final long startTime = System.currentTimeMillis();
 
@@ -129,10 +166,7 @@ public class BasicCommandService {
             }
 
         }, 0L,20L));
-
-        return true;
     }
-
 
     public static boolean playerLeaveHouse(Player player, Command command, String[] args){
 

@@ -99,4 +99,35 @@ public class ItemFactoryUtil {
         return itemStack;
     }
 
+
+    public static ItemStack invisibleNext(){
+        ItemStack itemStack = new ItemStack(Material.PAPER, 1);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        Objects.requireNonNull(itemMeta).setCustomModelData(1);
+        Objects.requireNonNull(itemMeta).setDisplayName(ChatColorUtil.textColor("Avan\u00E7ar",ChatColor.GREEN));
+        itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        itemStack.setItemMeta(itemMeta);
+        return itemStack;
+    }
+
+    public static ItemStack invisibleBack(){
+        ItemStack itemStack = new ItemStack(Material.PAPER, 1);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        Objects.requireNonNull(itemMeta).setCustomModelData(1);
+        Objects.requireNonNull(itemMeta).setDisplayName(ChatColorUtil.textColor("Retornar",ChatColor.GREEN));
+        itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        itemStack.setItemMeta(itemMeta);
+        return itemStack;
+    }
+
+    public static ItemStack invisibleConfirm(){
+        ItemStack itemStack = new ItemStack(Material.PAPER, 1);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        Objects.requireNonNull(itemMeta).setCustomModelData(1);
+        Objects.requireNonNull(itemMeta).setDisplayName(ChatColorUtil.textColor("Confirmar",ChatColor.GREEN));
+        itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        itemStack.setItemMeta(itemMeta);
+        return itemStack;
+    }
+
 }

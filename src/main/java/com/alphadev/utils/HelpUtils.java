@@ -11,25 +11,27 @@ import java.util.*;
 public class HelpUtils {
 
     private HelpUtils(){}
-    // Constantes para cálculos e listas pré-definidas
     private static final int MAX_COUNT_REQUIRED = 10;
     private static final int MAX_CONTRIBUTION_POINTS = 50;
     private static final double MAX_VAULT = 100.0;
     public static final List<String> HOUSES = List.of("zeronia", "vlarola", "frandhra", "nashor", "drakkaris");
+    private static final long MILLIS_TO_SECONDS = 1000;
 
-    // Objeto randomizador para uso nas funções seguintes
     private static final Random RAND = new Random();
-    // Gerador de porcentagem
 
     public static double sortPercent() {
         return Math.random() * 100;
     }
-    // Gera o tipo de quest
 
     public static QuestTypeEnum getRandomQuestType() {
         QuestTypeEnum[] questTypeEnums = QuestTypeEnum.values();
         return questTypeEnums[RAND.nextInt(questTypeEnums.length)];
     }
+
+    public static long convertMillisToSeconds(long start, long end){
+        return ((end - start) / MILLIS_TO_SECONDS);
+    }
+
     public static String setPageBook(int type){
         String page;
         switch (type){

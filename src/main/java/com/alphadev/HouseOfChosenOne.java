@@ -7,9 +7,9 @@ import com.alphadev.listeners.EntityTypeQuestListener;
 import com.alphadev.listeners.QuestCoreListener;
 import com.alphadev.services.ScoreBoardService;
 import com.alphadev.utils.ChatColorUtil;
+import com.alphadev.utils.HelpUtils;
 import com.alphadev.utils.config.ConfigFile;
 import com.alphadev.utils.config.ConfigPlayers;
-import com.alphadev.utils.config.ConfigQuests;
 
 import com.alphadev.utils.config.mongo.HouseConfigurationBuilder;
 import com.alphadev.utils.connection.MongoProvider;
@@ -26,10 +26,10 @@ import java.util.Objects;
 
 public class HouseOfChosenOne extends JavaPlugin {
 
+
     private final PluginManager pluginManager = this.getServer().getPluginManager();
     private static ConfigFile configFile;
     private static ConfigPlayers configPlayers;
-    private static ConfigQuests configQuests;
 
     @Override
     public void onLoad() {
@@ -68,6 +68,8 @@ public class HouseOfChosenOne extends JavaPlugin {
         Objects.requireNonNull(getCommand("whisper")).setExecutor(new BasicCommandHandler());
         Objects.requireNonNull(getCommand("reply")).setExecutor(new BasicCommandHandler());
 
+        Objects.requireNonNull(getCommand("waystone")).setExecutor(new BasicCommandHandler());
+
         new HouseConfigurationBuilder();
         loadConfigs();
         //new QuestSchedulesService().questScheduleDaily();
@@ -88,7 +90,6 @@ public class HouseOfChosenOne extends JavaPlugin {
     private static void loadConfigs(){
         configFile = new ConfigFile();
         configPlayers = new ConfigPlayers();
-        configQuests = new ConfigQuests();
     }
 
     public static void reloadPlayerStats(){

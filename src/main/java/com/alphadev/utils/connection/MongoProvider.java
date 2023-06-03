@@ -3,8 +3,9 @@ package com.alphadev.utils.connection;
 
 import com.alphadev.HouseOfChosenOne;
 import com.alphadev.entity.House;
-import com.alphadev.entity.HouseLocation;
+import com.alphadev.entity.CustomLocation;
 import com.alphadev.entity.PlayerData;
+import com.alphadev.entity.WayStone;
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClients;
@@ -32,7 +33,7 @@ public class MongoProvider {
                 .uuidRepresentation(UuidRepresentation.STANDARD)
                 .build();
         datastore = Morphia.createDatastore(MongoClients.create(settings), MONGODB_NAME);
-        datastore.getMapper().map(HouseLocation.class,PlayerData.class, House.class);
+        datastore.getMapper().map(CustomLocation.class,PlayerData.class, House.class, WayStone.class);
 
         datastore.ensureIndexes();
     }

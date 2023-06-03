@@ -35,6 +35,9 @@ commands:
   reply:
     aliases: [ r ]
     description: Permite o player sussurrar devolta para o ultimo player que lhe enviou mensagem
+  waystone:
+    aliases: [ waystone, ws]
+    description: Permite ao player Teleportar para outros locais
 permissions:
   hco.use:
     default: true
