@@ -5,7 +5,7 @@ import org.bukkit.util.StringUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StartArgumentMatcher implements ArgumentMatcher{
+public class StartArgumentMatcher implements IArgumentMatcher {
 
     @Override
     public List<String> filter(List<String> tabCompletions, String argument) {

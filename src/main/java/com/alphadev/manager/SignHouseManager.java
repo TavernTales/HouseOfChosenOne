@@ -1,7 +1,7 @@
 package com.alphadev.manager;
 
-import com.alphadev.HocoPlugin;
-import com.alphadev.entities.HcoHouse;
+import com.alphadev.HOCOPlugin;
+import com.alphadev.entities.HCOHouse;
 import com.alphadev.utils.ChatColorUtil;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -21,7 +21,7 @@ public class SignHouseManager {
     private static final String NASHOR = "nashor";
     private static final String DRAKKARIS = "drakkaris";
 
-    private final List<HcoHouse> hcoHouses = HocoPlugin.hcoHouseConstantInfo;
+    private final List<HCOHouse> hcoHouses = HOCOPlugin.hcoHouseConstantInfo;
 
     public SignHouseManager() {}
 
@@ -61,7 +61,7 @@ public class SignHouseManager {
 
         Player player = playerInteractEvent.getPlayer();
         String firstLine = ChatColor.stripColor(clickedSign.getLine(0)).toLowerCase();
-        HcoHouse chosenHcoHouse;
+        HCOHouse chosenHcoHouse;
 
         switch (firstLine) {
             case ZERONIA -> {
@@ -89,7 +89,7 @@ public class SignHouseManager {
         }
     }
 
-    private static void sendMessageHouseDetails(Player player, HcoHouse chosenHcoHouse, ChatColor houseColor, String houseName) {
+    private static void sendMessageHouseDetails(Player player, HCOHouse chosenHcoHouse, ChatColor houseColor, String houseName) {
         player.sendMessage(ChatColorUtil.boldText(DIVISOR_STRING, ChatColor.GREEN));
         player.sendMessage(ChatColorUtil.boldText(chosenHcoHouse.name(), houseColor));
         player.sendMessage("");

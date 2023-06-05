@@ -1,6 +1,6 @@
 package com.alphadev;
 
-import com.alphadev.api.HocoAPI;
+import com.alphadev.api.IHOCOAPI;
 
 import com.alphadev.database.MongoConnection;
 import com.alphadev.manager.HouseManager;
@@ -11,28 +11,22 @@ import org.bukkit.Location;
 import java.util.Map;
 import java.util.Objects;
 
-public class Hoco implements HocoAPI {
-    private static MongoDatabase mongoDatabase;
-    private static HocoPlugin hocoPlugin;
-    private static Hoco instance;
-    private final PlayerManager playerManager;
-    private final HouseManager houseManager;
-    private static MongoConnection connection;
+public class HOCOProvider implements IHOCOAPI {
 
-    public Hoco(HocoPlugin plugin) {
-        hocoPlugin = plugin;
-        instance = this;
-        connection = MongoConnection.getInstance(plugin);
-        mongoDatabase = getMongoDatabase();
-        playerManager = new PlayerManager(this);
-        houseManager = new HouseManager(this);
-    }
+    private static final HOCOProvider instance = getInstance();
+    private final PlayerManager playerManager = new PlayerManager();
+    private final HouseManager houseManager = new HouseManager();
+    private static final MongoConnection connection = MongoConnection.getInstance(HOCOPlugin.getPlugin());
+
 
     public static MongoDatabase getMongoDatabase() {
-        mongoDatabase = connection.getMongoClient().getDatabase("hoco");
-        return mongoDatabase;
+        return connection.getMongoClient().getDatabase("hoco");
     }
-    public static Hoco getInstance() {
+    public static HOCOProvider getInstance() {
+
+        if(instance == null)
+            return new HOCOProvider();
+
         return instance;
     }
 
@@ -51,7 +45,7 @@ public class Hoco implements HocoAPI {
         double x = Double.parseDouble(map.get("x").toString());
         double y = Double.parseDouble(map.get("y").toString());
         double z = Double.parseDouble(map.get("z").toString());
-        return new Location(hocoPlugin.getServer().getWorld(worldName), x,y,z);
+        return new Location(HOCOPlugin.getPlugin().getServer().getWorld(worldName), x,y,z);
     }
 
     public MongoConnection getConnection() {

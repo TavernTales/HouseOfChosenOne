@@ -1,7 +1,7 @@
 package com.alphadev.manager;
 
-import com.alphadev.HocoPlugin;
-import com.alphadev.entities.HcoQuest;
+import com.alphadev.HOCOPlugin;
+import com.alphadev.entities.HCOQuest;
 import com.alphadev.utils.HelpUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -16,12 +16,12 @@ import org.bukkit.plugin.Plugin;
 import java.util.*;
 
 public class QuestManager {
-    public static final Map<UUID, HcoQuest> quests = new HashMap<>();
-    private static final Plugin plugin = HocoPlugin.getPlugin();
+    public static final Map<UUID, HCOQuest> quests = new HashMap<>();
+    private static final Plugin plugin = HOCOPlugin.getPlugin();
 
     // Gera um template para a quest aleátoria
-    public static HcoQuest generateTemplateQuest() {
-        HcoQuest hcoQuest = new HcoQuest();
+    public static HCOQuest generateTemplateQuest() {
+        HCOQuest hcoQuest = new HCOQuest();
         hcoQuest.setUUID(UUID.randomUUID());
         hcoQuest.setQuestTypeEnum(HelpUtils.getRandomQuestType());
         hcoQuest.setQuestTierEnum(HelpUtils.getRandomQuestTier());
@@ -38,7 +38,7 @@ public class QuestManager {
         return hcoQuest;
     }
 
-    public static ItemStack createQuestBook(HcoQuest hcoQuest) {
+    public static ItemStack createQuestBook(HCOQuest hcoQuest) {
         ItemStack book = new ItemStack(Material.WRITTEN_BOOK);
         BookMeta meta = (BookMeta) book.getItemMeta();
         assert meta != null;
@@ -61,7 +61,7 @@ public class QuestManager {
     }
 
     //Verifica se o jogador possui o livro de quest
-    public static boolean hasQuestBook(Player player, HcoQuest hcoQuest) {
+    public static boolean hasQuestBook(Player player, HCOQuest hcoQuest) {
         ItemStack[] contents = player.getInventory().getContents();
         for (ItemStack item : contents) {
             if (item != null && item.getType() == Material.WRITTEN_BOOK) {
@@ -82,12 +82,12 @@ public class QuestManager {
     }
 
     // Decrementa a contagem da quest
-    public static void questDecrementCount(HcoQuest hcoQuest) {
+    public static void questDecrementCount(HCOQuest hcoQuest) {
         hcoQuest.setCountRequired(hcoQuest.getCountRequired() - 1);
     }
 
     // Cria uma nova quest e a adiciona ao mapa de quests
-    public static void addQuest(HcoQuest hcoQuest, Player p) {
+    public static void addQuest(HCOQuest hcoQuest, Player p) {
         quests.put(p.getUniqueId(), hcoQuest);
     }
 }

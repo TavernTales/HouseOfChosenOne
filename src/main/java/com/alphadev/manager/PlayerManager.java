@@ -1,12 +1,11 @@
 package com.alphadev.manager;
 
-import com.alphadev.Hoco;
-import com.alphadev.api.entities.HocoHouse;
-import com.alphadev.api.entities.HocoPlayer;
-import com.alphadev.api.manager.HocoPlayerManager;
-import com.alphadev.database.repositories.HcoPlayerRepository;
-import com.alphadev.entities.HcoHouse;
-import com.alphadev.entities.HcoPlayer;
+import com.alphadev.api.entities.IHOCOHouse;
+import com.alphadev.api.entities.IHOCOPlayer;
+import com.alphadev.api.manager.IHOCOPlayerManager;
+import com.alphadev.database.repositories.PlayerRepository;
+import com.alphadev.entities.HCOHouse;
+import com.alphadev.entities.HCOPlayer;
 import com.alphadev.enums.PlayerProfileEnum;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -14,22 +13,20 @@ import org.bukkit.entity.Player;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class PlayerManager implements HocoPlayerManager {
-    private final HcoPlayerRepository playerRepository;
-    private final HashMap<Player,HcoPlayer> onlinePlayersMap;
-    private final ConcurrentHashMap<OfflinePlayer,HcoPlayer> allPlayers;
-    private final Hoco hoco;
-    public PlayerManager(Hoco hoco) {
-        this.hoco = hoco;
+public class PlayerManager implements IHOCOPlayerManager {
+    private final PlayerRepository playerRepository;
+    private final HashMap<Player, HCOPlayer> onlinePlayersMap;
+    private final ConcurrentHashMap<OfflinePlayer, HCOPlayer> allPlayers;
+    public PlayerManager() {
         this.onlinePlayersMap = new HashMap<>();
         this.allPlayers = new ConcurrentHashMap<>();
-        this.playerRepository = new HcoPlayerRepository();
+        this.playerRepository = new PlayerRepository();
         this.initialize();
     }
     public void initialize(){
         // Inicia todos os HcoPlayers que jogam no server.
         Arrays.stream(Bukkit.getOfflinePlayers()).forEach(p -> {
-            HcoPlayer hcoPlayer = playerRepository.getById(p.getUniqueId());
+            HCOPlayer hcoPlayer = playerRepository.getById(p.getUniqueId());
             if(hcoPlayer != null) {
                 allPlayers.put(p, hcoPlayer);
             }
@@ -39,7 +36,7 @@ public class PlayerManager implements HocoPlayerManager {
         // Verifica se já tem o player no map
         if(onlinePlayersMap.containsKey(p))return;
         // Recupera do banco de dados e salva em cache
-        HcoPlayer hcoPlayer = playerRepository.getById(p.getUniqueId());
+        HCOPlayer hcoPlayer = playerRepository.getById(p.getUniqueId());
         onlinePlayersMap.put(p,hcoPlayer);
     }
     public void removeOnlinePlayer(Player p ){
@@ -48,27 +45,27 @@ public class PlayerManager implements HocoPlayerManager {
     }
     public void saveNewPlayerDB(Player p){
         // Cria o objeto HcoPlayer "padrão"
-        HcoPlayer newPlayer = new HcoPlayer(p.getUniqueId(),p.getDisplayName(),null,0L, PlayerProfileEnum.CIVIL,0,true);
+        HCOPlayer newPlayer = new HCOPlayer(p.getUniqueId(),p.getDisplayName(),null,0L, PlayerProfileEnum.CIVIL,0,true);
         // Salva no banco o no map.
         playerRepository.save(newPlayer);
         onlinePlayersMap.put(p,newPlayer);
     }
     public void incrementPlayerContribution(Player p, int contribution){
         // Recupera o HcoPlayer do map e salva novamente.
-        HcoPlayer hcoPlayer = onlinePlayersMap.get(p);
+        HCOPlayer hcoPlayer = onlinePlayersMap.get(p);
         hcoPlayer.incrementContribution(contribution);
         onlinePlayersMap.put(p,hcoPlayer);
         //Atualiza o dado no banco de dados
         playerRepository.updatePlayerContribution(hcoPlayer.uuid(),contribution);
     }
     @Override
-    public HcoPlayer getHocoPlayerFromUUID(UUID uuid) {
+    public HCOPlayer getHocoPlayerFromUUID(UUID uuid) {
         // Busca o player direto do banco de dados
         return playerRepository.getById(uuid);
     }
     @Override
     public boolean playerIsExiled(UUID uuid) {
-        HcoPlayer player = playerRepository.getById(uuid);
+        HCOPlayer player = playerRepository.getById(uuid);
         if (player !=null){
             return player.isExiled();
         }
@@ -86,31 +83,31 @@ public class PlayerManager implements HocoPlayerManager {
     }
 
     @Override
-    public ArrayList<HcoPlayer> getAllPlayersFromDB() {
-        return (ArrayList<HcoPlayer>) playerRepository.getAll();
+    public ArrayList<HCOPlayer> getAllPlayersFromDB() {
+        return (ArrayList<HCOPlayer>) playerRepository.getAll();
     }
 
     @Override
-    public ArrayList<HcoPlayer> getAllPlayersHouse(HocoHouse house) {
-        List<HcoHouse> hcoPlayers = new ArrayList<>();
+    public ArrayList<HCOPlayer> getAllPlayersHouse(IHOCOHouse house) {
+        List<HCOHouse> hcoPlayers = new ArrayList<>();
         return null;
     }
 
     @Override
-    public ArrayList<? extends HocoPlayer> getAllPlayersHouse(String name) {
+    public ArrayList<? extends IHOCOPlayer> getAllPlayersHouse(String name) {
         return null;
     }
 
     @Override
-    public ArrayList<? extends HocoPlayer> getAllPlayersHouse(Long id) {
+    public ArrayList<? extends IHOCOPlayer> getAllPlayersHouse(Long id) {
         return null;
     }
 
-    public HashMap<Player, HcoPlayer> getOnlinePlayersMap() {
+    public HashMap<Player, HCOPlayer> getOnlinePlayersMap() {
         return onlinePlayersMap;
     }
 
-    public ConcurrentHashMap<OfflinePlayer, HcoPlayer> getAllPlayers() {
+    public ConcurrentHashMap<OfflinePlayer, HCOPlayer> getAllPlayers() {
         return allPlayers;
     }
 }

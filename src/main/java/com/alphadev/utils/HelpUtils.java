@@ -1,7 +1,7 @@
 package com.alphadev.utils;
 
-import com.alphadev.HocoPlugin;
-import com.alphadev.entities.HcoHouse;
+import com.alphadev.HOCOPlugin;
+import com.alphadev.entities.HCOHouse;
 import com.alphadev.enums.QuestTierEnum;
 import com.alphadev.enums.QuestTypeEnum;
 import com.google.gson.Gson;
@@ -166,11 +166,11 @@ public class HelpUtils {
     public static boolean isNullOrEmpty(Object[] o) {
         return o == null || o.length <= 0;
     }
-    public static List<HcoHouse> loadHouseConstants(){
+    public static List<HCOHouse> loadHouseConstants(){
         Gson gson = new Gson();
-        List<HcoHouse> data = new ArrayList<>();
-        try (Reader reader = new InputStreamReader(HocoPlugin.class.getResourceAsStream("/house_constants.json"))) {
-            Type houseTypeList = new TypeToken<List<HcoHouse>>(){}.getType();
+        List<HCOHouse> data = new ArrayList<>();
+        try (Reader reader = new InputStreamReader(HOCOPlugin.class.getResourceAsStream("/house_constants.json"))) {
+            Type houseTypeList = new TypeToken<List<HCOHouse>>(){}.getType();
             data = gson.fromJson(reader, houseTypeList);
         } catch (IOException e) {
             e.printStackTrace();

@@ -1,15 +1,15 @@
-name: HocoPlugin
-main: com.alphadev.HocoPlugin
+name: HOCOPlugin
+main: com.alphadev.HOCOPlugin
 author: AlphaDev_
 description: Este plugin faz parte de um server de RP e serve como base para o seu funcionamento
 version: 1.0
 api-version: 1.19
 commands:
   hoco:
-    aliases: [ choose, hco ]
+    aliases: [ choose, hoco ]
     usage: /command <subcommand> [options]
     description: Use este comando para selecionar uma casa
-    permission: hco.use
+    permission: hoco.use
   citadel:
     aliases: [ city, capital ]
     description: Use este comando para definir coordenadas para cada uma das capitais de cada casa
@@ -34,13 +34,13 @@ commands:
     aliases: [ r ]
     description: Permite o player sussurrar devolta para o ultimo player que lhe enviou mensagem
 permissions:
-  hco.use:
+  hoco.use:
     default: true
   hoco.use.g:
     default: op
-  hco.lobby:
+  hoco.lobby:
     default: true
-  hco.admin:
+  hoco.admin:
     default: op
   npc.quests:
     default: op

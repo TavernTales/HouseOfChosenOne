@@ -1,6 +1,6 @@
 package com.alphadev.commands;
 
-import com.alphadev.commands.argument.ArgumentMatcher;
+import com.alphadev.commands.argument.IArgumentMatcher;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
@@ -13,10 +13,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public abstract class MainCommand implements TabExecutor {
-    protected final HashMap<String,SubCommand> subCommandHashMap = new HashMap<>();
+    protected final HashMap<String, ISubCommand> subCommandHashMap = new HashMap<>();
     protected final String noPermissionMessage;
-    protected final ArgumentMatcher argumentMatcher;
-    public MainCommand(String noPermissionMessage, ArgumentMatcher argumentMatcher){
+    protected final IArgumentMatcher argumentMatcher;
+    public MainCommand(String noPermissionMessage, IArgumentMatcher argumentMatcher){
         this.noPermissionMessage=noPermissionMessage;
         this.argumentMatcher = argumentMatcher;
         registerSubCommands();
@@ -32,7 +32,7 @@ public abstract class MainCommand implements TabExecutor {
             return false;
         }
         // Procura o subcomando no hashmap usando a key informada pelo primeiro argumento.
-        SubCommand subCommand = subCommandHashMap.get(args[0]);
+        ISubCommand subCommand = subCommandHashMap.get(args[0]);
         // Retorna false se não achar nenhum subcomando
         if (subCommand==null) return false;
         // Verifica se o jogador que executou o comando possui permissão.
@@ -54,7 +54,7 @@ public abstract class MainCommand implements TabExecutor {
             return getMatchingStrings(subCommandsTC, args[args.length - 1], argumentMatcher);
         }
         // Obtém o subcomando correspondente, com base no argumento informado
-        SubCommand subCommand = subCommandHashMap.values().stream().filter(sc-> sc.getName().equalsIgnoreCase(args[0])).findAny().orElse(null);
+        ISubCommand subCommand = subCommandHashMap.values().stream().filter(sc-> sc.getName().equalsIgnoreCase(args[0])).findAny().orElse(null);
         // Verifica se o subcomando não foi encontrado
         if(subCommand == null){
             return null;
@@ -63,7 +63,7 @@ public abstract class MainCommand implements TabExecutor {
         if (args.length==2) return subCommand.getTabCompletion();
         return List.of();
     }
-    private static List<String> getMatchingStrings (List<String> tabCompletions, String arg, ArgumentMatcher argumentMatcher)
+    private static List<String> getMatchingStrings (List<String> tabCompletions, String arg, IArgumentMatcher argumentMatcher)
     {
         if (tabCompletions == null || arg == null)
             return null;

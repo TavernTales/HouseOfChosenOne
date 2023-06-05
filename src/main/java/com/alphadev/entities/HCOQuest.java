@@ -8,7 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.UUID;
 
 
-public class HcoQuest {
+public class HCOQuest {
     private UUID uuid;
     private String name;
     private UUID owner;
@@ -23,11 +23,11 @@ public class HcoQuest {
     private Long currentTime;
     private Boolean isComplete;
 
-    public HcoQuest() {
+    public HCOQuest() {
         // Construtor vazio necessário para o Morphia
     }
 
-    public HcoQuest(UUID uuid, String name, UUID owner, UUID completeBy, Integer contibuitionPoints, QuestTypeEnum questTypeEnum, QuestTierEnum questTierEnum, Double vault, Integer countRequired, Long currentTime, Boolean isComplete) {
+    public HCOQuest(UUID uuid, String name, UUID owner, UUID completeBy, Integer contibuitionPoints, QuestTypeEnum questTypeEnum, QuestTierEnum questTierEnum, Double vault, Integer countRequired, Long currentTime, Boolean isComplete) {
         this.uuid = uuid;
         this.name = name;
         this.owner = owner;

@@ -1,12 +1,12 @@
 package com.alphadev.commands.subcommands;
 
-import com.alphadev.commands.SubCommand;
+import com.alphadev.commands.ISubCommand;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.List;
 
-public class SubCmdLeave implements SubCommand {
+public class SubCmdLeave implements ISubCommand {
     @Override
     public String getName() {
         return "leave";

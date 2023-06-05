@@ -1,13 +1,13 @@
 package com.alphadev.commands.subcommands;
 
-import com.alphadev.commands.SubCommand;
+import com.alphadev.commands.ISubCommand;
 import com.alphadev.utils.HelpUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.List;
 
-public class SubCmdJoin implements SubCommand {
+public class SubCmdJoin implements ISubCommand {
     @Override
     public String getName() {
         return "join";

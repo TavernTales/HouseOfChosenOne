@@ -1,6 +1,6 @@
 package com.alphadev.manager;
 
-import com.alphadev.HocoPlugin;
+import com.alphadev.HOCOPlugin;
 import com.alphadev.utils.ChatColorUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
@@ -18,7 +18,7 @@ public class ChatManager {
     public static final Long LOCAL_DISTANCE_LIMIT;
     private static final Set<UUID> PLAYERS_IN_GLOBAL_CHAT = new HashSet<>();
 
-    private static final ConfigurationSection CHAT_SETTINGS = HocoPlugin.getPlugin().getConfig().getConfigurationSection("chat-settings");
+    private static final ConfigurationSection CHAT_SETTINGS = HOCOPlugin.getPlugin().getConfig().getConfigurationSection("chat-settings");
     private static final HashMap<UUID, Player> PLAYER_REPLY = new HashMap<>();
 
     static {
@@ -98,6 +98,6 @@ public class ChatManager {
             public void run() {
                 event.getPlayer().sendMessage(ChatColorUtil.textColor("Use /global para acessar o chat global e /local para voltar ao chat local", ChatColor.GREEN));
             }
-        }.runTaskLaterAsynchronously(HocoPlugin.getPlugin(), 20 * 10);
+        }.runTaskLaterAsynchronously(HOCOPlugin.getPlugin(), 20 * 10);
     }
 }

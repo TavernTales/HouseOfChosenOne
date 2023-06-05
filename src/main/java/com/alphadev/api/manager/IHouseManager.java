@@ -1,4 +1,4 @@
 package com.alphadev.api.manager;
 
-public interface HocoHouseManager {
+public interface IHouseManager {
 }

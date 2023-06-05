@@ -1,19 +1,19 @@
 package com.alphadev.api.events;
 
-import com.alphadev.api.HocoAPI;
+import com.alphadev.api.IHOCOAPI;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class HocoEvent extends Event {
+public abstract class HOCOEvent extends Event {
     private static final HandlerList handlers = new HandlerList();
-    private final HocoAPI hoco;
+    private final IHOCOAPI hoco;
 
-    public HocoEvent(HocoAPI hoco) {
+    public HOCOEvent(IHOCOAPI hoco) {
         this.hoco = hoco;
     }
 
-    public HocoAPI getHoco() {
+    public IHOCOAPI getHoco() {
         return this.hoco;
     }
 

@@ -1,16 +1,16 @@
 package com.alphadev.database.repositories;
 
 
-import com.alphadev.api.repository.HocoRepository;
-import com.alphadev.entities.HcoPlayer;
+import com.alphadev.api.repository.HOCORepositoryImpl;
+import com.alphadev.entities.HCOPlayer;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
 import org.bson.conversions.Bson;
 import java.util.UUID;
 
 
-public class HcoPlayerRepository extends HocoRepository<UUID,HcoPlayer> {
-    public HcoPlayerRepository() {
+public class PlayerRepository extends HOCORepositoryImpl<UUID, HCOPlayer> {
+    public PlayerRepository() {
         super();
     }
 

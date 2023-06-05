@@ -1,12 +1,6 @@
 package com.alphadev.listeners;
 
-import com.alphadev.entities.HcoQuest;
-import com.alphadev.manager.QuestManager;
-import org.bukkit.Sound;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.inventory.ItemStack;
 
 public class QuestListener implements Listener {
     /*
