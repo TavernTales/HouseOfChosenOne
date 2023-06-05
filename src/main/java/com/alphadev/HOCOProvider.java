@@ -13,14 +13,12 @@ import java.util.Objects;
 
 public class HOCOProvider implements IHOCOAPI {
 
-    private static final HOCOProvider instance = getInstance();
+    private static HOCOProvider instance;
     private final PlayerManager playerManager = new PlayerManager();
     private final HouseManager houseManager = new HouseManager();
-    private static final MongoConnection connection = MongoConnection.getInstance(HOCOPlugin.getPlugin());
-
 
     public static MongoDatabase getMongoDatabase() {
-        return connection.getMongoClient().getDatabase("hoco");
+        return MongoConnection.getInstance(HOCOPlugin.getPlugin()).getMongoClient().getDatabase("hoco");
     }
     public static HOCOProvider getInstance() {
 
@@ -49,6 +47,6 @@ public class HOCOProvider implements IHOCOAPI {
     }
 
     public MongoConnection getConnection() {
-        return connection;
+        return MongoConnection.getInstance(HOCOPlugin.getPlugin());
     }
 }

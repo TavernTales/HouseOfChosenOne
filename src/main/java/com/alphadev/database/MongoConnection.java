@@ -16,10 +16,11 @@ import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
 public class MongoConnection {
     private static MongoConnection instance;
     private final MongoClient mongoClient;
+
     private MongoConnection(Plugin plugin) {
         // Recupera as configurações do plugin
-        String uri = plugin.getConfig().getString("mongodb.localhost.uri");
-        String database = plugin.getConfig().getString("mongodb.localhost.database");
+        String uri = plugin.getConfig().getString("mongodb.server.uri");
+        String database = plugin.getConfig().getString("mongodb.server.database");
         assert uri != null;
         assert database != null;
 
