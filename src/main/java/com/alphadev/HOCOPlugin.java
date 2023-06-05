@@ -36,7 +36,7 @@ public class HOCOPlugin extends JavaPlugin {
         broadcast(ChatColorUtil.boldText("======================", ChatColor.GOLD));
 
         // Salva as configurações padrões do plugin
-        this.saveConfig();
+        this.saveDefaultConfig();
         // Carrega informações constantes das casas.
         hcoHouseConstantInfo = HelpUtils.loadHouseConstants();
     }
