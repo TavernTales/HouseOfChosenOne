@@ -22,7 +22,7 @@ public class MongoProvider {
     private static final String MONGODB_NAME;
 
     static  {
-        MONGODB_URI = settingsFile != null  && settingsFile.contains("mongodb-uri") ? settingsFile.getString("mongodb-uri") : "mongodb+srv://hoc_db:123456!@hoc.oxosawo.mongodb.net/test";
+        MONGODB_URI = settingsFile != null  && settingsFile.contains("mongodb-uri") ? settingsFile.getString("mongodb-uri") : "mongo_uri";
         MONGODB_NAME = settingsFile != null  && settingsFile.contains("mongodb-name") ? settingsFile.getString("mongodb-name") : "houseOfChosenOne";
     }
 
